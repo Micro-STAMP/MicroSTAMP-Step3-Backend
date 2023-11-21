@@ -8,11 +8,14 @@ import java.util.List;
 
 @Getter @Setter
 public class UnsafeControlAction extends ControlAction {
-    UnsafeControlActionType type;
-    List<SafetyConstraint> constraints;
-    List<Hazard> hazards;
+    private Long id;
+    private String name;
+    private UnsafeControlActionType type;
+    private List<SafetyConstraint> constraints;
+    private List<Hazard> hazards;
 
-    public UnsafeControlAction(UnsafeControlActionType type) {
+    public UnsafeControlAction(String name, UnsafeControlActionType type) {
+        super(name);
         this.type = type;
         this.constraints = new ArrayList<>();
         this.hazards = new ArrayList<>();

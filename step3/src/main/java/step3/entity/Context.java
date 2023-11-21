@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 @Getter @Setter
 public class Context {
+    private Long id;
     List<Variable> variables;
 
     public Context() {

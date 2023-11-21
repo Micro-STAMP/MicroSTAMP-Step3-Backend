@@ -1,12 +1,17 @@
 package step3.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter @AllArgsConstructor
+@Getter @Setter
 public class Variable {
+    private Long id;
     List<String> values;
+
+    public Variable() {
+        this.values = new ArrayList<>();
+    }
 }
