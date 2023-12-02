@@ -7,8 +7,4 @@ import lombok.Setter;
 public class Hazard {
     private Long id;
     private String name;
-
-    public Hazard(String name) {
-        this.name = name;
-    }
 }

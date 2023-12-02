@@ -7,8 +7,4 @@ import lombok.Setter;
 public class ControlAction {
     private Long id;
     private String name;
-
-    public ControlAction(String name) {
-        this.name = name;
-    }
 }

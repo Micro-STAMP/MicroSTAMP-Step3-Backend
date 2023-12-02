@@ -7,8 +7,4 @@ import lombok.Setter;
 public class SafetyConstraint {
     private Long id;
     private String name;
-
-    public SafetyConstraint(String name) {
-        this.name = name;
-    }
 }
