@@ -10,6 +10,10 @@ import java.util.List;
 public class Context {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    // private List<Variable> variables;
-    // private List<Value> values;
+
+    @OneToMany(mappedBy = "variable")
+    private List<Variable> variables;
+
+    @OneToMany(mappedBy = "value")
+    private List<Value> values;
 }

@@ -10,10 +10,9 @@ import java.util.List;
 public class UnsafeControlAction extends ControlAction {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name; // <Source> <Type> <Control Action> <Context>
 
     @ManyToOne @JoinColumn(name = "context_id")
-    private Context contexts;
+    private Context context;
 
     @ManyToOne @JoinColumn(name = "contraint_id")
     private SafetyConstraint constraint;
@@ -22,4 +21,6 @@ public class UnsafeControlAction extends ControlAction {
     private Hazard hazard;
 
     // private UnsafeControlActionType type;
+
+    // NAME : <Source> <Type> <Control Action> <Context>
 }

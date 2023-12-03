@@ -11,5 +11,7 @@ public class Controller {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @OneToMany(mappedBy = "control_action")
     private List<ControlAction> controlActions;
 }
