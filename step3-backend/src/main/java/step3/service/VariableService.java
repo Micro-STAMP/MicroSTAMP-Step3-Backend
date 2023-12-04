@@ -2,6 +2,7 @@ package step3.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import step3.dto.variable.VariableCreateDto;
 import step3.entity.Variable;
 import step3.repository.VariableRepository;
 
@@ -13,16 +14,23 @@ import java.util.Optional;
 public class VariableService {
     private final VariableRepository variableRepository;
 
-    public List<Variable> findAll() {
+    public void createVariable(VariableCreateDto variableCreateDto) {
+        Variable variable = new Variable();
+        variable.setName(variableCreateDto.name());
+        variableRepository.save(variable);
+    }
+
+    public List<Variable> readAllVariables() {
         return variableRepository.findAll();
     }
-    public Optional<Variable> find(Long id) {
-        return variableRepository.findById(id);
+
+    public void updateVariable(Variable variable) {
+        Variable updatedVariable = variableRepository.getReferenceById(variable.getId());
+        updatedVariable.setName(variable.getName());
+        updatedVariable.setValues(variable.getValues());
     }
-    public Variable save(Variable variable) {
-        return variableRepository.save(variable);
-    }
-    public void deleteById(Long id) {
+
+    public void deleteVariable(Long id) {
         variableRepository.deleteById(id);
     }
 }

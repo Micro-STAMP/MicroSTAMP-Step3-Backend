@@ -3,36 +3,40 @@ package step3.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import step3.dto.variable.VariableCreateDto;
 import step3.entity.Variable;
 import step3.repository.VariableRepository;
+import step3.service.VariableService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/variable")
 public class VariableController {
+    private final VariableService variableService;
+
     @Autowired
-    private VariableRepository variableRepository;
+    public VariableController(VariableService variableService) {
+        this.variableService = variableService;
+    }
 
     @PostMapping @Transactional
-    public void createVariable(@RequestBody Variable variable) {
-        variableRepository.save(variable);
+    public void createVariable(@RequestBody VariableCreateDto variableCreateDto) {
+        variableService.createVariable(variableCreateDto);
     }
 
     @GetMapping
-    public List<Variable> readAllVariable() {
-        return variableRepository.findAll();
+    public List<Variable> readAllVariables() {
+        return variableService.readAllVariables();
     }
 
     @PutMapping @Transactional
     public void updateVariable(@RequestBody Variable variable) {
-        Variable updatedVariabe = variableRepository.getReferenceById(variable.getId());
-        updatedVariabe.setName(variable.getName());
-        updatedVariabe.setValues(variable.getValues());
+        variableService.updateVariable(variable);
     }
 
-    @DeleteMapping @Transactional
+    @DeleteMapping("/{id}") @Transactional
     public void deleteVariable(@PathVariable Long id) {
-        variableRepository.deleteById(id);
+        variableService.deleteVariable(id);
     }
 }

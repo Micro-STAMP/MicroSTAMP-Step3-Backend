@@ -3,36 +3,40 @@ package step3.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import step3.dto.value.ValueCreateDto;
 import step3.entity.Value;
 import step3.repository.ValueRepository;
+import step3.service.ValueService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/value")
 public class ValueController {
+    private final ValueService valueService;
+
     @Autowired
-    private ValueRepository valueRepository;
+    public ValueController(ValueService valueService) {
+        this.valueService = valueService;
+    }
 
     @PostMapping @Transactional
-    public void createValue(@RequestBody Value value) {
-        valueRepository.save(value);
+    public void createValue(@RequestBody ValueCreateDto valueCreateDto) {
+        valueService.createValue(valueCreateDto);
     }
 
     @GetMapping
     public List<Value> readAllValue() {
-        return valueRepository.findAll();
+        return valueService.readAllValues();
     }
 
     @PutMapping @Transactional
     public void updateValue(@RequestBody Value value) {
-        Value updatedValue = valueRepository.getReferenceById(value.getId());
-        updatedValue.setName(value.getName());
-        updatedValue.setVariable(value.getVariable());
+        valueService.updateValue(value);
     }
 
     @DeleteMapping("/{id}") @Transactional
     public void deleteValue(@PathVariable Long id) {
-        valueRepository.deleteById(id);
+        valueService.deleteValue(id);
     }
 }

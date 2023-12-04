@@ -1,5 +1,6 @@
 package step3.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -12,6 +13,7 @@ public class Variable {
     private Long id;
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "variable")
     private List<Value> values;
 }

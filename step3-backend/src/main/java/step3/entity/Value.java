@@ -13,4 +13,9 @@ public class Value {
 
     @ManyToOne @JoinColumn(name = "variable_id")
     private Variable variable;
+
+    public Value(String name, Variable variable) {
+        this.name = name;
+        this.variable = variable;
+    }
 }
