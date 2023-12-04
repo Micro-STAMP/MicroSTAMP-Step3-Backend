@@ -40,11 +40,12 @@ CREATE TABLE control_action (
 CREATE TABLE unsafe_control_action (
     id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    controller_id BIGINT,
+    control_action_id BIGINT,
     context_id BIGINT,
     constraint_id BIGINT,
     hazard_id BIGINT,
     type VARCHAR(50) NOT NULL,
+    FOREIGN KEY (control_action_id) REFERENCES control_action(id),
     FOREIGN KEY (context_id) REFERENCES context(id),
     FOREIGN KEY (constraint_id) REFERENCES safety_constraint(id),
     FOREIGN KEY (hazard_id) REFERENCES hazard(id),
