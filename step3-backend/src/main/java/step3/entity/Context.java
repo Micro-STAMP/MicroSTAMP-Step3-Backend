@@ -11,9 +11,19 @@ public class Context {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "variable")
+    @ManyToMany
+    @JoinTable(
+        name = "context_variable",
+        joinColumns = @JoinColumn(name = "context_id"),
+        inverseJoinColumns = @JoinColumn(name = "variable_id")
+    )
     private List<Variable> variables;
 
-    @OneToMany(mappedBy = "value")
+    @ManyToMany
+    @JoinTable(
+        name = "context_value",
+        joinColumns = @JoinColumn(name = "context_id"),
+        inverseJoinColumns = @JoinColumn(name = "value_id")
+    )
     private List<Value> values;
 }

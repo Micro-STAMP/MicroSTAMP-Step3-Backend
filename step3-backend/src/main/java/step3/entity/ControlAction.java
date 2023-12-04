@@ -5,9 +5,12 @@ import lombok.*;
 
 @Table(name = "control_action")
 @Entity(name = "ControlAction")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
 public class ControlAction {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @ManyToOne @JoinColumn(name = "controller_id")
+    private Controller controller;
 }
