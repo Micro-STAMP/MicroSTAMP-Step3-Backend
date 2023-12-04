@@ -2,25 +2,37 @@ package step3.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import step3.dto.control_action.ControlActionCreateDto;
 import step3.entity.ControlAction;
+import step3.entity.Controller;
 import step3.repository.ControlActionRepository;
+import step3.repository.ControllerRepository;
 import java.util.List;
-import java.util.Optional;
 
 @Service @AllArgsConstructor
 public class ControlActionService {
     private final ControlActionRepository controlActionRepository;
+    private final ControllerRepository controllerRepository;
 
-    public List<ControlAction> findAll() {
+    public void createControlAction(ControlActionCreateDto controlActionCreateDto) {
+        Long controllerId = controlActionCreateDto.controller_id();
+        Controller controller = controllerRepository.getReferenceById(controllerId);
+        ControlAction controlAction = new ControlAction(controlActionCreateDto.name(), controller);
+        controlActionRepository.save(controlAction);
+    }
+
+    public List<ControlAction> readAllControlActions() {
         return controlActionRepository.findAll();
     }
-    public Optional<ControlAction> find(Long id) {
-        return controlActionRepository.findById(id);
+
+    public void updateControlAction(ControlAction controlAction) {
+        ControlAction updatedControlAction = controlActionRepository.getReferenceById(controlAction.getId());
+        updatedControlAction.setName(controlAction.getName());
+
+        // TODO: FALTA ATUALIZAR O CONTROLLER
     }
-    public ControlAction save(ControlAction controlAction) {
-        return controlActionRepository.save(controlAction);
-    }
-    public void deleteById(Long id) {
+
+    public void deleteControlAction(Long id) {
         controlActionRepository.deleteById(id);
     }
 }

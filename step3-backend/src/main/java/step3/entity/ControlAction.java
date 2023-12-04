@@ -2,6 +2,8 @@ package step3.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import step3.dto.control_action.ControlActionCreateDto;
+import step3.repository.ControllerRepository;
 
 @Table(name = "control_action")
 @Entity(name = "ControlAction")
@@ -12,4 +14,9 @@ public class ControlAction {
     private String name;
     @ManyToOne @JoinColumn(name = "controller_id")
     private Controller controller;
+
+    public ControlAction(String name, Controller controller) {
+        this.name = name;
+        this.controller = controller;
+    }
 }
