@@ -15,7 +15,7 @@ public class UnsafeControlAction extends ControlAction {
     @ManyToOne @JoinColumn(name = "context_id")
     private Context context;
 
-    @ManyToOne @JoinColumn(name = "contraint_id")
+    @ManyToOne @JoinColumn(name = "constraint_id")
     private SafetyConstraint constraint;
 
     @ManyToOne @JoinColumn(name = "hazard_id")

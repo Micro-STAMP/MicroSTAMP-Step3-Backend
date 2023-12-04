@@ -29,4 +29,9 @@ public class HazardController {
         Hazard updatedHazard = hazardRepository.getReferenceById(hazard.getId());
         updatedHazard.setName(hazard.getName());
     }
+
+    @DeleteMapping("/{id}") @Transactional
+    public void deleteHazard(@PathVariable Long id) {
+        hazardRepository.deleteById(id);
+    }
 }
