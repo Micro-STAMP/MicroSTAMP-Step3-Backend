@@ -3,38 +3,40 @@ package step3.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import step3.dto.unsafe_control_action.UnsafeControlActionCreateDto;
 import step3.entity.UnsafeControlAction;
 import step3.repository.UnsafeControlActionRepository;
+import step3.service.UnsafeControlActionService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/unsafe-control-action")
 public class UnsafeControlActionController {
+    private final UnsafeControlActionService unsafeControlActionService;
+
     @Autowired
-    private UnsafeControlActionRepository ucaRepository;
+    public UnsafeControlActionController(UnsafeControlActionService unsafeControlActionService) {
+        this.unsafeControlActionService = unsafeControlActionService;
+    }
 
     @PostMapping @Transactional
-    public void createUnsafeControlAction(@RequestBody UnsafeControlAction uca) {
-        ucaRepository.save(uca);
+    public void createUnsafeControlAction(@RequestBody UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
+        unsafeControlActionService.createUnsafeControlAction(unsafeControlActionCreateDto);
     }
 
     @GetMapping
     public List<UnsafeControlAction> readAllUnsafeControlAction() {
-        return ucaRepository.findAll();
+        return unsafeControlActionService.readAllUnsafeControlActions();
     }
 
     @PutMapping @Transactional
     public void updateUnsafeControlAction(@RequestBody UnsafeControlAction uca) {
-        UnsafeControlAction updatedUca = ucaRepository.getReferenceById(uca.getId());
-        updatedUca.setName(uca.getName());
-        updatedUca.setConstraint(uca.getConstraint());
-        updatedUca.setContext(uca.getContext());
-        updatedUca.setHazard(uca.getHazard());
+        unsafeControlActionService.updateUnsafeControlAction(uca);
     }
 
     @DeleteMapping("/{id}") @Transactional
     public void deleteUnsafeControlAction(@PathVariable Long id) {
-        ucaRepository.deleteById(id);
+        unsafeControlActionService.deleteUnsafeControlAction(id);
     }
 }

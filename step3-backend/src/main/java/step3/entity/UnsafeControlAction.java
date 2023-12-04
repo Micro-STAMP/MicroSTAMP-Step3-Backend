@@ -27,5 +27,14 @@ public class UnsafeControlAction {
     @Enumerated(EnumType.STRING)
     private UCAType type;
 
+    public UnsafeControlAction(String name, ControlAction controlAction, Context context, SafetyConstraint constraint, Hazard hazard, UCAType type) {
+        this.name = name;
+        this.controlAction = controlAction;
+        this.context = context;
+        this.constraint = constraint;
+        this.hazard = hazard;
+        this.type = type;
+    }
+
     // NAME : <Source> <Type> <Control Action> <Context>
 }
