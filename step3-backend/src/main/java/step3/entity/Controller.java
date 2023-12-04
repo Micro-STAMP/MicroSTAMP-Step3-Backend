@@ -12,6 +12,6 @@ public class Controller {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "control_action")
+    @OneToMany(mappedBy = "controller")
     private List<ControlAction> controlActions;
 }

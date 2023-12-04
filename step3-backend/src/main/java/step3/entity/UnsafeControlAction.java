@@ -8,6 +8,10 @@ import java.util.List;
 @Entity(name = "UnsafeControlAction")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
 public class UnsafeControlAction extends ControlAction {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+
     @ManyToOne @JoinColumn(name = "context_id")
     private Context context;
 

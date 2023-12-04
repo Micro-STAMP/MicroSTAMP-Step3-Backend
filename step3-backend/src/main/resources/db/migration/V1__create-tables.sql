@@ -33,14 +33,14 @@ CREATE TABLE controller (
 CREATE TABLE control_action (
     id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    controller_id INT,
+    controller_id BIGINT,
     FOREIGN KEY (controller_id) REFERENCES controller(id)
 );
 
 CREATE TABLE unsafe_control_action (
     id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    controller_id INT,
+    controller_id BIGINT,
     context_id BIGINT,
     contraint_id BIGINT,
     hazard_id BIGINT,
@@ -50,3 +50,12 @@ CREATE TABLE unsafe_control_action (
     FOREIGN KEY (hazard_id) REFERENCES hazard(id),
     FOREIGN KEY (controller_id) REFERENCES controller(id)
 );
+
+-- DROP TABLE IF EXISTS hazard;
+-- DROP TABLE IF EXISTS safety_constraint;
+-- DROP TABLE IF EXISTS context;
+-- DROP TABLE IF EXISTS variable;
+-- DROP TABLE IF EXISTS value;
+-- DROP TABLE IF EXISTS controller;
+-- DROP TABLE IF EXISTS control_action;
+-- DROP TABLE IF EXISTS unsafe_control_action;

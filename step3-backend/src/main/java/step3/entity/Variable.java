@@ -12,6 +12,6 @@ public class Variable {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "value")
+    @OneToMany(mappedBy = "variable")
     private List<Value> values;
 }
