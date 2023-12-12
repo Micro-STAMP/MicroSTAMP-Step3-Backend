@@ -28,11 +28,7 @@ O projeto está estruturado da seguinte forma:
 
 <img src="img/estrutura-projeto.svg" alt="Estrutura do Projeto" style="width: 300px;">
 
-## Funcionalidades Principais
-### Conexão com o Banco de Dados
-- Descreva como a aplicação se conecta ao banco de dados MySQL.
-
-### Endpoints da API
+## Endpoints da API
 
 - GET
     ```http request
@@ -64,7 +60,7 @@ O projeto está estruturado da seguinte forma:
         http://localhost:8080/hazard/{id}
     ```
 
-### Instruções para Build e Execução
+## Instruções para Build e Execução
 Para executar este projeto localmente, siga os passos abaixo:
 
 1. *Clonar o repositório:*
@@ -91,7 +87,7 @@ Para executar este projeto localmente, siga os passos abaixo:
 Após executar a aplicação, você pode testar os endpoints da API usando o Postman.
 
 
-### Testando requisições com Postman
+## Testando requisições com Postman
 
 Você pode acessar todas as requisições da API utilizando o Postman. Fizemos uma coleção com todas as requisições prontas para uso.
 
