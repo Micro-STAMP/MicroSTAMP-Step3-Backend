@@ -8,7 +8,7 @@ Este projeto é a implementação do passo 3 da técnica stpa como um microsserv
 
 <div style="display: flex; gap: 7px; flex-wrap: wrap;">
     <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=6DB33F&labelColor=070707" alt="Spring Boot">
-    <img src="https://img.shields.io/badge/Maven-913C76?style=for-the-badge&logo=apache&logoColor=913C76&labelColor=070707" alt="Maven">
+    <img src="https://img.shields.io/badge/Maven-c71a36?style=for-the-badge&logo=apache-maven&logoColor=913C76&labelColor=070707" alt="Maven">
     <img src="https://img.shields.io/badge/MySQL-316192?style=for-the-badge&logo=mysql&logoColor=316192&labelColor=070707" alt="MySQL">
     <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=FF6C37&labelColor=070707" alt="Postman">
 </div>
