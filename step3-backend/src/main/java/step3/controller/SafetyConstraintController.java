@@ -3,35 +3,39 @@ package step3.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import step3.dto.safety_constraint.SafetyConstraintCreateDto;
 import step3.entity.SafetyConstraint;
-import step3.repository.SafetyConstraintRepository;
+import step3.service.SafetyConstraintService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/safety-constraint")
 public class SafetyConstraintController {
+    private final SafetyConstraintService safetyConstraintService;
+
     @Autowired
-    private SafetyConstraintRepository safetyConstraintRepository;
+    public SafetyConstraintController(SafetyConstraintService safetyConstraintService) {
+        this.safetyConstraintService = safetyConstraintService;
+    }
 
     @PostMapping @Transactional
-    public void createSafetyConstraint(@RequestBody SafetyConstraint safetyConstraint) {
-        safetyConstraintRepository.save(safetyConstraint);
+    public void createSafetyConstraint(@RequestBody SafetyConstraintCreateDto safetyConstraintCreateDto) {
+        safetyConstraintService.createSafetyConstraint(safetyConstraintCreateDto);
     }
 
     @GetMapping
-    public List<SafetyConstraint> readAllSafetyConstraint() {
-        return safetyConstraintRepository.findAll();
+    public List<SafetyConstraint> readAllSafetyConstraints() {
+        return safetyConstraintService.readAllSafetyConstraints();
     }
 
     @PutMapping @Transactional
     public void updateSafetyConstraint(@RequestBody SafetyConstraint safetyConstraint) {
-        SafetyConstraint updatedSafetyConstraint = safetyConstraintRepository.getReferenceById(safetyConstraint.getId());
-        updatedSafetyConstraint.setName(safetyConstraint.getName());
+        safetyConstraintService.updateSafetyConstraint(safetyConstraint);
     }
 
     @DeleteMapping("/{id}") @Transactional
     public void deleteSafetyConstraint(@PathVariable Long id) {
-        safetyConstraintRepository.deleteById(id);
+        safetyConstraintService.deleteSafetyConstraint(id);
     }
 }

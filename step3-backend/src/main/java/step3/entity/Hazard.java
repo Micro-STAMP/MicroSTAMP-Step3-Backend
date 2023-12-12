@@ -10,4 +10,8 @@ public class Hazard {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    public Hazard(String name) {
+        this.name = name;
+    }
 }

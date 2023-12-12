@@ -2,6 +2,8 @@ package step3.entity;
 
 import lombok.*;
 import jakarta.persistence.*;
+import step3.dto.context.ContextCreateDto;
+
 import java.util.List;
 
 @Table(name = "context")
@@ -26,4 +28,7 @@ public class Context {
         inverseJoinColumns = @JoinColumn(name = "value_id")
     )
     private List<Value> values;
+
+    public Context(ContextCreateDto contextCreateDto) {
+    }
 }

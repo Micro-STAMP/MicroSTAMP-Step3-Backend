@@ -16,4 +16,8 @@ public class Variable {
     @JsonIgnore
     @OneToMany(mappedBy = "variable")
     private List<Value> values;
+
+    public Variable(String name) {
+        this.name = name;
+    }
 }

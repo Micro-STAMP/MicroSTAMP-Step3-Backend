@@ -10,4 +10,8 @@ public class SafetyConstraint {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    public SafetyConstraint(String name) {
+        this.name = name;
+    }
 }

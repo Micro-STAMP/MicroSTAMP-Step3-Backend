@@ -5,7 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import step3.dto.context.ContextCreateDto;
 import step3.entity.Context;
-import step3.repository.ContextRepository;
 import step3.service.ContextService;
 
 import java.util.List;

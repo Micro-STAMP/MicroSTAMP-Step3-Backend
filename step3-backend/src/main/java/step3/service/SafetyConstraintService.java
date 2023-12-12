@@ -2,6 +2,7 @@ package step3.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import step3.dto.safety_constraint.SafetyConstraintCreateDto;
 import step3.entity.SafetyConstraint;
 import step3.repository.SafetyConstraintRepository;
 
@@ -13,16 +14,21 @@ import java.util.Optional;
 public class SafetyConstraintService {
     private final SafetyConstraintRepository safetyConstraintRepository;
 
-    public List<SafetyConstraint> findAll() {
+    public void createSafetyConstraint(SafetyConstraintCreateDto safetyConstraintCreateDto) {
+        SafetyConstraint safetyConstraint = new SafetyConstraint(safetyConstraintCreateDto.name());
+        safetyConstraintRepository.save(safetyConstraint);
+    }
+
+    public List<SafetyConstraint> readAllSafetyConstraints() {
         return safetyConstraintRepository.findAll();
     }
-    public Optional<SafetyConstraint> find(Long id) {
-        return safetyConstraintRepository.findById(id);
+
+    public void updateSafetyConstraint(SafetyConstraint safetyConstraint) {
+        SafetyConstraint updatedSafetyConstraint = safetyConstraintRepository.getReferenceById(safetyConstraint.getId());
+        updatedSafetyConstraint.setName(safetyConstraint.getName());
     }
-    public SafetyConstraint save(SafetyConstraint safetyConstraint) {
-        return safetyConstraintRepository.save(safetyConstraint);
-    }
-    public void deleteById(Long id) {
+
+    public void deleteSafetyConstraint(Long id) {
         safetyConstraintRepository.deleteById(id);
     }
 }

@@ -3,35 +3,39 @@ package step3.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import step3.dto.hazard.HazardCreateDto;
 import step3.entity.Hazard;
-import step3.repository.HazardRepository;
+import step3.service.HazardService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/hazard")
 public class HazardController {
+    private final HazardService hazardService;
+
     @Autowired
-    private HazardRepository hazardRepository;
+    public HazardController(HazardService hazardService) {
+        this.hazardService = hazardService;
+    }
 
     @PostMapping @Transactional
-    public void createHazard(@RequestBody Hazard hazard) {
-        hazardRepository.save(hazard);
+    public void createHazard(@RequestBody HazardCreateDto hazardCreateDto) {
+        hazardService.createHazard(hazardCreateDto);
     }
 
     @GetMapping
-    public List<Hazard> readAllHazard() {
-        return hazardRepository.findAll();
+    public List<Hazard> readAllHazards() {
+        return hazardService.readAllHazards();
     }
 
     @PutMapping @Transactional
     public void updateHazard(@RequestBody Hazard hazard) {
-        Hazard updatedHazard = hazardRepository.getReferenceById(hazard.getId());
-        updatedHazard.setName(hazard.getName());
+        hazardService.updateHazard(hazard);
     }
 
     @DeleteMapping("/{id}") @Transactional
     public void deleteHazard(@PathVariable Long id) {
-        hazardRepository.deleteById(id);
+        hazardService.deleteHazard(id);
     }
 }

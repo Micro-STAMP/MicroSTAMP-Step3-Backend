@@ -3,36 +3,39 @@ package step3.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import step3.dto.controller.ControllerCreateDto;
 import step3.entity.Controller;
-import step3.repository.ControllerRepository;
+import step3.service.ControllerService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/controller")
 public class ControllerController {
+    private final ControllerService controllerService;
+
     @Autowired
-    private ControllerRepository controllerRepository;
+    public ControllerController(ControllerService controllerService) {
+        this.controllerService = controllerService;
+    }
 
     @PostMapping @Transactional
-    public void createController(@RequestBody Controller controller) {
-        controllerRepository.save(controller);
+    public void createController(@RequestBody ControllerCreateDto controllerCreateDto) {
+        controllerService.createController(controllerCreateDto);
     }
 
     @GetMapping
     public List<Controller> readAllController() {
-        return controllerRepository.findAll();
+        return controllerService.readAllControllers();
     }
 
     @PutMapping @Transactional
     public void updateController(@RequestBody Controller controller) {
-        Controller updatedController = controllerRepository.getReferenceById(controller.getId());
-        updatedController.setName(controller.getName());
-        updatedController.setControlActions(controller.getControlActions());
+        controllerService.updateController(controller);
     }
 
     @DeleteMapping("/{id}") @Transactional
     public void deleteController(@PathVariable Long id) {
-        controllerRepository.deleteById(id);
+        controllerService.deleteController(id);
     }
 }

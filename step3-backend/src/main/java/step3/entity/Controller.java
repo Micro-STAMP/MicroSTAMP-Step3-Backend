@@ -3,6 +3,8 @@ package step3.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import step3.dto.controller.ControllerCreateDto;
+
 import java.util.List;
 
 @Table(name = "controller")
@@ -16,4 +18,8 @@ public class Controller {
     @JsonIgnore
     @OneToMany(mappedBy = "controller")
     private List<ControlAction> controlActions;
+
+    public Controller(String name) {
+        this.name = name;
+    }
 }
