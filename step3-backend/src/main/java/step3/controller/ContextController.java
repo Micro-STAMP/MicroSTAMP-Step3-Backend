@@ -3,37 +3,40 @@ package step3.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import step3.dto.context.ContextCreateDto;
 import step3.entity.Context;
 import step3.repository.ContextRepository;
+import step3.service.ContextService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/context")
 public class ContextController {
+    private final ContextService contextService;
     @Autowired
-    private ContextRepository contextRepository;
+    public ContextController(ContextService contextService) {
+        this.contextService = contextService;
+    }
 
     @PostMapping @Transactional
-    public void createContext(@RequestBody Context context) {
-        contextRepository.save(context);
+    public void createContext(@RequestBody ContextCreateDto contextCreateDto) {
+        contextService.createContext(contextCreateDto);
     }
 
     @GetMapping
-    public List<Context> readAllContext() {
-        return contextRepository.findAll();
+    public List<Context> readAllContexts() {
+        return contextService.readAllContexts();
     }
 
     @PutMapping @Transactional
     public void updateContext(@RequestBody Context context) {
-        Context updatedContext = contextRepository.getReferenceById(context.getId());
-        updatedContext.setVariables(context.getVariables());
-        updatedContext.setValues(context.getValues());
+        contextService.updateContext(context);
     }
 
     @DeleteMapping("/{id}") @Transactional
     public void deleteContext(@PathVariable Long id) {
-        contextRepository.deleteById(id);
+        contextService.deleteContext(id);
     }
 
 }

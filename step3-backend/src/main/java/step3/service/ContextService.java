@@ -2,6 +2,7 @@ package step3.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import step3.dto.context.ContextCreateDto;
 import step3.entity.Context;
 import step3.repository.ContextRepository;
 
@@ -13,16 +14,22 @@ import java.util.Optional;
 public class ContextService {
     private final ContextRepository contextRepository;
 
-    public List<Context> findAll() {
+    public void createContext(ContextCreateDto contextCreateDto) {
+        Context context = new Context();
+        contextRepository.save(context);
+    }
+
+    public List<Context> readAllContexts() {
         return contextRepository.findAll();
     }
-    public Optional<Context> find(Long id) {
-        return contextRepository.findById(id);
+
+    public void updateContext(Context context) {
+        Context updatedContext = contextRepository.getReferenceById(context.getId());
+        updatedContext.setValues(context.getValues());
+        updatedContext.setVariables(context.getVariables());
     }
-    public Context save(Context context) {
-        return contextRepository.save(context);
-    }
-    public void deleteById(Long id) {
+
+    public void deleteContext(Long id) {
         contextRepository.deleteById(id);
     }
 }
