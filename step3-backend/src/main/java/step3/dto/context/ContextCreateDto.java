@@ -1,6 +1,7 @@
 package step3.dto.context;
 
-public record ContextCreateDto(
+import java.util.List;
 
-) {
-}
+public record ContextCreateDto(
+        List<ContextCombinationCreateDto> contextCombinations
+) {}

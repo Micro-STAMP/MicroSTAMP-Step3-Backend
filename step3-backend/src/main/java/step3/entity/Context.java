@@ -4,6 +4,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import step3.dto.context.ContextCreateDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "context")
@@ -13,22 +14,10 @@ public class Context {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
-    @JoinTable(
-        name = "context_variable",
-        joinColumns = @JoinColumn(name = "context_id"),
-        inverseJoinColumns = @JoinColumn(name = "variable_id")
-    )
-    private List<Variable> variables;
+    @OneToMany(mappedBy = "context")
+    private List<ContextCombination> contextCombinations = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-        name = "context_value",
-        joinColumns = @JoinColumn(name = "context_id"),
-        inverseJoinColumns = @JoinColumn(name = "value_id")
-    )
-    private List<Value> values;
-
-    public Context(ContextCreateDto contextCreateDto) {
+    public void addCombination(Variable variable, Value value) {
+        contextCombinations.add(new ContextCombination(this, variable, value));
     }
 }
