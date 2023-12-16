@@ -1,7 +1,9 @@
 package step3.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import step3.dto.context.ContextCombinationDto;
 
 @Table(name = "context_combination")
 @Entity(name = "ContextCombination")
@@ -11,6 +13,7 @@ public class ContextCombination {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "context_id")
     private Context context;

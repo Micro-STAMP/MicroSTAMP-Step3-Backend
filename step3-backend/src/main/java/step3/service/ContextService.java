@@ -2,8 +2,10 @@ package step3.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import step3.dto.context.ContextCombinationCreateDto;
+import step3.dto.context.ContextCombinationDto;
 import step3.dto.context.ContextCreateDto;
+import step3.dto.context.ContextReadDto;
+import step3.dto.context.ContextUpdateDto;
 import step3.entity.Context;
 import step3.entity.Variable;
 import step3.entity.Value;
@@ -12,8 +14,6 @@ import step3.repository.ValueRepository;
 import step3.repository.VariableRepository;
 
 import java.util.List;
-import java.util.Optional;
-
 
 @Service @AllArgsConstructor
 public class ContextService {
@@ -23,7 +23,7 @@ public class ContextService {
 
     public void createContext(ContextCreateDto contextCreateDto) {
         Context context = new Context();
-        for (ContextCombinationCreateDto combinationDto : contextCreateDto.contextCombinations()) {
+        for (ContextCombinationDto combinationDto : contextCreateDto.combinations()) {
             Variable variable = variableRepository.getReferenceById(combinationDto.variable_id());
             Value value = valueRepository.getReferenceById(combinationDto.value_id());
             context.addCombination(variable, value);
@@ -31,13 +31,19 @@ public class ContextService {
         contextRepository.save(context);
     }
 
-    public List<Context> readAllContexts() {
-        return contextRepository.findAll();
+    public List<ContextReadDto> readAllContexts() {
+        List<Context> contexts = contextRepository.findAll();
+        return contexts.stream().map(ContextReadDto::new).toList();
     }
 
-    public void updateContext(Context context) {
-        Context updatedContext = contextRepository.getReferenceById(context.getId());
-        updatedContext.setContextCombinations(context.getContextCombinations());
+    public void updateContext(ContextUpdateDto contextUpdateDto) {
+        Context context = contextRepository.getReferenceById(contextUpdateDto.id());
+        context.getCombinations().clear();
+        for (ContextCombinationDto combinationDto : contextUpdateDto.combinations()) {
+            Variable variable = variableRepository.getReferenceById(combinationDto.variable_id());
+            Value value = valueRepository.getReferenceById(combinationDto.value_id());
+            context.addCombination(variable, value);
+        }
     }
 
     public void deleteContext(Long id) {
