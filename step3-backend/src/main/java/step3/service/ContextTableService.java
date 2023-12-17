@@ -47,19 +47,26 @@ public class ContextTableService {
     // Funções auxiliares para gerar as combinações da tabela.
     private ContextTable generateContextTable(List<Variable> variables) {
         ContextTable contextTable = new ContextTable();
-        generateCombinations(variables, new Context(), contextTable, 0);
+        generateCombinations(variables, contextTable, new ArrayList<>(), 0);
         return contextTable;
     }
-    private void generateCombinations(List<Variable> variables, Context context, ContextTable contextTable, int variableIndex) {
+    private void generateCombinations(List<Variable> variables, ContextTable contextTable, List<Value> currentCombination, int variableIndex) {
         if (variableIndex == variables.size()) {
+            Context context = new Context();
+            for (int i = 0; i < variables.size(); i++) {
+                context.addCombination(variables.get(i), currentCombination.get(i));
+            }
             contextTable.addContext(context);
             return;
         }
+
         Variable currentVariable = variables.get(variableIndex);
         List<Value> currentVariableValues = currentVariable.getValues();
+
         for (Value value : currentVariableValues) {
-            context.addCombination(currentVariable, value);
-            generateCombinations(variables, context, contextTable, variableIndex + 1);
+            List<Value> updatedCombination = new ArrayList<>(currentCombination);
+            updatedCombination.add(value);
+            generateCombinations(variables, contextTable, updatedCombination, variableIndex + 1);
         }
     }
 }
