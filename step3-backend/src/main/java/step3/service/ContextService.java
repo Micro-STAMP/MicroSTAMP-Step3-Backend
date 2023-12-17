@@ -29,6 +29,9 @@ public class ContextService {
             context.addCombination(variable, value);
         }
         contextRepository.save(context);
+
+        // ! Futuramente adicionar uma verificação que o valor tem que ser da variável
+
     }
 
     public List<ContextReadDto> readAllContexts() {
