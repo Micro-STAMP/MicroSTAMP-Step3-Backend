@@ -1,6 +1,5 @@
 package step3.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
 
@@ -14,8 +13,13 @@ public class Context {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "context", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ContextCombination> combinations = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "context_variable_state",
+            joinColumns = @JoinColumn(name = "context_id"),
+            inverseJoinColumns = @JoinColumn(name = "variable_state_id")
+    )
+    private List<VariableState> variableStates = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "context_table_id")
@@ -23,11 +27,14 @@ public class Context {
 
     public Context(Context other) {
         this.id = other.id;
-        this.combinations = new ArrayList<>(other.combinations);
+        this.variableStates = new ArrayList<>(other.variableStates);
         this.contextTable = other.contextTable;
     }
 
-    public void addCombination(Variable variable, Value value) {
-        combinations.add(new ContextCombination(this, variable, value));
+    public void addVariableState(Variable variable, Value value) {
+        variableStates.add(new VariableState(variable, value));
+    }
+    public void addVariableState(VariableState variableState) {
+        variableStates.add(variableState);
     }
 }

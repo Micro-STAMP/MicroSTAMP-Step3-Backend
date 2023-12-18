@@ -5,9 +5,9 @@ import step3.entity.Context;
 import java.util.List;
 
 public record ContextReadDto(
-        List<ContextCombinationReadDto> combinations
+        List<VariableStateReadDto> variable_states
 ) {
     public ContextReadDto(Context context) {
-        this(context.getCombinations().stream().map(ContextCombinationReadDto::new).toList());
+        this(context.getVariableStates().stream().map(VariableStateReadDto::new).toList());
     }
 }

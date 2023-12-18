@@ -4,14 +4,14 @@ import step3.entity.Context;
 
 import java.util.List;
 
-public record ContextReadDto(Long id, List<ContextCombinationDto> combinations) {
+public record ContextReadDto(Long id, List<VariableStateReadDto> variable_states) {
     public ContextReadDto(Context context) {
         this(
             context.getId(),
-            context.getCombinations().stream().map(
-                combination -> new ContextCombinationDto(
-                    combination.getVariable().getId(),
-                    combination.getValue().getId()
+            context.getVariableStates().stream().map(
+                variableState -> new VariableStateReadDto(
+                    variableState.getVariable().getId(),
+                    variableState.getValue().getId()
                 )
             ).toList()
         );
