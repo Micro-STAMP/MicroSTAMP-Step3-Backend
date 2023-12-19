@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Table(name = "context_table")
 @Entity(name = "ContextTable")
@@ -24,5 +26,13 @@ public class ContextTable {
     public void addContext(Context context) {
         this.contexts.add(context);
         context.setContextTable(this);
+    }
+
+    public Set<VariableState> getVariableStates() {
+        Set<VariableState> variableStates = new HashSet<>();
+        for (Context context : contexts) {
+            variableStates.addAll(context.getVariableStates());
+        }
+        return variableStates;
     }
 }

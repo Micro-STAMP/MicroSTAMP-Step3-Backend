@@ -16,6 +16,7 @@ import java.util.List;
 public class ContextTableService {
     private final ContextTableRepository contextTableRepository;
     private final VariableRepository variableRepository;
+
     public void createContextTable(ContextTableCreateDto contextTableCreateDto) {
         List<Variable> variables = variableRepository.findAllById(contextTableCreateDto.variable_ids());
         ContextTable contextTable = generateContextTable(variables);

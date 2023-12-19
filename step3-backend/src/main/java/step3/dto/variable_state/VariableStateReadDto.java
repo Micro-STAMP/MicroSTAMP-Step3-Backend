@@ -1,4 +1,4 @@
-package step3.dto.context_table;
+package step3.dto.variable_state;
 
 import step3.entity.VariableState;
 
