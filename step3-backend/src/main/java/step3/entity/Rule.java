@@ -25,11 +25,11 @@ public class Rule {
             joinColumns = @JoinColumn(name = "rule_id"),
             inverseJoinColumns = @JoinColumn(name = "variable_state_id")
     )
-    private List<VariableState> ruleVariableStates = new ArrayList<>();
+    private List<VariableState> variableStates = new ArrayList<>();
 
-    public Rule(String name, ContextTable contextTable, List<VariableState> ruleVariableStates) {
+    public Rule(String name, ContextTable contextTable, List<VariableState> variableStates) {
         this.name = name;
         this.contextTable = contextTable;
-        this.ruleVariableStates = ruleVariableStates;
+        this.variableStates = variableStates;
     }
 }

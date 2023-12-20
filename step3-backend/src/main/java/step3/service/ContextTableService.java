@@ -1,12 +1,11 @@
 package step3.service;
 
 import lombok.AllArgsConstructor;
-import org.aspectj.weaver.ast.Var;
 import org.springframework.stereotype.Service;
-import step3.dto.context_table.ContextTableCreateDto;
-import step3.dto.context_table.ContextTableReadDto;
+import step3.dto.context_table.*;
 import step3.entity.*;
 import step3.repository.ContextTableRepository;
+import step3.repository.RuleRepository;
 import step3.repository.VariableRepository;
 
 import java.util.ArrayList;
@@ -31,10 +30,6 @@ public class ContextTableService {
     public List<ContextTableReadDto> readAllContextTables() {
         List<ContextTable> contextTables = contextTableRepository.findAll();
         return contextTables.stream().map(ContextTableReadDto::new).toList();
-    }
-
-    public void updateContextTable() {
-        // Precisa?
     }
 
     public void deleteContextTable(Long id) {

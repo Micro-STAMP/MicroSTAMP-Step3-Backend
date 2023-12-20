@@ -1,12 +1,10 @@
 package step3.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import step3.dto.context_table.ContextTableCreateDto;
 import step3.dto.context_table.ContextTableReadDto;
-import step3.entity.ContextTable;
 import step3.service.ContextTableService;
 
 import java.util.List;
@@ -33,12 +31,6 @@ public class ContextTableController {
     @GetMapping
     public List<ContextTableReadDto> readAllContextTables() {
         return contextTableService.readAllContextTables();
-    }
-
-    @PutMapping @Transactional
-    public void updateContextTable() {
-        contextTableService.updateContextTable();
-        // Precisa?
     }
 
     @DeleteMapping("/{id}") @Transactional

@@ -6,11 +6,12 @@ import step3.entity.Rule;
 import java.util.List;
 
 public record RuleReadDto(
+        Long id,
         String name,
         Long context_table_id,
         List<VariableStateReadDto> variable_states
 ) {
     public RuleReadDto(Rule rule) {
-        this(rule.getName(), rule.getContextTable().getId(), rule.getRuleVariableStates().stream().map(VariableStateReadDto::new).toList());
+        this(rule.getId(), rule.getName(), rule.getContextTable().getId(), rule.getVariableStates().stream().map(VariableStateReadDto::new).toList());
     }
 }

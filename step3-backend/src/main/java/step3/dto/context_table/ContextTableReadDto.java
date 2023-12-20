@@ -1,5 +1,6 @@
 package step3.dto.context_table;
 
+import step3.dto.context.ContextReadDto;
 import step3.entity.ContextTable;
 
 import java.util.List;
