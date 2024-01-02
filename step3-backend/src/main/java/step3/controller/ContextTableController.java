@@ -1,6 +1,8 @@
 package step3.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import step3.dto.context_table.ContextTableCreateDto;
@@ -20,22 +22,30 @@ public class ContextTableController {
     }
 
     @PostMapping @Transactional
-    public void createContextTable(@RequestBody ContextTableCreateDto contextTableCreateDto) {
+    public ResponseEntity createContextTable(@RequestBody ContextTableCreateDto contextTableCreateDto) {
         contextTableService.createContextTable(contextTableCreateDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(contextTableCreateDto);
     }
 
     @GetMapping("/{id}")
-    public ContextTableReadDto readContextTableById(@PathVariable Long id) {
-        return contextTableService.readContextTableById(id);
+    public ResponseEntity<ContextTableReadDto> readContextTableById(@PathVariable Long id) {
+        var responseContextTable = contextTableService.readContextTableById(id);
+
+        return ResponseEntity.ok(responseContextTable);
     }
     @GetMapping
-    public List<ContextTableReadDto> readAllContextTables() {
-        return contextTableService.readAllContextTables();
+    public ResponseEntity<List<ContextTableReadDto>> readAllContextTables() {
+        var responseContextTable = contextTableService.readAllContextTables();
+
+        return ResponseEntity.ok(responseContextTable);
     }
 
     @DeleteMapping("/{id}") @Transactional
-    public void deleteContextTable(@PathVariable Long id) {
+    public ResponseEntity deleteContextTable(@PathVariable Long id) {
         contextTableService.deleteContextTable(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -1,6 +1,8 @@
 package step3.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import step3.dto.variable.VariableCreateDto;
@@ -21,22 +23,30 @@ public class VariableController {
     }
 
     @PostMapping @Transactional
-    public void createVariable(@RequestBody VariableCreateDto variableCreateDto) {
+    public ResponseEntity createVariable(@RequestBody VariableCreateDto variableCreateDto) {
         variableService.createVariable(variableCreateDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(variableCreateDto);
     }
 
     @GetMapping
-    public List<Variable> readAllVariables() {
-        return variableService.readAllVariables();
+    public ResponseEntity<List<Variable>> readAllVariables() {
+        var variableList = variableService.readAllVariables();
+
+        return ResponseEntity.ok(variableList);
     }
 
     @PutMapping @Transactional
-    public void updateVariable(@RequestBody Variable variable) {
+    public ResponseEntity updateVariable(@RequestBody Variable variable) {
         variableService.updateVariable(variable);
+
+        return ResponseEntity.ok(variable);
     }
 
     @DeleteMapping("/{id}") @Transactional
-    public void deleteVariable(@PathVariable Long id) {
+    public ResponseEntity deleteVariable(@PathVariable Long id) {
         variableService.deleteVariable(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,6 +1,8 @@
 package step3.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import step3.dto.unsafe_control_action.UnsafeControlActionCreateDto;
@@ -21,22 +23,30 @@ public class UnsafeControlActionController {
     }
 
     @PostMapping @Transactional
-    public void createUnsafeControlAction(@RequestBody UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
+    public ResponseEntity createUnsafeControlAction(@RequestBody UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
         unsafeControlActionService.createUnsafeControlAction(unsafeControlActionCreateDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(unsafeControlActionCreateDto);
     }
 
     @GetMapping
-    public List<UnsafeControlAction> readAllUnsafeControlAction() {
-        return unsafeControlActionService.readAllUnsafeControlActions();
+    public ResponseEntity<List<UnsafeControlAction>> readAllUnsafeControlAction() {
+        var responseUCA = unsafeControlActionService.readAllUnsafeControlActions();
+
+        return ResponseEntity.ok(responseUCA);
     }
 
     @PutMapping @Transactional
-    public void updateUnsafeControlAction(@RequestBody UnsafeControlAction uca) {
+    public ResponseEntity updateUnsafeControlAction(@RequestBody UnsafeControlAction uca) {
         unsafeControlActionService.updateUnsafeControlAction(uca);
+
+        return ResponseEntity.ok(uca);
     }
 
     @DeleteMapping("/{id}") @Transactional
-    public void deleteUnsafeControlAction(@PathVariable Long id) {
+    public ResponseEntity deleteUnsafeControlAction(@PathVariable Long id) {
         unsafeControlActionService.deleteUnsafeControlAction(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

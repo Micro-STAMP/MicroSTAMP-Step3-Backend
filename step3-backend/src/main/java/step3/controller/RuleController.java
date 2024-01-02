@@ -1,6 +1,8 @@
 package step3.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import step3.dto.rule.RuleCreateDto;
@@ -20,13 +22,17 @@ public class RuleController {
     }
 
     @PostMapping @Transactional
-    public void createRule(@RequestBody RuleCreateDto ruleCreateDto) {
+    public ResponseEntity createRule(@RequestBody RuleCreateDto ruleCreateDto) {
         ruleService.createRule(ruleCreateDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ruleCreateDto);
     }
 
     @GetMapping
-    public List<RuleReadDto> readAllRules() {
-        return ruleService.readAllRules();
+    public ResponseEntity<List<RuleReadDto>> readAllRules() {
+        var responseRule = ruleService.readAllRules();
+
+        return ResponseEntity.ok(responseRule);
     }
 
     @PutMapping @Transactional
@@ -35,8 +41,10 @@ public class RuleController {
     }
 
     @DeleteMapping("/{id}") @Transactional
-    public void deleteRule(@PathVariable Long id) {
+    public ResponseEntity deleteRule(@PathVariable Long id) {
         ruleService.deleteRule(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
