@@ -26,7 +26,7 @@ public class ControllerController {
     public ResponseEntity createController(@RequestBody ControllerCreateDto controllerCreateDto) {
         controllerService.createController(controllerCreateDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(controllerCreateDto);
+        return ResponseEntity.created(null).body(controllerCreateDto);
     }
 
     @GetMapping

@@ -25,7 +25,7 @@ public class RuleController {
     public ResponseEntity createRule(@RequestBody RuleCreateDto ruleCreateDto) {
         ruleService.createRule(ruleCreateDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ruleCreateDto);
+        return ResponseEntity.created(null).body(ruleCreateDto);
     }
 
     @GetMapping

@@ -26,7 +26,7 @@ public class VariableController {
     public ResponseEntity createVariable(@RequestBody VariableCreateDto variableCreateDto) {
         variableService.createVariable(variableCreateDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(variableCreateDto);
+        return ResponseEntity.created(null).body(variableCreateDto);
     }
 
     @GetMapping

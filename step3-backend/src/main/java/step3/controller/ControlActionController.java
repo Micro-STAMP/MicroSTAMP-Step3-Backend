@@ -26,7 +26,7 @@ public class ControlActionController {
     public ResponseEntity createControlAction(@RequestBody ControlActionCreateDto controlActionCreateDto) {
         controlActionService.createControlAction(controlActionCreateDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(controlActionCreateDto);
+        return ResponseEntity.created(null).body(controlActionCreateDto);
     }
 
     @GetMapping

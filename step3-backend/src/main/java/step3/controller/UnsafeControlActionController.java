@@ -26,7 +26,7 @@ public class UnsafeControlActionController {
     public ResponseEntity createUnsafeControlAction(@RequestBody UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
         unsafeControlActionService.createUnsafeControlAction(unsafeControlActionCreateDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(unsafeControlActionCreateDto);
+        return ResponseEntity.created(null).body(unsafeControlActionCreateDto);
     }
 
     @GetMapping

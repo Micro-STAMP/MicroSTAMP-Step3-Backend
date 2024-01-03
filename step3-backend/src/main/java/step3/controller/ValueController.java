@@ -26,7 +26,7 @@ public class ValueController {
     public ResponseEntity createValue(@RequestBody ValueCreateDto valueCreateDto) {
         valueService.createValue(valueCreateDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(valueCreateDto);
+        return ResponseEntity.created(null).body(valueCreateDto);
     }
 
     @GetMapping

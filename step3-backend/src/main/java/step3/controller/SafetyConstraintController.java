@@ -25,7 +25,7 @@ public class SafetyConstraintController {
     public ResponseEntity createSafetyConstraint(@RequestBody SafetyConstraintCreateDto safetyConstraintCreateDto) {
         safetyConstraintService.createSafetyConstraint(safetyConstraintCreateDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(safetyConstraintCreateDto);
+        return ResponseEntity.created(null).body(safetyConstraintCreateDto);
     }
 
     @GetMapping

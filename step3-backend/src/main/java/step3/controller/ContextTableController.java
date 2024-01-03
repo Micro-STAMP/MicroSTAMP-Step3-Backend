@@ -25,7 +25,7 @@ public class ContextTableController {
     public ResponseEntity createContextTable(@RequestBody ContextTableCreateDto contextTableCreateDto) {
         contextTableService.createContextTable(contextTableCreateDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(contextTableCreateDto);
+        return ResponseEntity.created(null).body(contextTableCreateDto);
     }
 
     @GetMapping("/{id}")

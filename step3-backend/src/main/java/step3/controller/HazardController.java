@@ -23,10 +23,10 @@ public class HazardController {
     }
 
     @PostMapping @Transactional
-    public ResponseEntity createHazard(@RequestBody HazardCreateDto hazardCreateDto) {
+    public ResponseEntity<HazardCreateDto> createHazard(@RequestBody HazardCreateDto hazardCreateDto) {
         hazardService.createHazard(hazardCreateDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(hazardCreateDto);
+        return ResponseEntity.created(null).body(hazardCreateDto);
     }
 
     @GetMapping
