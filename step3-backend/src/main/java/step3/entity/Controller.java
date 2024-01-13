@@ -19,6 +19,10 @@ public class Controller {
     @OneToMany(mappedBy = "controller")
     private List<ControlAction> controlActions;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "controller")
+    private List<Variable> variables;
+
     public Controller(String name) {
         this.name = name;
     }

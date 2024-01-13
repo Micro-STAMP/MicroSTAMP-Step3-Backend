@@ -17,6 +17,9 @@ public class Variable {
     @OneToMany(mappedBy = "variable")
     private List<Value> values;
 
+    @ManyToOne @JoinColumn(name = "controller_id")
+    private Controller controller;
+
     public Variable(String name) {
         this.name = name;
     }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.variable.VariableCreateDto;
 import step3.entity.Variable;
+import step3.repository.ControllerRepository;
 import step3.repository.VariableRepository;
 
 import java.util.List;
@@ -13,10 +14,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class VariableService {
     private final VariableRepository variableRepository;
+    private final ControllerRepository controllerRepository;
 
     public void createVariable(VariableCreateDto variableCreateDto) {
         Variable variable = new Variable();
         variable.setName(variableCreateDto.name());
+        variable.setController(controllerRepository.getReferenceById(variableCreateDto.controller_id()));
         variableRepository.save(variable);
     }
 
