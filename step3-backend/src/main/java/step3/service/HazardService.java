@@ -3,8 +3,11 @@ package step3.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.hazard.HazardCreateDto;
+import step3.dto.hazard.HazardReadDto;
 import step3.entity.Hazard;
+import step3.entity.Project;
 import step3.repository.HazardRepository;
+import step3.repository.ProjectRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,21 +16,22 @@ import java.util.Optional;
 @AllArgsConstructor
 public class HazardService {
     private final HazardRepository hazardRepository;
+    private final ProjectRepository projectRepository;
 
     public void createHazard(HazardCreateDto hazardCreateDto) {
-        Hazard hazard = new Hazard(hazardCreateDto.name());
+        Project project = projectRepository.getReferenceById(hazardCreateDto.project_id());
+        Hazard hazard = new Hazard(hazardCreateDto.name(), project);
         hazardRepository.save(hazard);
     }
 
-    public List<Hazard> readAllHazards() {
-        return hazardRepository.findAll();
+    public List<HazardReadDto> readAllHazards() {
+        return hazardRepository.findAll().stream().map(HazardReadDto::new).toList();
     }
 
     public void updateHazard(Hazard hazard) {
         Hazard updatedHazard = hazardRepository.getReferenceById(hazard.getId());
         updatedHazard.setName(hazard.getName());
     }
-
 
     public void deleteHazard(Long id) {
         hazardRepository.deleteById(id);

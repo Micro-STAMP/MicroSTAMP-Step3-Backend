@@ -1,6 +1,7 @@
 package step3.dto.hazard;
 
 public record HazardCreateDto(
-        String name
+        String name,
+        Long project_id
 ) {
 }

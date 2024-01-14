@@ -11,7 +11,11 @@ public class Hazard {
     private Long id;
     private String name;
 
-    public Hazard(String name) {
+    @ManyToOne @JoinColumn(name = "project_id")
+    private Project project;
+
+    public Hazard(String name, Project project) {
         this.name = name;
+        this.project = project;
     }
 }

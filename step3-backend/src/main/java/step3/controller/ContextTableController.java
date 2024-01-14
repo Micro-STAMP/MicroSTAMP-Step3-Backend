@@ -22,29 +22,23 @@ public class ContextTableController {
     }
 
     @PostMapping @Transactional
-    public ResponseEntity createContextTable(@RequestBody ContextTableCreateDto contextTableCreateDto) {
+    public ResponseEntity<ContextTableCreateDto> createContextTable(@RequestBody ContextTableCreateDto contextTableCreateDto) {
         contextTableService.createContextTable(contextTableCreateDto);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(contextTableCreateDto);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ContextTableReadDto> readContextTableById(@PathVariable Long id) {
-        var responseContextTable = contextTableService.readContextTableById(id);
-
-        return ResponseEntity.ok(responseContextTable);
+        return ResponseEntity.ok(contextTableService.readContextTableById(id));
     }
     @GetMapping
     public ResponseEntity<List<ContextTableReadDto>> readAllContextTables() {
-        var responseContextTable = contextTableService.readAllContextTables();
-
-        return ResponseEntity.ok(responseContextTable);
+        return ResponseEntity.ok(contextTableService.readAllContextTables());
     }
 
     @DeleteMapping("/{id}") @Transactional
-    public ResponseEntity deleteContextTable(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteContextTable(@PathVariable Long id) {
         contextTableService.deleteContextTable(id);
-
         return ResponseEntity.noContent().build();
     }
 

@@ -23,7 +23,12 @@ public class Controller {
     @OneToMany(mappedBy = "controller")
     private List<Variable> variables;
 
-    public Controller(String name) {
+    @JsonIgnore
+    @ManyToOne @JoinColumn(name = "project_id")
+    private Project project;
+
+    public Controller(String name, Project project) {
         this.name = name;
+        this.project = project;
     }
 }

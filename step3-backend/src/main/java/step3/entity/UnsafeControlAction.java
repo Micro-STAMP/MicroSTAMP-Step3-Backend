@@ -27,13 +27,17 @@ public class UnsafeControlAction {
     @Enumerated(EnumType.STRING)
     private UCAType type;
 
-    public UnsafeControlAction(String name, ControlAction controlAction, Context context, SafetyConstraint constraint, Hazard hazard, UCAType type) {
+    @ManyToOne @JoinColumn(name = "project_id")
+    private Project project;
+
+    public UnsafeControlAction(String name, ControlAction controlAction, Context context, SafetyConstraint constraint, Hazard hazard, UCAType type, Project project) {
         this.name = name;
         this.controlAction = controlAction;
         this.context = context;
         this.constraint = constraint;
         this.hazard = hazard;
         this.type = type;
+        this.project = project;
     }
 
     // NAME : <Source> <Type> <Control Action> <Context>

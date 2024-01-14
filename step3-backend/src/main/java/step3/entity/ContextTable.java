@@ -1,5 +1,6 @@
 package step3.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,10 +20,9 @@ public class ContextTable {
     @OneToMany(mappedBy = "contextTable", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Context> contexts = new ArrayList<>();
 
-    public ContextTable(List<Context> contexts) {
-        this.contexts = contexts;
-    }
-
+    @OneToOne @JoinColumn(name = "project_id")
+    private Project project;
+    
     public void addContext(Context context) {
         this.contexts.add(context);
         context.setContextTable(this);

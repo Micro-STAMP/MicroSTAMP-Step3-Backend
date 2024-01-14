@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import step3.dto.hazard.HazardCreateDto;
+import step3.dto.hazard.HazardReadDto;
 import step3.entity.Hazard;
 import step3.service.HazardService;
 
@@ -23,30 +24,25 @@ public class HazardController {
     }
 
     @PostMapping @Transactional
-    public ResponseEntity createHazard(@RequestBody HazardCreateDto hazardCreateDto) {
+    public ResponseEntity<HazardCreateDto> createHazard(@RequestBody HazardCreateDto hazardCreateDto) {
         hazardService.createHazard(hazardCreateDto);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(hazardCreateDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<Hazard>> readAllHazards() {
-        var hazardList = hazardService.readAllHazards();
-
-        return ResponseEntity.ok(hazardList);
+    public ResponseEntity<List<HazardReadDto>> readAllHazards() {
+        return ResponseEntity.ok(hazardService.readAllHazards());
     }
 
     @PutMapping @Transactional
-    public ResponseEntity updateHazard(@RequestBody Hazard hazard) {
+    public ResponseEntity<Hazard> updateHazard(@RequestBody Hazard hazard) {
         hazardService.updateHazard(hazard);
-
         return ResponseEntity.ok(hazard);
     }
 
     @DeleteMapping("/{id}") @Transactional
-    public ResponseEntity deleteHazard(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteHazard(@PathVariable Long id) {
         hazardService.deleteHazard(id);
-
         return ResponseEntity.noContent().build();
     }
 }

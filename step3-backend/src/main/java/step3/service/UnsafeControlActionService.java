@@ -3,6 +3,7 @@ package step3.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.unsafe_control_action.UnsafeControlActionCreateDto;
+import step3.dto.unsafe_control_action.UnsafeControlActionReadDto;
 import step3.entity.*;
 import step3.repository.*;
 
@@ -16,6 +17,7 @@ public class UnsafeControlActionService {
     private final ContextRepository contextRepository;
     private final SafetyConstraintRepository safetyConstraintRepository;
     private final HazardRepository hazardRepository;
+    private final ProjectRepository projectRepository;
 
     public void createUnsafeControlAction(UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
         Long controlActionId = unsafeControlActionCreateDto.control_action_id();
@@ -30,20 +32,24 @@ public class UnsafeControlActionService {
         Long hazardId = unsafeControlActionCreateDto.hazard_id();
         Hazard hazard = hazardRepository.getReferenceById(hazardId);
 
+        Long projectId = unsafeControlActionCreateDto.project_id();
+        Project project = projectRepository.getReferenceById(projectId);
+
         UnsafeControlAction uca = new UnsafeControlAction(
                 unsafeControlActionCreateDto.name(),
                 controlAction,
                 context,
                 safetyConstraint,
                 hazard,
-                unsafeControlActionCreateDto.type()
+                unsafeControlActionCreateDto.type(),
+                project
         );
 
         unsafeControlActionRepository.save(uca);
     }
 
-    public List<UnsafeControlAction> readAllUnsafeControlActions() {
-        return unsafeControlActionRepository.findAll();
+    public List<UnsafeControlActionReadDto> readAllUnsafeControlActions() {
+        return unsafeControlActionRepository.findAll().stream().map(UnsafeControlActionReadDto::new).toList();
     }
 
     public void updateUnsafeControlAction(UnsafeControlAction uca) {
