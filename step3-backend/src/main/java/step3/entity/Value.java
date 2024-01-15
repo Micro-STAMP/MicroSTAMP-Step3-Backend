@@ -1,11 +1,11 @@
 package step3.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+import jakarta.persistence.*;
 
 @Table(name = "value")
 @Entity(name = "Value")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
+@Getter @Setter @NoArgsConstructor
 public class Value {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,6 +13,8 @@ public class Value {
 
     @ManyToOne @JoinColumn(name = "variable_id")
     private Variable variable;
+
+    // Constructors -----------------------------------
 
     public Value(String name, Variable variable) {
         this.name = name;

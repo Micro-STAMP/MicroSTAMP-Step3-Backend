@@ -7,9 +7,7 @@ import step3.dto.variable.VariableReadDto;
 import step3.entity.Variable;
 import step3.repository.ControllerRepository;
 import step3.repository.VariableRepository;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -18,9 +16,7 @@ public class VariableService {
     private final ControllerRepository controllerRepository;
 
     public void createVariable(VariableCreateDto variableCreateDto) {
-        Variable variable = new Variable();
-        variable.setName(variableCreateDto.name());
-        variable.setController(controllerRepository.getReferenceById(variableCreateDto.controller_id()));
+        Variable variable = new Variable(variableCreateDto.name(), controllerRepository.getReferenceById(variableCreateDto.controller_id()));
         variableRepository.save(variable);
     }
 

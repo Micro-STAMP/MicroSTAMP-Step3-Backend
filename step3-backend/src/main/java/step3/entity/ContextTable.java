@@ -1,9 +1,7 @@
 package step3.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.*;
-
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,10 +9,9 @@ import java.util.Set;
 
 @Table(name = "context_table")
 @Entity(name = "ContextTable")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
+@Getter @Setter @NoArgsConstructor
 public class ContextTable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany(mappedBy = "contextTable", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -22,7 +19,9 @@ public class ContextTable {
 
     @OneToOne @JoinColumn(name = "project_id")
     private Project project;
-    
+
+    // Methods ----------------------------------------
+
     public void addContext(Context context) {
         this.contexts.add(context);
         context.setContextTable(this);
