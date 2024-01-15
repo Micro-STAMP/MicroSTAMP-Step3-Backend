@@ -20,6 +20,8 @@ public class ContextTable {
     @OneToOne @JoinColumn(name = "project_id")
     private Project project;
 
+    // Lista de Rules da tabela?
+
     // Methods ----------------------------------------
 
     public void addContext(Context context) {
