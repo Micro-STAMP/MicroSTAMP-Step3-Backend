@@ -32,10 +32,6 @@ public class RuleService {
         return rules.stream().map(RuleReadDto::new).toList();
     }
 
-    public void updateRule() {
-        // Update Rule
-    }
-
     public void deleteRule(Long id) {
         ruleRepository.deleteById(id);
     }

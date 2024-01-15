@@ -8,6 +8,7 @@ public record UnsafeControlActionCreateDto(
         Long context_id,
         Long constraint_id,
         Long hazard_id,
-        UCAType type
+        UCAType type,
+        Long project_id
 ) {
 }

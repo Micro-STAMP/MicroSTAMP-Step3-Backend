@@ -3,6 +3,7 @@ package step3.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.safety_constraint.SafetyConstraintCreateDto;
+import step3.dto.safety_constraint.SafetyConstraintReadDto;
 import step3.entity.SafetyConstraint;
 import step3.repository.SafetyConstraintRepository;
 
@@ -19,8 +20,8 @@ public class SafetyConstraintService {
         safetyConstraintRepository.save(safetyConstraint);
     }
 
-    public List<SafetyConstraint> readAllSafetyConstraints() {
-        return safetyConstraintRepository.findAll();
+    public List<SafetyConstraintReadDto> readAllSafetyConstraints() {
+        return safetyConstraintRepository.findAll().stream().map(SafetyConstraintReadDto::new).toList();
     }
 
     public void updateSafetyConstraint(SafetyConstraint safetyConstraint) {

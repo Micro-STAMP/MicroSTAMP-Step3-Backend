@@ -1,16 +1,15 @@
 package step3.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
-import java.util.List;
+import jakarta.persistence.*;
 
 @Table(name = "unsafe_control_action")
 @Entity(name = "UnsafeControlAction")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
+@Getter @Setter @NoArgsConstructor
 public class UnsafeControlAction {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String name;  // NAME : <Source> <Type> <Control Action> <Context>
 
     @ManyToOne @JoinColumn(name = "control_action_id")
     private ControlAction controlAction;
@@ -27,14 +26,18 @@ public class UnsafeControlAction {
     @Enumerated(EnumType.STRING)
     private UCAType type;
 
-    public UnsafeControlAction(String name, ControlAction controlAction, Context context, SafetyConstraint constraint, Hazard hazard, UCAType type) {
+    @ManyToOne @JoinColumn(name = "project_id")
+    private Project project;
+
+    // Constructors -----------------------------------
+
+    public UnsafeControlAction(String name, ControlAction controlAction, Context context, SafetyConstraint constraint, Hazard hazard, UCAType type, Project project) {
         this.name = name;
         this.controlAction = controlAction;
         this.context = context;
         this.constraint = constraint;
         this.hazard = hazard;
         this.type = type;
+        this.project = project;
     }
-
-    // NAME : <Source> <Type> <Control Action> <Context>
 }

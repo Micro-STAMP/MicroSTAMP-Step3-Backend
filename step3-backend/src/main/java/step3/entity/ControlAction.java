@@ -1,19 +1,20 @@
 package step3.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
-import step3.dto.control_action.ControlActionCreateDto;
-import step3.repository.ControllerRepository;
+import jakarta.persistence.*;
 
 @Table(name = "control_action")
 @Entity(name = "ControlAction")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
+@Getter @Setter @NoArgsConstructor
 public class ControlAction {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
     @ManyToOne @JoinColumn(name = "controller_id")
     private Controller controller;
+
+    // Constructors -----------------------------------
 
     public ControlAction(String name, Controller controller) {
         this.name = name;

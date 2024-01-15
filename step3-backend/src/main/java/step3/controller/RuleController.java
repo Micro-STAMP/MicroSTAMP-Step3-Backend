@@ -22,28 +22,19 @@ public class RuleController {
     }
 
     @PostMapping @Transactional
-    public ResponseEntity createRule(@RequestBody RuleCreateDto ruleCreateDto) {
+    public ResponseEntity<RuleCreateDto> createRule(@RequestBody RuleCreateDto ruleCreateDto) {
         ruleService.createRule(ruleCreateDto);
-
-        return ResponseEntity.created(null).body(ruleCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ruleCreateDto);
     }
 
     @GetMapping
     public ResponseEntity<List<RuleReadDto>> readAllRules() {
-        var responseRule = ruleService.readAllRules();
-
-        return ResponseEntity.ok(responseRule);
-    }
-
-    @PutMapping @Transactional
-    public void updateRule(){
-        ruleService.updateRule();
+        return ResponseEntity.ok(ruleService.readAllRules());
     }
 
     @DeleteMapping("/{id}") @Transactional
-    public ResponseEntity deleteRule(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRule(@PathVariable Long id) {
         ruleService.deleteRule(id);
-
         return ResponseEntity.noContent().build();
     }
 

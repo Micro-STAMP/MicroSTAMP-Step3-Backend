@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import step3.dto.context_table.*;
 import step3.entity.*;
 import step3.repository.ContextTableRepository;
-import step3.repository.RuleRepository;
+import step3.repository.ProjectRepository;
 import step3.repository.VariableRepository;
 
 import java.util.ArrayList;
@@ -15,10 +15,13 @@ import java.util.List;
 public class ContextTableService {
     private final ContextTableRepository contextTableRepository;
     private final VariableRepository variableRepository;
+    private final ProjectRepository projectRepository;
 
     public void createContextTable(ContextTableCreateDto contextTableCreateDto) {
         List<Variable> variables = variableRepository.findAllById(contextTableCreateDto.variable_ids());
         ContextTable contextTable = generateContextTable(variables);
+        Project project = projectRepository.getReferenceById(contextTableCreateDto.project_id());
+        contextTable.setProject(project);
         contextTableRepository.save(contextTable);
     }
 
