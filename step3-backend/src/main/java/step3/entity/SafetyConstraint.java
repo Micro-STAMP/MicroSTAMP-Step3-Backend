@@ -11,6 +11,8 @@ public class SafetyConstraint {
     private Long id;
     private String name;
 
+    // Coloca um Project aqui ou coloca uma UCA que gerou a Constraint?
+
     // Constructors -----------------------------------
 
     public SafetyConstraint(String name) {
