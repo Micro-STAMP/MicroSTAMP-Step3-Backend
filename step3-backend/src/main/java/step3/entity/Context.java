@@ -12,6 +12,7 @@ import java.util.StringJoiner;
 public class Context {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Boolean unsafe = false;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
