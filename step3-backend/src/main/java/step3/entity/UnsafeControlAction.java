@@ -17,14 +17,14 @@ public class UnsafeControlAction {
     @ManyToOne @JoinColumn(name = "context_id")
     private Context context;
 
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "constraint_id")
-    private SafetyConstraint constraint;
-
     @ManyToOne @JoinColumn(name = "hazard_id")
     private Hazard hazard;
 
     @Enumerated(EnumType.STRING)
     private UCAType type;
+
+    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "constraint_id")
+    private SafetyConstraint constraint;
 
     @ManyToOne @JoinColumn(name = "project_id")
     private Project project;
