@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.rule.RuleCreateDto;
 import step3.dto.rule.RuleReadDto;
-import step3.dto.variable_state.VariableStateCreateDto;
+import step3.dto.rule.RuleVariableStateCreateDto;
 import step3.entity.ContextTable;
 import step3.entity.Rule;
 import step3.entity.VariableState;
@@ -38,10 +38,10 @@ public class RuleService {
 
 
     // Funções auxiliares para a criação da regra
-    public List<VariableState> getRuleVariableStates(ContextTable contextTable, List<VariableStateCreateDto> variableStateIds) {
+    public List<VariableState> getRuleVariableStates(ContextTable contextTable, List<RuleVariableStateCreateDto> variableStateIds) {
         Set<VariableState> variableStatesSet = contextTable.getVariableStates();
         List<VariableState> variableStates = new ArrayList<>();
-        for(VariableStateCreateDto stateDto : variableStateIds) {
+        for(RuleVariableStateCreateDto stateDto : variableStateIds) {
             VariableState variableState = findVariableStateByIds(variableStatesSet,stateDto.variable_id(), stateDto.value_id());
             variableStates.add(variableState);
         }

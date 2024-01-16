@@ -15,7 +15,6 @@ public class UnsafeControlActionService {
     private final UnsafeControlActionRepository unsafeControlActionRepository;
     private final ControlActionRepository controlActionRepository;
     private final ContextRepository contextRepository;
-    private final SafetyConstraintRepository safetyConstraintRepository;
     private final HazardRepository hazardRepository;
     private final ProjectRepository projectRepository;
 
@@ -26,9 +25,6 @@ public class UnsafeControlActionService {
         Long contextId = unsafeControlActionCreateDto.context_id();
         Context context = contextRepository.getReferenceById(contextId);
 
-        Long constraintId = unsafeControlActionCreateDto.constraint_id();
-        SafetyConstraint safetyConstraint = safetyConstraintRepository.getReferenceById(constraintId);
-
         Long hazardId = unsafeControlActionCreateDto.hazard_id();
         Hazard hazard = hazardRepository.getReferenceById(hazardId);
 
@@ -36,10 +32,8 @@ public class UnsafeControlActionService {
         Project project = projectRepository.getReferenceById(projectId);
 
         UnsafeControlAction uca = new UnsafeControlAction(
-                unsafeControlActionCreateDto.name(),
                 controlAction,
                 context,
-                safetyConstraint,
                 hazard,
                 unsafeControlActionCreateDto.type(),
                 project

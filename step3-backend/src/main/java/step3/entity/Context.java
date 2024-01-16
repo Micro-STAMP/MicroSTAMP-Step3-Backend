@@ -4,6 +4,7 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 @Table(name = "context")
 @Entity(name = "Context")
@@ -27,5 +28,14 @@ public class Context {
 
     public void addVariableState(VariableState variableState) {
         variableStates.add(variableState);
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner context = new StringJoiner(" AND ");
+        for (VariableState vs : variableStates) {
+            context.add(vs.toString());
+        }
+        return context.toString();
     }
 }
