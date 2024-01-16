@@ -17,7 +17,7 @@ public class UnsafeControlAction {
     @ManyToOne @JoinColumn(name = "context_id")
     private Context context;
 
-    @ManyToOne @JoinColumn(name = "constraint_id")
+    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "constraint_id")
     private SafetyConstraint constraint;
 
     @ManyToOne @JoinColumn(name = "hazard_id")
@@ -31,13 +31,35 @@ public class UnsafeControlAction {
 
     // Constructors -----------------------------------
 
-    public UnsafeControlAction(String name, ControlAction controlAction, Context context, SafetyConstraint constraint, Hazard hazard, UCAType type, Project project) {
-        this.name = name;
+    public UnsafeControlAction(ControlAction controlAction, Context context, Hazard hazard, UCAType type, Project project) {
         this.controlAction = controlAction;
         this.context = context;
-        this.constraint = constraint;
         this.hazard = hazard;
         this.type = type;
         this.project = project;
+        this.name = generateName();
+        this.constraint = generateConstraint();
+    }
+
+    // Methods ----------------------------------------
+
+    public String generateName() {
+        // NAME : <Source> <Type> <Control Action> <Context>
+        String source = getControlAction().getController().getName();
+        String type = getType().name();
+        String ca = getControlAction().getName();
+        String context = getContext().toString();
+
+        return source + " " + type + " " + ca + " when " + context;
+    }
+    public SafetyConstraint generateConstraint() {
+        String source = getControlAction().getController().getName();
+        String type = getType().name();
+        String ca = getControlAction().getName();
+        String context = getContext().toString();
+
+        String scName = source + " MUST NOT " + type + " " + ca + " when " + context;
+
+        return new SafetyConstraint(scName);
     }
 }

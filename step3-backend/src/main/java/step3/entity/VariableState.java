@@ -22,4 +22,11 @@ public class VariableState {
         this.variable = variable;
         this.value = value;
     }
+
+    // Methods ----------------------------------------
+
+    @Override
+    public String toString() {
+        return "{ " + variable.getName() + " = " + value.getName() + " }";
+    }
 }
