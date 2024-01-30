@@ -18,11 +18,12 @@ public record ContextTableReadDto(
             contextTable.getProject().getName()
         );
     }
-    public record ContextDto(Long id, List<VariableStateDto> variable_states) {
+    public record ContextDto(Long id, List<VariableStateDto> variable_states, Boolean unsafe) {
         public ContextDto(Context context) {
             this(
                 context.getId(),
-                context.getVariableStates().stream().map(VariableStateDto::new).toList()
+                context.getVariableStates().stream().map(VariableStateDto::new).toList(),
+                context.getUnsafe()
             );
         }
         public record VariableStateDto(String variable_name, String value_name) {

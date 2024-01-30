@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import step3.dto.context_table.ContextTableCreateDto;
 import step3.dto.context_table.ContextTableReadDto;
+import step3.dto.context_table.ContextTableUpdateDto;
 import step3.service.ContextTableService;
 
 import java.util.List;
@@ -34,6 +35,16 @@ public class ContextTableController {
     @GetMapping
     public ResponseEntity<List<ContextTableReadDto>> readAllContextTables() {
         return ResponseEntity.ok(contextTableService.readAllContextTables());
+    }
+
+    @PutMapping @Transactional
+    public ResponseEntity<ContextTableReadDto> updateContextFromTable(@RequestBody ContextTableUpdateDto contextTableUpdateDto) {
+        return ResponseEntity.ok(contextTableService.updateContextFromTable(contextTableUpdateDto));
+    }
+
+    @PutMapping("/apply-rule/{rule_id}") @Transactional
+    public ResponseEntity<ContextTableReadDto> updateContextTableApplyRule(@PathVariable Long rule_id) {
+        return ResponseEntity.ok(contextTableService.updateContextTableApplyRule(rule_id));
     }
 
     @DeleteMapping("/{id}") @Transactional

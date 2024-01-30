@@ -4,17 +4,18 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.context_table.*;
 import step3.entity.*;
-import step3.repository.ContextTableRepository;
-import step3.repository.ProjectRepository;
-import step3.repository.VariableRepository;
+import step3.repository.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service @AllArgsConstructor
 public class ContextTableService {
     private final ContextTableRepository contextTableRepository;
+    private final ContextRepository contextRepository;
     private final VariableRepository variableRepository;
+    private final RuleRepository ruleRepository;
     private final ProjectRepository projectRepository;
 
     public void createContextTable(ContextTableCreateDto contextTableCreateDto) {
@@ -34,6 +35,21 @@ public class ContextTableService {
         List<ContextTable> contextTables = contextTableRepository.findAll();
         return contextTables.stream().map(ContextTableReadDto::new).toList();
     }
+
+    public ContextTableReadDto updateContextFromTable(ContextTableUpdateDto contextTableUpdateDto) {
+        Context context = contextRepository.getReferenceById(contextTableUpdateDto.context_id());
+        context.setUnsafe(contextTableUpdateDto.context_unsafe());
+        return new ContextTableReadDto(context.getContextTable());
+    }
+
+    public ContextTableReadDto updateContextTableApplyRule(Long rule_id) {
+        Rule rule = ruleRepository.getReferenceById(rule_id);
+        rule.getContextTable().getContexts().stream()
+            .filter(context -> applyRuleToContext(context, rule))
+            .forEach(context -> context.setUnsafe(true));
+        return new ContextTableReadDto(rule.getContextTable());
+    }
+
 
     public void deleteContextTable(Long id) {
         contextTableRepository.deleteById(id);
@@ -83,5 +99,12 @@ public class ContextTableService {
         }
         return new VariableState(variable, value);
     }
+
+
+    // Função auxiliar para aplciar Rule na tabela
+    private boolean applyRuleToContext(Context context, Rule rule) {
+        return new HashSet<>(context.getVariableStates()).containsAll(rule.getVariableStates());
+    }
+
 
 }
