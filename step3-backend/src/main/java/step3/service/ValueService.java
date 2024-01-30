@@ -3,6 +3,7 @@ package step3.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.value.ValueCreateDto;
+import step3.dto.value.ValueReadDto;
 import step3.entity.Value;
 import step3.entity.Variable;
 import step3.repository.ValueRepository;
@@ -24,8 +25,8 @@ public class ValueService {
         valueRepository.save(value);
     }
 
-    public List<Value> readAllValues() {
-        return valueRepository.findAll();
+    public List<ValueReadDto> readAllValues() {
+        return valueRepository.findAll().stream().map(ValueReadDto::new).toList();
     }
 
     public void updateValue(Value value) {

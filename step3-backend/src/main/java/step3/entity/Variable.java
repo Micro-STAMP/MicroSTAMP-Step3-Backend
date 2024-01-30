@@ -1,23 +1,27 @@
 package step3.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Table(name = "variable")
 @Entity(name = "Variable")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
+@Getter @Setter @NoArgsConstructor
 public class Variable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "variable")
+    @OneToMany(mappedBy = "variable", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Value> values;
 
-    public Variable(String name) {
+    @ManyToOne @JoinColumn(name = "controller_id")
+    private Controller controller;
+
+    // Constructors -----------------------------------
+
+    public Variable(String name, Controller controller) {
         this.name = name;
+        this.controller = controller;
     }
 }

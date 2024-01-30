@@ -1,9 +1,12 @@
 package step3.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import step3.dto.safety_constraint.SafetyConstraintCreateDto;
+import step3.dto.safety_constraint.SafetyConstraintReadDto;
 import step3.entity.SafetyConstraint;
 import step3.service.SafetyConstraintService;
 
@@ -20,22 +23,26 @@ public class SafetyConstraintController {
     }
 
     @PostMapping @Transactional
-    public void createSafetyConstraint(@RequestBody SafetyConstraintCreateDto safetyConstraintCreateDto) {
+    public ResponseEntity<SafetyConstraintCreateDto> createSafetyConstraint(@RequestBody SafetyConstraintCreateDto safetyConstraintCreateDto) {
         safetyConstraintService.createSafetyConstraint(safetyConstraintCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(safetyConstraintCreateDto);
     }
 
     @GetMapping
-    public List<SafetyConstraint> readAllSafetyConstraints() {
-        return safetyConstraintService.readAllSafetyConstraints();
+    public ResponseEntity<List<SafetyConstraintReadDto>> readAllSafetyConstraints() {
+        return ResponseEntity.ok(safetyConstraintService.readAllSafetyConstraints());
     }
 
     @PutMapping @Transactional
-    public void updateSafetyConstraint(@RequestBody SafetyConstraint safetyConstraint) {
+    public ResponseEntity<SafetyConstraint> updateSafetyConstraint(@RequestBody SafetyConstraint safetyConstraint) {
         safetyConstraintService.updateSafetyConstraint(safetyConstraint);
+        return ResponseEntity.ok(safetyConstraint);
     }
 
     @DeleteMapping("/{id}") @Transactional
-    public void deleteSafetyConstraint(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSafetyConstraint(@PathVariable Long id) {
         safetyConstraintService.deleteSafetyConstraint(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

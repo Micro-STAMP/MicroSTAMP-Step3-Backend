@@ -2,33 +2,41 @@ package step3.entity;
 
 import lombok.*;
 import jakarta.persistence.*;
-import step3.dto.context.ContextCreateDto;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 @Table(name = "context")
 @Entity(name = "Context")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
+@Getter @Setter @NoArgsConstructor
 public class Context {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Boolean unsafe = false;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name = "context_variable",
+        name = "context_variable_state",
         joinColumns = @JoinColumn(name = "context_id"),
-        inverseJoinColumns = @JoinColumn(name = "variable_id")
+        inverseJoinColumns = @JoinColumn(name = "variable_state_id")
     )
-    private List<Variable> variables;
+    private List<VariableState> variableStates = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-        name = "context_value",
-        joinColumns = @JoinColumn(name = "context_id"),
-        inverseJoinColumns = @JoinColumn(name = "value_id")
-    )
-    private List<Value> values;
+    @ManyToOne @JoinColumn(name = "context_table_id")
+    private ContextTable contextTable;
 
-    public Context(ContextCreateDto contextCreateDto) {
+    // Methods ----------------------------------------
+
+    public void addVariableState(VariableState variableState) {
+        variableStates.add(variableState);
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner context = new StringJoiner(" AND ");
+        for (VariableState vs : variableStates) {
+            context.add(vs.toString());
+        }
+        return context.toString();
     }
 }

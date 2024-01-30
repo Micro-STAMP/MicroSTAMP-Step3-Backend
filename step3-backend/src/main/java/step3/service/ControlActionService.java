@@ -3,6 +3,7 @@ package step3.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.control_action.ControlActionCreateDto;
+import step3.dto.control_action.ControlActionReadDto;
 import step3.entity.ControlAction;
 import step3.entity.Controller;
 import step3.repository.ControlActionRepository;
@@ -21,15 +22,13 @@ public class ControlActionService {
         controlActionRepository.save(controlAction);
     }
 
-    public List<ControlAction> readAllControlActions() {
-        return controlActionRepository.findAll();
+    public List<ControlActionReadDto> readAllControlActions() {
+        return controlActionRepository.findAll().stream().map(ControlActionReadDto::new).toList();
     }
 
     public void updateControlAction(ControlAction controlAction) {
         ControlAction updatedControlAction = controlActionRepository.getReferenceById(controlAction.getId());
         updatedControlAction.setName(controlAction.getName());
-
-        // TODO: FALTA ATUALIZAR O CONTROLLER
     }
 
     public void deleteControlAction(Long id) {

@@ -1,17 +1,23 @@
 package step3.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+import jakarta.persistence.*;
 
 @Table(name = "hazard")
 @Entity(name = "Hazard")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
+@Getter @Setter @NoArgsConstructor
 public class Hazard {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    public Hazard(String name) {
+    @ManyToOne @JoinColumn(name = "project_id")
+    private Project project;
+
+    // Constructors -----------------------------------
+
+    public Hazard(String name, Project project) {
         this.name = name;
+        this.project = project;
     }
 }

@@ -1,25 +1,30 @@
 package step3.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.*;
-import step3.dto.controller.ControllerCreateDto;
-
+import jakarta.persistence.*;
 import java.util.List;
 
 @Table(name = "controller")
 @Entity(name = "Controller")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode(of = "id")
+@Getter @Setter @NoArgsConstructor
 public class Controller {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "controller")
+    @OneToMany(mappedBy = "controller", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ControlAction> controlActions;
 
-    public Controller(String name) {
+    @OneToMany(mappedBy = "controller", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Variable> variables;
+
+    @ManyToOne @JoinColumn(name = "project_id")
+    private Project project;
+
+    // Constructors -----------------------------------
+
+    public Controller(String name, Project project) {
         this.name = name;
+        this.project = project;
     }
 }
