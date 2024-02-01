@@ -18,6 +18,9 @@ public class Controller {
     @OneToMany(mappedBy = "controller", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Variable> variables;
 
+    @OneToOne(mappedBy = "controller", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ContextTable contextTable;
+
     @ManyToOne @JoinColumn(name = "project_id")
     private Project project;
 
@@ -27,4 +30,8 @@ public class Controller {
         this.name = name;
         this.project = project;
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

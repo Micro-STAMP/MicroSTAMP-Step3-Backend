@@ -19,17 +19,21 @@ public class Rule {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name = "rule_variable_state",
+        name = "rule_value",
         joinColumns = @JoinColumn(name = "rule_id"),
-        inverseJoinColumns = @JoinColumn(name = "variable_state_id")
+        inverseJoinColumns = @JoinColumn(name = "value_id")
     )
-    private List<VariableState> variableStates = new ArrayList<>();
+    private List<Value> values = new ArrayList<>();
 
     // Constructors -----------------------------------
 
-    public Rule(String name, ContextTable contextTable, List<VariableState> variableStates) {
+    public Rule(String name, ContextTable contextTable, List<Value> values) {
         this.name = name;
         this.contextTable = contextTable;
-        this.variableStates = variableStates;
+        this.values = values;
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

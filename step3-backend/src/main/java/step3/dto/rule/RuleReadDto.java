@@ -1,7 +1,7 @@
 package step3.dto.rule;
 
 import step3.entity.Rule;
-import step3.entity.VariableState;
+import step3.entity.Value;
 
 import java.util.List;
 
@@ -9,23 +9,23 @@ public record RuleReadDto(
         Long id,
         String name,
         Long context_table_id,
-        List<VariableStateDto> variable_states
+        List<ValueDto> values
 ) {
     public RuleReadDto(Rule rule) {
         this(
             rule.getId(),
             rule.getName(),
             rule.getContextTable().getId(),
-            rule.getVariableStates().stream().map(VariableStateDto::new).toList()
+            rule.getValues().stream().map(ValueDto::new).toList()
         );
     }
 
-    public record VariableStateDto(Long variable_state_id, String variable_name, String value_name) {
-        public VariableStateDto(VariableState variableState) {
+    public record ValueDto(Long value_id, String variable_name, String value_name) {
+        public ValueDto(Value value) {
             this(
-                variableState.getId(),
-                variableState.getVariable().getName(),
-                variableState.getValue().getName()
+                value.getId(),
+                value.getVariable().getName(),
+                value.getName()
             );
         }
     }

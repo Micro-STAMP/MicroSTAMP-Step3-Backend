@@ -17,16 +17,22 @@ import java.util.List;
 public class ProjectController {
     private final ProjectService projectService;
 
+    // Constructors -----------------------------------
+
     @Autowired
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
     }
+
+    // Create -----------------------------------------
 
     @PostMapping @Transactional
     public ResponseEntity<ProjectCreateDto> createProject(@RequestBody ProjectCreateDto projectCreateDto) {
         projectService.createProject(projectCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(projectCreateDto);
     }
+
+    // Read -------------------------------------------
 
     @GetMapping
     public ResponseEntity<List<ProjectReadAllDto>> readAllProjects() {
@@ -38,9 +44,15 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.readProjectById(id));
     }
 
+    // Update -----------------------------------------
+
+    // Delete -----------------------------------------
+
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
         projectService.deleteProject(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ------------------------------------------------
 }

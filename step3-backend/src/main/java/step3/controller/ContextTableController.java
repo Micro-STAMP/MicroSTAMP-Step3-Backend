@@ -17,16 +17,22 @@ import java.util.List;
 public class ContextTableController {
     private final ContextTableService contextTableService;
 
+    // Constructors -----------------------------------
+
     @Autowired
     public ContextTableController(ContextTableService contextTableService) {
         this.contextTableService = contextTableService;
     }
+
+    // Create -----------------------------------------
 
     @PostMapping @Transactional
     public ResponseEntity<ContextTableCreateDto> createContextTable(@RequestBody ContextTableCreateDto contextTableCreateDto) {
         contextTableService.createContextTable(contextTableCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(contextTableCreateDto);
     }
+
+    // Read -------------------------------------------
 
     @GetMapping("/{id}")
     public ResponseEntity<ContextTableReadDto> readContextTableById(@PathVariable Long id) {
@@ -36,16 +42,23 @@ public class ContextTableController {
     public ResponseEntity<List<ContextTableReadDto>> readAllContextTables() {
         return ResponseEntity.ok(contextTableService.readAllContextTables());
     }
+    @GetMapping("/controller/{controller_id}")
+    public ResponseEntity<ContextTableReadDto> readContextTableByController(@PathVariable Long controller_id) {
+        return ResponseEntity.ok(contextTableService.readContextTableByController(controller_id));
+    }
+
+    // Update -----------------------------------------
 
     @PutMapping @Transactional
     public ResponseEntity<ContextTableReadDto> updateContextFromTable(@RequestBody ContextTableUpdateDto contextTableUpdateDto) {
         return ResponseEntity.ok(contextTableService.updateContextFromTable(contextTableUpdateDto));
     }
+     @PutMapping("/apply-rule/{rule_id}") @Transactional
+     public ResponseEntity<ContextTableReadDto> updateContextTableApplyRule(@PathVariable Long rule_id) {
+         return ResponseEntity.ok(contextTableService.updateContextTableApplyRule(rule_id));
+     }
 
-    @PutMapping("/apply-rule/{rule_id}") @Transactional
-    public ResponseEntity<ContextTableReadDto> updateContextTableApplyRule(@PathVariable Long rule_id) {
-        return ResponseEntity.ok(contextTableService.updateContextTableApplyRule(rule_id));
-    }
+    // Delete ----------------------------------------- todo: tem problema aqui, não apaga
 
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteContextTable(@PathVariable Long id) {
@@ -53,4 +66,5 @@ public class ContextTableController {
         return ResponseEntity.noContent().build();
     }
 
+    // ------------------------------------------------
 }

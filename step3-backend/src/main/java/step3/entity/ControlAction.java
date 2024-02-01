@@ -20,4 +20,8 @@ public class ControlAction {
         this.name = name;
         this.controller = controller;
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

@@ -19,13 +19,8 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Controller> controllers;
 
-    @OneToOne(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private ContextTable contextTable;
-
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<UnsafeControlAction> unsafeControlActions;
-
-    // Precisa da lista de Safety Constraints?
 
     // Constructors -----------------------------------
 
@@ -33,4 +28,8 @@ public class Project {
         this.name = name;
         this.description = description;
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

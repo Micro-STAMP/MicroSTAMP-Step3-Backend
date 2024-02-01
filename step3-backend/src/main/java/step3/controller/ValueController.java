@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import step3.dto.value.ValueCreateDto;
 import step3.dto.value.ValueReadDto;
 import step3.entity.Value;
-import step3.repository.ValueRepository;
 import step3.service.ValueService;
 
 import java.util.List;
@@ -18,10 +17,14 @@ import java.util.List;
 public class ValueController {
     private final ValueService valueService;
 
+    // Constructors -----------------------------------
+
     @Autowired
     public ValueController(ValueService valueService) {
         this.valueService = valueService;
     }
+
+    // Create -----------------------------------------
 
     @PostMapping @Transactional
     public ResponseEntity<ValueCreateDto> createValue(@RequestBody ValueCreateDto valueCreateDto) {
@@ -29,10 +32,14 @@ public class ValueController {
         return ResponseEntity.status(HttpStatus.CREATED).body(valueCreateDto);
     }
 
+    // Read -------------------------------------------
+
     @GetMapping
     public ResponseEntity<List<ValueReadDto>> readAllValue() {
         return ResponseEntity.ok(valueService.readAllValues());
     }
+
+    // Update -----------------------------------------
 
     @PutMapping @Transactional
     public ResponseEntity<Value> updateValue(@RequestBody Value value) {
@@ -40,9 +47,13 @@ public class ValueController {
         return ResponseEntity.ok(value);
     }
 
+    // Delete -----------------------------------------
+
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteValue(@PathVariable Long id) {
         valueService.deleteValue(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ------------------------------------------------
 }

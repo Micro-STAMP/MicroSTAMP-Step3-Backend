@@ -11,11 +11,21 @@ public class SafetyConstraint {
     private Long id;
     private String name;
 
-    // Coloca um Project aqui ou coloca uma UCA que gerou a Constraint?
+    @OneToOne @JoinColumn(name = "uca_id")
+    UnsafeControlAction unsafeControlAction;
 
     // Constructors -----------------------------------
 
     public SafetyConstraint(String name) {
         this.name = name;
     }
+
+    public SafetyConstraint(String name, UnsafeControlAction uca) {
+        this.name = name;
+        this.unsafeControlAction = uca;
+    }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import step3.dto.control_action.ControlActionCreateDto;
 import step3.dto.control_action.ControlActionReadDto;
 import step3.entity.ControlAction;
-import step3.repository.ControlActionRepository;
 import step3.service.ControlActionService;
 
 import java.util.List;
@@ -18,10 +17,14 @@ import java.util.List;
 public class ControlActionController {
     private final ControlActionService controlActionService;
 
+    // Constructors -----------------------------------
+
     @Autowired
     public ControlActionController(ControlActionService controlActionService) {
         this.controlActionService = controlActionService;
     }
+
+    // Create -----------------------------------------
 
     @PostMapping @Transactional
     public ResponseEntity<ControlActionCreateDto> createControlAction(@RequestBody ControlActionCreateDto controlActionCreateDto) {
@@ -29,10 +32,14 @@ public class ControlActionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(controlActionCreateDto);
     }
 
+    // Read -------------------------------------------
+
     @GetMapping
     public ResponseEntity<List<ControlActionReadDto>> readAllControlActions() {
        return ResponseEntity.ok(controlActionService.readAllControlActions());
     }
+
+    // Update -----------------------------------------
 
     @PutMapping @Transactional
     public ResponseEntity<ControlAction> updateControlAction(@RequestBody ControlAction controlAction) {
@@ -40,9 +47,13 @@ public class ControlActionController {
         return ResponseEntity.ok(controlAction);
     }
 
+    // Delete -----------------------------------------
+
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteControlAction(@PathVariable Long id) {
         controlActionService.deleteControlAction(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ------------------------------------------------
 }

@@ -19,15 +19,21 @@ public class ControllerService {
     private final ControllerRepository controllerRepository;
     private final ProjectRepository projectRepository;
 
+    // Create -----------------------------------------
+
     public void createController(ControllerCreateDto controllerCreateDto) {
         Project project = projectRepository.getReferenceById(controllerCreateDto.project_id());
         Controller controller = new Controller(controllerCreateDto.name(), project);
         controllerRepository.save(controller);
     }
 
+    // Read -------------------------------------------
+
     public List<ControllerReadDto> readAllControllers() {
         return controllerRepository.findAll().stream().map(ControllerReadDto::new).toList();
     }
+
+    // Update -----------------------------------------
 
     public void updateController(Controller controller) {
         Controller updatedController = controllerRepository.getReferenceById(controller.getId());
@@ -35,8 +41,14 @@ public class ControllerService {
         updatedController.setControlActions(controller.getControlActions());
     }
 
+    // Delete -----------------------------------------
+
     public void deleteController(Long id) {
         controllerRepository.deleteById(id);
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }
 

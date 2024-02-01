@@ -10,14 +10,19 @@ import step3.repository.ProjectRepository;
 
 import java.util.List;
 
-@Service @AllArgsConstructor
+@Service
+@AllArgsConstructor
 public class ProjectService {
     private final ProjectRepository projectRepository;
+
+    // Create -----------------------------------------
 
     public void createProject(ProjectCreateDto projectCreateDto) {
         Project project = new Project(projectCreateDto.name(), projectCreateDto.description());
         projectRepository.save(project);
     }
+
+    // Read -------------------------------------------
 
     public List<ProjectReadAllDto> readAllProjects() {
         return projectRepository.findAll().stream().map(ProjectReadAllDto::new).toList();
@@ -28,7 +33,15 @@ public class ProjectService {
         return new ProjectReadDto(project);
     }
 
+    // Update -----------------------------------------
+
+    // Delete -----------------------------------------
+
     public void deleteProject(Long id) {
         projectRepository.deleteById(id);
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }
