@@ -14,10 +14,10 @@ public class Rule {
     private Long id;
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "context_table_id")
+    @ManyToOne @JoinColumn(name = "context_table_id")
     private ContextTable contextTable;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
         name = "rule_value",
         joinColumns = @JoinColumn(name = "rule_id"),

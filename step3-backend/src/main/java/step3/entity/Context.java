@@ -13,7 +13,7 @@ public class Context {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
         name = "context_value",
         joinColumns = @JoinColumn(name = "context_id"),
