@@ -20,11 +20,14 @@ public class ValueService {
 
     // Create -----------------------------------------
 
-    public void createValue(ValueCreateDto valueCreateDto) {
+    public ValueReadDto createValue(ValueCreateDto valueCreateDto) {
         Long variableId = valueCreateDto.variable_id();
         Variable variable = variableRepository.getReferenceById(variableId);
         Value value = new Value(valueCreateDto.name(), variable);
-        valueRepository.save(value);
+
+        Value createdValue = valueRepository.save(value);
+
+        return new ValueReadDto(createdValue);
     }
 
     // Read -------------------------------------------

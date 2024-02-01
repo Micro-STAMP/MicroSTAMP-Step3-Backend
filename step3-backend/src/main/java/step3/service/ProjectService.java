@@ -17,9 +17,12 @@ public class ProjectService {
 
     // Create -----------------------------------------
 
-    public void createProject(ProjectCreateDto projectCreateDto) {
+    public ProjectCreateDto createProject(ProjectCreateDto projectCreateDto) {
         Project project = new Project(projectCreateDto.name(), projectCreateDto.description());
-        projectRepository.save(project);
+
+        Project createdProject = projectRepository.save(project);
+
+        return projectCreateDto;
     }
 
     // Read -------------------------------------------

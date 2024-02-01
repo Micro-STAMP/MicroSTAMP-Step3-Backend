@@ -27,9 +27,9 @@ public class HazardController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<HazardCreateDto> createHazard(@RequestBody HazardCreateDto hazardCreateDto) {
-        hazardService.createHazard(hazardCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(hazardCreateDto);
+    public ResponseEntity<HazardReadDto> createHazard(@RequestBody HazardCreateDto hazardCreateDto) {
+        HazardReadDto createdHazard = hazardService.createHazard(hazardCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdHazard);
     }
 
     // Read -------------------------------------------

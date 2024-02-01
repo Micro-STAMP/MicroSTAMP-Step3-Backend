@@ -27,9 +27,9 @@ public class ValueController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<ValueCreateDto> createValue(@RequestBody ValueCreateDto valueCreateDto) {
-        valueService.createValue(valueCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(valueCreateDto);
+    public ResponseEntity<ValueReadDto> createValue(@RequestBody ValueCreateDto valueCreateDto) {
+        ValueReadDto createdValue = valueService.createValue(valueCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdValue);
     }
 
     // Read -------------------------------------------

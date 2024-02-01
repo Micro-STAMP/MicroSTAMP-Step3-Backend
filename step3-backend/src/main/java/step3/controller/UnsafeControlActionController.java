@@ -27,9 +27,9 @@ public class UnsafeControlActionController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<UnsafeControlActionCreateDto> createUnsafeControlAction(@RequestBody UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
-        unsafeControlActionService.createUnsafeControlAction(unsafeControlActionCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(unsafeControlActionCreateDto);
+    public ResponseEntity<UnsafeControlActionReadDto> createUnsafeControlAction(@RequestBody UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
+        UnsafeControlActionReadDto createdUCA = unsafeControlActionService.createUnsafeControlAction(unsafeControlActionCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUCA);
     }
 
     // Read -------------------------------------------

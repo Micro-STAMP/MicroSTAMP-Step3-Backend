@@ -20,7 +20,7 @@ public class UnsafeControlActionService {
 
     // Create -----------------------------------------
 
-    public void createUnsafeControlAction(UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
+    public UnsafeControlActionReadDto createUnsafeControlAction(UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
         Long controlActionId = unsafeControlActionCreateDto.control_action_id();
         ControlAction controlAction = controlActionRepository.getReferenceById(controlActionId);
 
@@ -41,7 +41,9 @@ public class UnsafeControlActionService {
                 project
         );
 
-        unsafeControlActionRepository.save(uca);
+        UnsafeControlAction createdUCA = unsafeControlActionRepository.save(uca);
+
+        return new UnsafeControlActionReadDto(createdUCA);
     }
 
     // Read -------------------------------------------

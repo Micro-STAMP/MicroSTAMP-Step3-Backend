@@ -20,10 +20,14 @@ public class HazardService {
 
     // Create -----------------------------------------
 
-    public void createHazard(HazardCreateDto hazardCreateDto) {
+    public HazardReadDto createHazard(HazardCreateDto hazardCreateDto) {
         Project project = projectRepository.getReferenceById(hazardCreateDto.project_id());
         Hazard hazard = new Hazard(hazardCreateDto.name(), project);
-        hazardRepository.save(hazard);
+
+        Hazard createdHazard = hazardRepository.save(hazard);
+
+        return new HazardReadDto(createdHazard);
+
     }
 
     // Read -------------------------------------------

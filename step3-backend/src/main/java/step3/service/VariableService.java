@@ -17,9 +17,12 @@ public class VariableService {
 
     // Create -----------------------------------------
 
-    public void createVariable(VariableCreateDto variableCreateDto) {
+    public VariableReadDto createVariable(VariableCreateDto variableCreateDto) {
         Variable variable = new Variable(variableCreateDto.name(), controllerRepository.getReferenceById(variableCreateDto.controller_id()));
-        variableRepository.save(variable);
+
+        Variable createdVariable = variableRepository.save(variable);
+
+        return new VariableReadDto(createdVariable);
     }
 
     // Read -------------------------------------------

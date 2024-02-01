@@ -18,11 +18,14 @@ public class ControlActionService {
 
     // Create -----------------------------------------
 
-    public void createControlAction(ControlActionCreateDto controlActionCreateDto) {
+    public ControlActionReadDto createControlAction(ControlActionCreateDto controlActionCreateDto) {
         Long controllerId = controlActionCreateDto.controller_id();
         Controller controller = controllerRepository.getReferenceById(controllerId);
         ControlAction controlAction = new ControlAction(controlActionCreateDto.name(), controller);
-        controlActionRepository.save(controlAction);
+
+        ControlAction createdControlAction = controlActionRepository.save(controlAction);
+
+        return new ControlActionReadDto(createdControlAction);
     }
 
     // Read -------------------------------------------

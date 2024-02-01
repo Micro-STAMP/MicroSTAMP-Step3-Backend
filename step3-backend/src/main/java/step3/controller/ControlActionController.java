@@ -27,9 +27,9 @@ public class ControlActionController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<ControlActionCreateDto> createControlAction(@RequestBody ControlActionCreateDto controlActionCreateDto) {
-        controlActionService.createControlAction(controlActionCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(controlActionCreateDto);
+    public ResponseEntity<ControlActionReadDto> createControlAction(@RequestBody ControlActionCreateDto controlActionCreateDto) {
+        ControlActionReadDto createdControlAction = controlActionService.createControlAction(controlActionCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdControlAction);
     }
 
     // Read -------------------------------------------

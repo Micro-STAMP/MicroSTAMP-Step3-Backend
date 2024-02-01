@@ -28,8 +28,8 @@ public class ProjectController {
 
     @PostMapping @Transactional
     public ResponseEntity<ProjectCreateDto> createProject(@RequestBody ProjectCreateDto projectCreateDto) {
-        projectService.createProject(projectCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(projectCreateDto);
+        ProjectCreateDto createdProject = projectService.createProject(projectCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProject);
     }
 
     // Read -------------------------------------------

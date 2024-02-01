@@ -17,9 +17,12 @@ public class SafetyConstraintService {
 
     // Create -----------------------------------------
 
-    public void createSafetyConstraint(SafetyConstraintCreateDto safetyConstraintCreateDto) {
+    public SafetyConstraintReadDto createSafetyConstraint(SafetyConstraintCreateDto safetyConstraintCreateDto) {
         SafetyConstraint safetyConstraint = new SafetyConstraint(safetyConstraintCreateDto.name());
-        safetyConstraintRepository.save(safetyConstraint);
+
+        SafetyConstraint createdSafetyConstraint = safetyConstraintRepository.save(safetyConstraint);
+
+        return new SafetyConstraintReadDto(createdSafetyConstraint);
     }
 
     // Read -------------------------------------------

@@ -22,12 +22,15 @@ public class ContextTableService {
 
     // Create -----------------------------------------
 
-    public void createContextTable(ContextTableCreateDto contextTableCreateDto) {
+    public ContextTableReadDto createContextTable(ContextTableCreateDto contextTableCreateDto) {
         Controller controller = controllerRepository.getReferenceById(contextTableCreateDto.controller_id());
         List<Variable> variables = controller.getVariables();
         ContextTable contextTable = generateContextTable(variables);
         contextTable.setController(controller);
-        contextTableRepository.save(contextTable);
+
+        ContextTable createContextTable = contextTableRepository.save(contextTable);
+
+        return new ContextTableReadDto(createContextTable);
     }
 
     // Read -------------------------------------------

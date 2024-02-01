@@ -27,9 +27,9 @@ public class VariableController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<VariableCreateDto> createVariable(@RequestBody VariableCreateDto variableCreateDto) {
-        variableService.createVariable(variableCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(variableCreateDto);
+    public ResponseEntity<VariableReadDto> createVariable(@RequestBody VariableCreateDto variableCreateDto) {
+        VariableReadDto createdVariable = variableService.createVariable(variableCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdVariable);
     }
 
     // Read -------------------------------------------

@@ -21,10 +21,13 @@ public class ControllerService {
 
     // Create -----------------------------------------
 
-    public void createController(ControllerCreateDto controllerCreateDto) {
+    public ControllerReadDto createController(ControllerCreateDto controllerCreateDto) {
         Project project = projectRepository.getReferenceById(controllerCreateDto.project_id());
         Controller controller = new Controller(controllerCreateDto.name(), project);
-        controllerRepository.save(controller);
+
+        Controller createdController = controllerRepository.save(controller);
+
+        return new ControllerReadDto(createdController);
     }
 
     // Read -------------------------------------------

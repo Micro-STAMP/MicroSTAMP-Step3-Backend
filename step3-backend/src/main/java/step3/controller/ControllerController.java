@@ -27,9 +27,9 @@ public class ControllerController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<ControllerCreateDto> createController(@RequestBody ControllerCreateDto controllerCreateDto) {
-        controllerService.createController(controllerCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(controllerCreateDto);
+    public ResponseEntity<ControllerReadDto> createController(@RequestBody ControllerCreateDto controllerCreateDto) {
+        ControllerReadDto createdController = controllerService.createController(controllerCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdController);
     }
 
     // Read -------------------------------------------

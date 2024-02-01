@@ -26,9 +26,9 @@ public class RuleController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<RuleCreateDto> createRule(@RequestBody RuleCreateDto ruleCreateDto) {
-        ruleService.createRule(ruleCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ruleCreateDto);
+    public ResponseEntity<RuleReadDto> createRule(@RequestBody RuleCreateDto ruleCreateDto) {
+        RuleReadDto createdRule = ruleService.createRule(ruleCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdRule);
     }
 
     // Read -------------------------------------------

@@ -27,9 +27,9 @@ public class ContextTableController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<ContextTableCreateDto> createContextTable(@RequestBody ContextTableCreateDto contextTableCreateDto) {
-        contextTableService.createContextTable(contextTableCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(contextTableCreateDto);
+    public ResponseEntity<ContextTableReadDto> createContextTable(@RequestBody ContextTableCreateDto contextTableCreateDto) {
+        ContextTableReadDto createdContexTable = contextTableService.createContextTable(contextTableCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdContexTable);
     }
 
     // Read -------------------------------------------

@@ -23,11 +23,14 @@ public class RuleService {
 
     // Create -----------------------------------------
 
-    public void createRule(RuleCreateDto ruleCreateDto){
+    public RuleReadDto createRule(RuleCreateDto ruleCreateDto){
         ContextTable contextTable = contextTableRepository.getReferenceById(ruleCreateDto.context_table_id());
         List<Value> values = getRuleValues(ruleCreateDto.values_ids());
         Rule rule = new Rule(ruleCreateDto.name(), contextTable, values);
-        ruleRepository.save(rule);
+
+        Rule createdRule = ruleRepository.save(rule);
+
+        return new RuleReadDto(createdRule);
     }
 
     // Read -------------------------------------------

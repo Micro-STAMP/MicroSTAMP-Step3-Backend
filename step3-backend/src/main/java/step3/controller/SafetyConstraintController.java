@@ -27,9 +27,9 @@ public class SafetyConstraintController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<SafetyConstraintCreateDto> createSafetyConstraint(@RequestBody SafetyConstraintCreateDto safetyConstraintCreateDto) {
-        safetyConstraintService.createSafetyConstraint(safetyConstraintCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(safetyConstraintCreateDto);
+    public ResponseEntity<SafetyConstraintReadDto> createSafetyConstraint(@RequestBody SafetyConstraintCreateDto safetyConstraintCreateDto) {
+        SafetyConstraintReadDto createdSafetyConstraint = safetyConstraintService.createSafetyConstraint(safetyConstraintCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdSafetyConstraint);
     }
 
     // Read -------------------------------------------
