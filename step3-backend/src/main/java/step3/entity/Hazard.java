@@ -20,4 +20,8 @@ public class Hazard {
         this.name = name;
         this.project = project;
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

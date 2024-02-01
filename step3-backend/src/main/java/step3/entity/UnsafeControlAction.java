@@ -23,7 +23,7 @@ public class UnsafeControlAction {
     @Enumerated(EnumType.STRING)
     private UCAType type;
 
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "constraint_id")
+    @OneToOne(mappedBy = "unsafeControlAction", cascade = CascadeType.ALL, orphanRemoval = true)
     private SafetyConstraint constraint;
 
     @ManyToOne @JoinColumn(name = "project_id")
@@ -60,6 +60,8 @@ public class UnsafeControlAction {
 
         String scName = source + " MUST NOT " + type + " " + ca + " when " + context;
 
-        return new SafetyConstraint(scName);
+        return new SafetyConstraint(scName, this);
     }
+
+    // ------------------------------------------------
 }

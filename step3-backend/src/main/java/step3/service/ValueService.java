@@ -18,6 +18,8 @@ public class ValueService {
     private final ValueRepository valueRepository;
     private final VariableRepository variableRepository;
 
+    // Create -----------------------------------------
+
     public void createValue(ValueCreateDto valueCreateDto) {
         Long variableId = valueCreateDto.variable_id();
         Variable variable = variableRepository.getReferenceById(variableId);
@@ -25,9 +27,13 @@ public class ValueService {
         valueRepository.save(value);
     }
 
+    // Read -------------------------------------------
+
     public List<ValueReadDto> readAllValues() {
         return valueRepository.findAll().stream().map(ValueReadDto::new).toList();
     }
+
+    // Update -----------------------------------------
 
     public void updateValue(Value value) {
         Value updatedValue = valueRepository.getReferenceById(value.getId());
@@ -35,7 +41,13 @@ public class ValueService {
         updatedValue.setVariable(value.getVariable());
     }
 
+    // Delete -----------------------------------------
+
     public void deleteValue(Long id) {
         valueRepository.deleteById(id);
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

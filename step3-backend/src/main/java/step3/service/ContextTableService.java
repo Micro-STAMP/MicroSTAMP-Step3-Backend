@@ -1,7 +1,9 @@
 package step3.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import step3.dto.context_table.*;
 import step3.entity.*;
 import step3.repository.*;
@@ -10,21 +12,25 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-@Service @AllArgsConstructor
+@Service
+@AllArgsConstructor
 public class ContextTableService {
     private final ContextTableRepository contextTableRepository;
+    private final ControllerRepository controllerRepository;
     private final ContextRepository contextRepository;
-    private final VariableRepository variableRepository;
     private final RuleRepository ruleRepository;
-    private final ProjectRepository projectRepository;
+
+    // Create -----------------------------------------
 
     public void createContextTable(ContextTableCreateDto contextTableCreateDto) {
-        List<Variable> variables = variableRepository.findAllById(contextTableCreateDto.variable_ids());
+        Controller controller = controllerRepository.getReferenceById(contextTableCreateDto.controller_id());
+        List<Variable> variables = controller.getVariables();
         ContextTable contextTable = generateContextTable(variables);
-        Project project = projectRepository.getReferenceById(contextTableCreateDto.project_id());
-        contextTable.setProject(project);
+        contextTable.setController(controller);
         contextTableRepository.save(contextTable);
     }
+
+    // Read -------------------------------------------
 
     public ContextTableReadDto readContextTableById(Long id) {
         ContextTable contextTable = contextTableRepository.getReferenceById(id);
@@ -36,75 +42,68 @@ public class ContextTableService {
         return contextTables.stream().map(ContextTableReadDto::new).toList();
     }
 
-    public ContextTableReadDto updateContextFromTable(ContextTableUpdateDto contextTableUpdateDto) {
-        Context context = contextRepository.getReferenceById(contextTableUpdateDto.context_id());
-        context.setUnsafe(contextTableUpdateDto.context_unsafe());
-        return new ContextTableReadDto(context.getContextTable());
+    public ContextTableReadDto readContextTableByController(Long controller_id) {
+        List<ContextTable> contextTables = contextTableRepository.findAll();
+        ContextTable contextTable = null;
+        for (ContextTable ct : contextTables) {
+            if (ct.getController().getId().equals(controller_id)) {
+                contextTable = ct;
+            }
+        }
+
+        // controllerRepository.getReferenceById(controller_id);
+        if (contextTable != null) {
+            return new ContextTableReadDto(contextTable);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Controller not found with id: " + controller_id);
+        }
     }
 
-    public ContextTableReadDto updateContextTableApplyRule(Long rule_id) {
-        Rule rule = ruleRepository.getReferenceById(rule_id);
-        rule.getContextTable().getContexts().stream()
-            .filter(context -> applyRuleToContext(context, rule))
-            .forEach(context -> context.setUnsafe(true));
-        return new ContextTableReadDto(rule.getContextTable());
-    }
+    // Update -----------------------------------------
 
+     public ContextTableReadDto updateContextFromTable(ContextTableUpdateDto contextTableUpdateDto) {
+         Context context = contextRepository.getReferenceById(contextTableUpdateDto.context_id());
+         context.setUnsafe(contextTableUpdateDto.context_unsafe());
+         return new ContextTableReadDto(context.getContextTable());
+     }
+
+     public ContextTableReadDto updateContextTableApplyRule(Long rule_id) {
+         Rule rule = ruleRepository.getReferenceById(rule_id);
+         rule.getContextTable().getContexts().stream()
+                 .filter(context -> applyRuleToContext(context, rule))
+                 .forEach(context -> context.setUnsafe(true));
+         return new ContextTableReadDto(rule.getContextTable());
+     }
+
+    // Delete -----------------------------------------
 
     public void deleteContextTable(Long id) {
         contextTableRepository.deleteById(id);
     }
 
+    // Methods ----------------------------------------
 
-    // Funções auxiliares para gerar as combinações da tabela.
-    private ContextTable generateContextTable(List<Variable> variables) {
+    public ContextTable generateContextTable(List<Variable> variables) {
         ContextTable contextTable = new ContextTable();
-        List<VariableState> allVariableStates = generateAllVariableStates(variables);
-        generateContexts(variables, contextTable, new ArrayList<>(), 0, allVariableStates);
+        generateAllContexts(variables, 0, new ArrayList<>(), contextTable);
         return contextTable;
     }
-    private void generateContexts(List<Variable> variables, ContextTable contextTable, List<Value> currentState, int variableIndex, List<VariableState> allVariableStates) {
-        if (variableIndex == variables.size()) {
-            Context context = new Context();
-            for (int i = 0; i < variables.size(); i++) {
-                VariableState variableState = findVariableState(variables.get(i), currentState.get(i), allVariableStates);
-                context.addVariableState(variableState);
-            }
-            contextTable.addContext(context);
+    private void generateAllContexts(List<Variable> variables, int index, List<Value> currentValues, ContextTable contextTable) {
+        if (index == variables.size()) {
+            contextTable.addContext(new Context(currentValues));
             return;
         }
-        Variable currentVariable = variables.get(variableIndex);
-        List<Value> currentVariableValues = currentVariable.getValues();
-
-        for (Value value : currentVariableValues) {
-            List<Value> updatedState = new ArrayList<>(currentState);
-            updatedState.add(value);
-            generateContexts(variables, contextTable, updatedState, variableIndex + 1, allVariableStates);
+        Variable currentVariable = variables.get(index);
+        for (Value value : currentVariable.getValues()) {
+            List<Value> updatedValues = new ArrayList<>(currentValues);
+            updatedValues.add(value);
+            generateAllContexts(variables, index + 1, updatedValues, contextTable);
         }
     }
-    private List<VariableState> generateAllVariableStates(List<Variable> variables) {
-        List<VariableState> variableStates = new ArrayList<>();
-        for(Variable variable : variables) {
-            for(Value value : variable.getValues()) {
-                variableStates.add(new VariableState(variable, value));
-            }
-        }
-        return variableStates;
-    }
-    private VariableState findVariableState(Variable variable, Value value, List<VariableState> variableStates) {
-        for (VariableState variableState : variableStates) {
-            if (variableState.getVariable().equals(variable) && variableState.getValue().equals(value)) {
-                return variableState;
-            }
-        }
-        return new VariableState(variable, value);
-    }
 
+     private boolean applyRuleToContext(Context context, Rule rule) {
+         return new HashSet<>(context.getValues()).containsAll(rule.getValues());
+     }
 
-    // Função auxiliar para aplciar Rule na tabela
-    private boolean applyRuleToContext(Context context, Rule rule) {
-        return new HashSet<>(context.getVariableStates()).containsAll(rule.getVariableStates());
-    }
-
-
+    // ------------------------------------------------
 }

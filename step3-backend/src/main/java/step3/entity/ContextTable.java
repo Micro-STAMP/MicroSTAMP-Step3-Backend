@@ -17,10 +17,8 @@ public class ContextTable {
     @OneToMany(mappedBy = "contextTable", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Context> contexts = new ArrayList<>();
 
-    @OneToOne @JoinColumn(name = "project_id")
-    private Project project;
-
-    // Lista de Rules da tabela?
+    @OneToOne @JoinColumn(name = "controller_id")
+    private Controller controller;
 
     // Methods ----------------------------------------
 
@@ -29,11 +27,5 @@ public class ContextTable {
         context.setContextTable(this);
     }
 
-    public Set<VariableState> getVariableStates() {
-        Set<VariableState> variableStates = new HashSet<>();
-        for (Context context : contexts) {
-            variableStates.addAll(context.getVariableStates());
-        }
-        return variableStates;
-    }
+    // ------------------------------------------------
 }

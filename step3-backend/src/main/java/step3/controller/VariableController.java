@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import step3.dto.variable.VariableCreateDto;
 import step3.dto.variable.VariableReadDto;
 import step3.entity.Variable;
-import step3.repository.VariableRepository;
 import step3.service.VariableService;
 
 import java.util.List;
@@ -18,10 +17,14 @@ import java.util.List;
 public class VariableController {
     private final VariableService variableService;
 
+    // Constructors -----------------------------------
+
     @Autowired
     public VariableController(VariableService variableService) {
         this.variableService = variableService;
     }
+
+    // Create -----------------------------------------
 
     @PostMapping @Transactional
     public ResponseEntity<VariableCreateDto> createVariable(@RequestBody VariableCreateDto variableCreateDto) {
@@ -29,10 +32,14 @@ public class VariableController {
         return ResponseEntity.status(HttpStatus.CREATED).body(variableCreateDto);
     }
 
+    // Read -------------------------------------------
+
     @GetMapping
     public ResponseEntity<List<VariableReadDto>> readAllVariables() {
         return ResponseEntity.ok(variableService.readAllVariables());
     }
+
+    // Update -----------------------------------------
 
     @PutMapping @Transactional
     public ResponseEntity<Variable> updateVariable(@RequestBody Variable variable) {
@@ -40,9 +47,13 @@ public class VariableController {
         return ResponseEntity.ok(variable);
     }
 
+    // Delete -----------------------------------------
+
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteVariable(@PathVariable Long id) {
         variableService.deleteVariable(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ------------------------------------------------
 }

@@ -5,5 +5,5 @@ import java.util.List;
 public record RuleCreateDto(
         String name,
         Long context_table_id,
-        List<RuleVariableStateCreateDto> variable_states
+        List<Long> values_ids
 ){}

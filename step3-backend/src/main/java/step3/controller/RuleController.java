@@ -16,10 +16,14 @@ import java.util.List;
 public class RuleController {
     private final RuleService ruleService;
 
+    // Constructors -----------------------------------
+
     @Autowired
     public RuleController(RuleService ruleService) {
         this.ruleService = ruleService;
     }
+
+    // Create -----------------------------------------
 
     @PostMapping @Transactional
     public ResponseEntity<RuleCreateDto> createRule(@RequestBody RuleCreateDto ruleCreateDto) {
@@ -27,10 +31,16 @@ public class RuleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ruleCreateDto);
     }
 
+    // Read -------------------------------------------
+
     @GetMapping
     public ResponseEntity<List<RuleReadDto>> readAllRules() {
         return ResponseEntity.ok(ruleService.readAllRules());
     }
+
+    // Update -----------------------------------------
+
+    // Delete -----------------------------------------
 
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteRule(@PathVariable Long id) {
@@ -38,4 +48,5 @@ public class RuleController {
         return ResponseEntity.noContent().build();
     }
 
+    // ------------------------------------------------
 }

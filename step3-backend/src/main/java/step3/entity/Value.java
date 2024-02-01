@@ -20,4 +20,14 @@ public class Value {
         this.name = name;
         this.variable = variable;
     }
+
+    // Methods ----------------------------------------
+
+    @Override
+    public String toString() {
+        return "{ " + variable.getName() + " = " + getName() + " }";
+    }
+
+
+    // ------------------------------------------------
 }

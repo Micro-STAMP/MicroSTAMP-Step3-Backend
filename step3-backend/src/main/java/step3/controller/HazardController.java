@@ -2,7 +2,6 @@ package step3.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +17,14 @@ import java.util.List;
 public class HazardController {
     private final HazardService hazardService;
 
+    // Constructors -----------------------------------
+
     @Autowired
     public HazardController(HazardService hazardService) {
         this.hazardService = hazardService;
     }
+
+    // Create -----------------------------------------
 
     @PostMapping @Transactional
     public ResponseEntity<HazardCreateDto> createHazard(@RequestBody HazardCreateDto hazardCreateDto) {
@@ -29,10 +32,14 @@ public class HazardController {
         return ResponseEntity.status(HttpStatus.CREATED).body(hazardCreateDto);
     }
 
+    // Read -------------------------------------------
+
     @GetMapping
     public ResponseEntity<List<HazardReadDto>> readAllHazards() {
         return ResponseEntity.ok(hazardService.readAllHazards());
     }
+
+    // Update -----------------------------------------
 
     @PutMapping @Transactional
     public ResponseEntity<Hazard> updateHazard(@RequestBody Hazard hazard) {
@@ -40,9 +47,13 @@ public class HazardController {
         return ResponseEntity.ok(hazard);
     }
 
+    // Delete -----------------------------------------
+
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteHazard(@PathVariable Long id) {
         hazardService.deleteHazard(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ------------------------------------------------
 }

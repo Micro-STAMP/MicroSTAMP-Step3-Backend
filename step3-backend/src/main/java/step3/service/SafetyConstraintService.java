@@ -15,21 +15,33 @@ import java.util.Optional;
 public class SafetyConstraintService {
     private final SafetyConstraintRepository safetyConstraintRepository;
 
+    // Create -----------------------------------------
+
     public void createSafetyConstraint(SafetyConstraintCreateDto safetyConstraintCreateDto) {
         SafetyConstraint safetyConstraint = new SafetyConstraint(safetyConstraintCreateDto.name());
         safetyConstraintRepository.save(safetyConstraint);
     }
 
+    // Read -------------------------------------------
+
     public List<SafetyConstraintReadDto> readAllSafetyConstraints() {
         return safetyConstraintRepository.findAll().stream().map(SafetyConstraintReadDto::new).toList();
     }
+
+    // Update -----------------------------------------
 
     public void updateSafetyConstraint(SafetyConstraint safetyConstraint) {
         SafetyConstraint updatedSafetyConstraint = safetyConstraintRepository.getReferenceById(safetyConstraint.getId());
         updatedSafetyConstraint.setName(safetyConstraint.getName());
     }
 
+    // Delete -----------------------------------------
+
     public void deleteSafetyConstraint(Long id) {
         safetyConstraintRepository.deleteById(id);
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

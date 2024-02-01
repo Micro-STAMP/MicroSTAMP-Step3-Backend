@@ -18,6 +18,8 @@ public class UnsafeControlActionService {
     private final HazardRepository hazardRepository;
     private final ProjectRepository projectRepository;
 
+    // Create -----------------------------------------
+
     public void createUnsafeControlAction(UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
         Long controlActionId = unsafeControlActionCreateDto.control_action_id();
         ControlAction controlAction = controlActionRepository.getReferenceById(controlActionId);
@@ -42,9 +44,13 @@ public class UnsafeControlActionService {
         unsafeControlActionRepository.save(uca);
     }
 
+    // Read -------------------------------------------
+
     public List<UnsafeControlActionReadDto> readAllUnsafeControlActions() {
         return unsafeControlActionRepository.findAll().stream().map(UnsafeControlActionReadDto::new).toList();
     }
+
+    // Update -----------------------------------------
 
     public void updateUnsafeControlAction(UnsafeControlAction uca) {
         UnsafeControlAction updatedUca = unsafeControlActionRepository.getReferenceById(uca.getId());
@@ -54,7 +60,13 @@ public class UnsafeControlActionService {
         updatedUca.setHazard(uca.getHazard());
     }
 
+    // Delete -----------------------------------------
+
     public void deleteUnsafeControlAction(Long id) {
         unsafeControlActionRepository.deleteById(id);
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

@@ -10,10 +10,13 @@ import step3.repository.ControlActionRepository;
 import step3.repository.ControllerRepository;
 import java.util.List;
 
-@Service @AllArgsConstructor
+@Service
+@AllArgsConstructor
 public class ControlActionService {
     private final ControlActionRepository controlActionRepository;
     private final ControllerRepository controllerRepository;
+
+    // Create -----------------------------------------
 
     public void createControlAction(ControlActionCreateDto controlActionCreateDto) {
         Long controllerId = controlActionCreateDto.controller_id();
@@ -22,16 +25,26 @@ public class ControlActionService {
         controlActionRepository.save(controlAction);
     }
 
+    // Read -------------------------------------------
+
     public List<ControlActionReadDto> readAllControlActions() {
         return controlActionRepository.findAll().stream().map(ControlActionReadDto::new).toList();
     }
+
+    // Update -----------------------------------------
 
     public void updateControlAction(ControlAction controlAction) {
         ControlAction updatedControlAction = controlActionRepository.getReferenceById(controlAction.getId());
         updatedControlAction.setName(controlAction.getName());
     }
 
+    // Delete -----------------------------------------
+
     public void deleteControlAction(Long id) {
         controlActionRepository.deleteById(id);
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

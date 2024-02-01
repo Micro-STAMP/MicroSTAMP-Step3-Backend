@@ -15,14 +15,20 @@ public class VariableService {
     private final VariableRepository variableRepository;
     private final ControllerRepository controllerRepository;
 
+    // Create -----------------------------------------
+
     public void createVariable(VariableCreateDto variableCreateDto) {
         Variable variable = new Variable(variableCreateDto.name(), controllerRepository.getReferenceById(variableCreateDto.controller_id()));
         variableRepository.save(variable);
     }
 
+    // Read -------------------------------------------
+
     public List<VariableReadDto> readAllVariables() {
         return variableRepository.findAll().stream().map(VariableReadDto::new).toList();
     }
+
+    // Update -----------------------------------------
 
     public void updateVariable(Variable variable) {
         Variable updatedVariable = variableRepository.getReferenceById(variable.getId());
@@ -30,8 +36,14 @@ public class VariableService {
         updatedVariable.setValues(variable.getValues());
     }
 
+    // Delete -----------------------------------------
+
     public void deleteVariable(Long id) {
         variableRepository.deleteById(id);
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }
 

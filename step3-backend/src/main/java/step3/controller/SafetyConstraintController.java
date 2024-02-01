@@ -17,10 +17,14 @@ import java.util.List;
 public class SafetyConstraintController {
     private final SafetyConstraintService safetyConstraintService;
 
+    // Constructors -----------------------------------
+
     @Autowired
     public SafetyConstraintController(SafetyConstraintService safetyConstraintService) {
         this.safetyConstraintService = safetyConstraintService;
     }
+
+    // Create -----------------------------------------
 
     @PostMapping @Transactional
     public ResponseEntity<SafetyConstraintCreateDto> createSafetyConstraint(@RequestBody SafetyConstraintCreateDto safetyConstraintCreateDto) {
@@ -28,10 +32,14 @@ public class SafetyConstraintController {
         return ResponseEntity.status(HttpStatus.CREATED).body(safetyConstraintCreateDto);
     }
 
+    // Read -------------------------------------------
+
     @GetMapping
     public ResponseEntity<List<SafetyConstraintReadDto>> readAllSafetyConstraints() {
         return ResponseEntity.ok(safetyConstraintService.readAllSafetyConstraints());
     }
+
+    // Update -----------------------------------------
 
     @PutMapping @Transactional
     public ResponseEntity<SafetyConstraint> updateSafetyConstraint(@RequestBody SafetyConstraint safetyConstraint) {
@@ -39,10 +47,14 @@ public class SafetyConstraintController {
         return ResponseEntity.ok(safetyConstraint);
     }
 
+    // Delete -----------------------------------------
+
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteSafetyConstraint(@PathVariable Long id) {
         safetyConstraintService.deleteSafetyConstraint(id);
 
         return ResponseEntity.noContent().build();
     }
+
+    // ------------------------------------------------
 }

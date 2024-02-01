@@ -24,4 +24,8 @@ public class Variable {
         this.name = name;
         this.controller = controller;
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }
