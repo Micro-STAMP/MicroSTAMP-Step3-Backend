@@ -28,8 +28,8 @@ public class ContextTableController {
 
     @PostMapping @Transactional
     public ResponseEntity<ContextTableReadDto> createContextTable(@RequestBody ContextTableCreateDto contextTableCreateDto) {
-        ContextTableReadDto createdContexTable = contextTableService.createContextTable(contextTableCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdContexTable);
+        ContextTableReadDto createdContextTable = contextTableService.createContextTable(contextTableCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdContextTable);
     }
 
     // Read -------------------------------------------
