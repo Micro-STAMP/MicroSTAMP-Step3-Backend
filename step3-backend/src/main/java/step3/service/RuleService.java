@@ -4,12 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.rule.RuleCreateDto;
 import step3.dto.rule.RuleReadDto;
-import step3.entity.ContextTable;
-import step3.entity.Rule;
-import step3.entity.Value;
-import step3.repository.ContextTableRepository;
-import step3.repository.RuleRepository;
-import step3.repository.ValueRepository;
+import step3.entity.*;
+import step3.repository.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +14,18 @@ import java.util.List;
 @AllArgsConstructor
 public class RuleService {
     private final RuleRepository ruleRepository;
-    private final ContextTableRepository contextTableRepository;
+    private final ControlActionRepository controlActionRepository;
     private final ValueRepository valueRepository;
+    private final HazardRepository hazardRepository;
 
     // Create -----------------------------------------
 
     public RuleReadDto createRule(RuleCreateDto ruleCreateDto){
-        ContextTable contextTable = contextTableRepository.getReferenceById(ruleCreateDto.context_table_id());
         List<Value> values = getRuleValues(ruleCreateDto.values_ids());
-        Rule rule = new Rule(ruleCreateDto.name(), contextTable, values);
+        ControlAction controlAction = controlActionRepository.getReferenceById(ruleCreateDto.control_action_id());
+        Hazard hazard = hazardRepository.getReferenceById(ruleCreateDto.hazard_id());
 
+        Rule rule = new Rule(ruleCreateDto.name(), controlAction, values, hazard, ruleCreateDto.types());
         Rule createdRule = ruleRepository.save(rule);
 
         return new RuleReadDto(createdRule);

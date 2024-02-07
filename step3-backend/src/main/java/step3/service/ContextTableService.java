@@ -70,13 +70,13 @@ public class ContextTableService {
          return new ContextTableReadDto(context.getContextTable());
      }
 
-     public ContextTableReadDto updateContextTableApplyRule(Long rule_id) {
-         Rule rule = ruleRepository.getReferenceById(rule_id);
-         rule.getContextTable().getContexts().stream()
-                 .filter(context -> applyRuleToContext(context, rule))
-                 .forEach(context -> context.setUnsafe(true));
-         return new ContextTableReadDto(rule.getContextTable());
-     }
+//     public ContextTableReadDto updateContextTableApplyRule(Long rule_id) {
+//         Rule rule = ruleRepository.getReferenceById(rule_id);
+//         rule.getContextTable().getContexts().stream()
+//                 .filter(context -> applyRuleToContext(context, rule))
+//                 .forEach(context -> context.setUnsafe(true));
+//         return new ContextTableReadDto(rule.getContextTable());
+//     }
 
     // Delete -----------------------------------------
 
@@ -104,9 +104,9 @@ public class ContextTableService {
         }
     }
 
-     private boolean applyRuleToContext(Context context, Rule rule) {
-         return new HashSet<>(context.getValues()).containsAll(rule.getValues());
-     }
+//     private boolean applyRuleToContext(Context context, Rule rule) {
+//         return new HashSet<>(context.getValues()).containsAll(rule.getValues());
+//     }
 
     // ------------------------------------------------
 }

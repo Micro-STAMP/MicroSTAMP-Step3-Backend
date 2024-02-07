@@ -53,10 +53,10 @@ public class ContextTableController {
     public ResponseEntity<ContextTableReadDto> updateContextFromTable(@RequestBody ContextTableUpdateDto contextTableUpdateDto) {
         return ResponseEntity.ok(contextTableService.updateContextFromTable(contextTableUpdateDto));
     }
-     @PutMapping("/apply-rule/{rule_id}") @Transactional
-     public ResponseEntity<ContextTableReadDto> updateContextTableApplyRule(@PathVariable Long rule_id) {
-         return ResponseEntity.ok(contextTableService.updateContextTableApplyRule(rule_id));
-     }
+//     @PutMapping("/apply-rule/{rule_id}") @Transactional
+//     public ResponseEntity<ContextTableReadDto> updateContextTableApplyRule(@PathVariable Long rule_id) {
+//         return ResponseEntity.ok(contextTableService.updateContextTableApplyRule(rule_id));
+//     }
 
     // Delete ----------------------------------------- todo: tem problema aqui, não apaga
 
