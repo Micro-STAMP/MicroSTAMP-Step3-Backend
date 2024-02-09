@@ -6,10 +6,10 @@ import lombok.*;
 @Getter @Setter @NoArgsConstructor
 public class ControlActionWithContext {
     private Long id;
-    private Controller controller;
     private ControlAction controlAction;
     private Context context;
-    private Hazard associatedHazard;
+    private UCAType type;
+    private Boolean unsafe = false;
 
     // Constructors -----------------------------------
 

@@ -14,7 +14,7 @@ public class UnsafeControlAction {
     @ManyToOne @JoinColumn(name = "control_action_id")
     private ControlAction controlAction;
 
-    @ManyToOne @JoinColumn(name = "context_id")
+    @ManyToOne @JoinColumn(name = "context_id") // TODO: Mudar para lista de valores ou manter contexto?
     private Context context;
 
     @ManyToOne @JoinColumn(name = "hazard_id")
@@ -44,23 +44,31 @@ public class UnsafeControlAction {
     // Methods ----------------------------------------
 
     public String generateName() {
-        // NAME : <Source> <Type> <Control Action> <Context>
         String source = getControlAction().getController().getName();
-        String type = getType().name();
-        String ca = getControlAction().getName();
+        String typeAndCA = getTypeAndControlActionString();
         String context = getContext().toString();
 
-        return source + " " + type + " " + ca + " when " + context;
+        return source + " " + typeAndCA + " when " + context;
     }
     public SafetyConstraint generateConstraint() {
         String source = getControlAction().getController().getName();
-        String type = getType().name();
-        String ca = getControlAction().getName();
+        String typeAndCA = getTypeAndControlActionString();
         String context = getContext().toString();
 
-        String scName = source + " MUST NOT " + type + " " + ca + " when " + context;
+        String scName = source + " must not " + typeAndCA + " when " + context;
 
         return new SafetyConstraint(scName, this);
+    }
+    public String getTypeAndControlActionString() {
+        return switch (getType()) {
+            case PROVIDED -> "provide " + getControlAction().getName();
+            case NOT_PROVIDED -> "not provide " + getControlAction().getName();
+            case TOO_EARLY -> "provide " + getControlAction().getName() + " too early";
+            case TOO_LATE -> "provide " + getControlAction().getName() + " too late";
+            case OUT_OF_ORDER -> "provide " + getControlAction().getName() + " out of order";
+            case STOPPED_TOO_SOON -> "stop providing " + getControlAction().getName() + " too soon";
+            case APPLIED_TOO_LONG -> "provide " + getControlAction().getName() + " too long";
+        };
     }
 
     // ------------------------------------------------
