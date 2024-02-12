@@ -39,9 +39,21 @@ public class UnsafeControlActionService {
 
         return new UnsafeControlActionReadDto(createdUCA);
     }
-
-    public void createUCAByRule(Long rule_id) {
-        // ...
+    public List<UnsafeControlActionReadDto> createUCAsByRule(Long rule_id) {
+        Rule rule = ruleRepository.getReferenceById(rule_id);
+        List<UnsafeControlActionReadDto> createdUCAs = new ArrayList<>();
+        // ! Gambiarra? Mas foi a única coisa que funcionou
+        for(UCAType type : rule.getTypes()) {
+            UnsafeControlActionCreateDto dto = new UnsafeControlActionCreateDto(
+                rule.getControlAction().getId(),
+                rule.getValues().stream().map(Value::getId).toList(),
+                rule.getHazard().getId(),
+                type,
+                rule.getControlAction().getController().getId()
+            );
+            createdUCAs.add(createUnsafeControlAction(dto));
+        }
+        return createdUCAs;
     }
 
     // Read -------------------------------------------

@@ -49,6 +49,15 @@ public class UnsafeControlAction {
         this.name = generateName();
         this.constraint = generateConstraint();
     }
+    public UnsafeControlAction(ControlAction controlAction, List<Value> values, Hazard hazard, String type, Project project) {
+        this.controlAction = controlAction;
+        this.values = values;
+        this.hazard = hazard;
+        this.type = UCAType.valueOf(type);
+        this.project = project;
+        this.name = generateName();
+        this.constraint = generateConstraint();
+    }
 
     // Methods ----------------------------------------
 

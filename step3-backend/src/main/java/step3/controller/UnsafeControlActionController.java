@@ -31,6 +31,11 @@ public class UnsafeControlActionController {
         UnsafeControlActionReadDto createdUCA = unsafeControlActionService.createUnsafeControlAction(unsafeControlActionCreateDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUCA);
     }
+    @PostMapping("/rule/{rule_id}") @Transactional
+    public ResponseEntity<List<UnsafeControlActionReadDto>> createUCAsByRule(@PathVariable Long rule_id) {
+        List<UnsafeControlActionReadDto> createdUCAs = unsafeControlActionService.createUCAsByRule(rule_id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUCAs);
+    }
 
     // Read -------------------------------------------
 
