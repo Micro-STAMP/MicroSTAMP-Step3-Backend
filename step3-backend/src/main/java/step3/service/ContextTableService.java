@@ -9,7 +9,6 @@ import step3.entity.*;
 import step3.repository.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -17,7 +16,6 @@ import java.util.List;
 public class ContextTableService {
     private final ContextTableRepository contextTableRepository;
     private final ControllerRepository controllerRepository;
-    private final ContextRepository contextRepository;
     private final RuleRepository ruleRepository;
 
     // Create -----------------------------------------
@@ -64,19 +62,6 @@ public class ContextTableService {
 
     // Update -----------------------------------------
 
-     public ContextTableReadDto updateContextFromTable(ContextTableUpdateDto contextTableUpdateDto) {
-         Context context = contextRepository.getReferenceById(contextTableUpdateDto.context_id());
-         context.setUnsafe(contextTableUpdateDto.context_unsafe());
-         return new ContextTableReadDto(context.getContextTable());
-     }
-
-//     public ContextTableReadDto updateContextTableApplyRule(Long rule_id) {
-//         Rule rule = ruleRepository.getReferenceById(rule_id);
-//         rule.getContextTable().getContexts().stream()
-//                 .filter(context -> applyRuleToContext(context, rule))
-//                 .forEach(context -> context.setUnsafe(true));
-//         return new ContextTableReadDto(rule.getContextTable());
-//     }
 
     // Delete -----------------------------------------
 
@@ -103,10 +88,6 @@ public class ContextTableService {
             generateAllContexts(variables, index + 1, updatedValues, contextTable);
         }
     }
-
-//     private boolean applyRuleToContext(Context context, Rule rule) {
-//         return new HashSet<>(context.getValues()).containsAll(rule.getValues());
-//     }
 
     // ------------------------------------------------
 }

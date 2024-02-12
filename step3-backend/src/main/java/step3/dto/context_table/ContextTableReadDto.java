@@ -18,12 +18,11 @@ public record ContextTableReadDto(
             contextTable.getController().getName()
         );
     }
-    public record ContextDto(Long id, List<ValueDto> values, Boolean unsafe) {
+    public record ContextDto(Long id, List<ValueDto> values) {
         public ContextDto(Context context) {
             this(
                 context.getId(),
-                context.getValues().stream().map(ValueDto::new).toList(),
-                context.getUnsafe()
+                context.getValues().stream().map(ValueDto::new).toList()
             );
         }
         public record ValueDto(String variable_name, String value_name) {
