@@ -3,6 +3,10 @@ package step3.entity;
 import lombok.*;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
+
 @Table(name = "unsafe_control_action")
 @Entity(name = "UnsafeControlAction")
 @Getter @Setter @NoArgsConstructor
@@ -14,8 +18,13 @@ public class UnsafeControlAction {
     @ManyToOne @JoinColumn(name = "control_action_id")
     private ControlAction controlAction;
 
-    @ManyToOne @JoinColumn(name = "context_id") // TODO: Mudar para lista de valores ou manter contexto?
-    private Context context;
+    @ManyToMany
+    @JoinTable(
+            name = "uca_value",
+            joinColumns = @JoinColumn(name = "uca_id"),
+            inverseJoinColumns = @JoinColumn(name = "value_id")
+    )
+    private List<Value> values = new ArrayList<>();
 
     @ManyToOne @JoinColumn(name = "hazard_id")
     private Hazard hazard;
@@ -31,9 +40,9 @@ public class UnsafeControlAction {
 
     // Constructors -----------------------------------
 
-    public UnsafeControlAction(ControlAction controlAction, Context context, Hazard hazard, UCAType type, Project project) {
+    public UnsafeControlAction(ControlAction controlAction, List<Value> values, Hazard hazard, UCAType type, Project project) {
         this.controlAction = controlAction;
-        this.context = context;
+        this.values = values;
         this.hazard = hazard;
         this.type = type;
         this.project = project;
@@ -46,14 +55,14 @@ public class UnsafeControlAction {
     public String generateName() {
         String source = getControlAction().getController().getName();
         String typeAndCA = getTypeAndControlActionString();
-        String context = getContext().toString();
+        String context = getContextString();
 
         return source + " " + typeAndCA + " when " + context;
     }
     public SafetyConstraint generateConstraint() {
         String source = getControlAction().getController().getName();
         String typeAndCA = getTypeAndControlActionString();
-        String context = getContext().toString();
+        String context = getContextString();
 
         String scName = source + " must not " + typeAndCA + " when " + context;
 
@@ -69,6 +78,13 @@ public class UnsafeControlAction {
             case STOPPED_TOO_SOON -> "stop providing " + getControlAction().getName() + " too soon";
             case APPLIED_TOO_LONG -> "provide " + getControlAction().getName() + " too long";
         };
+    }
+    public String getContextString() {
+        StringJoiner context = new StringJoiner(" AND ");
+        for (Value value : values) {
+            context.add(value.toString());
+        }
+        return context.toString();
     }
 
     // ------------------------------------------------

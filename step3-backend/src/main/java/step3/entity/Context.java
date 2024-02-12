@@ -24,7 +24,7 @@ public class Context {
     @ManyToOne @JoinColumn(name = "context_table_id")
     private ContextTable contextTable;
 
-    private Boolean unsafe = false;
+    private Boolean unsafe = false; // tirar isso
 
     // Constructors -----------------------------------
 
