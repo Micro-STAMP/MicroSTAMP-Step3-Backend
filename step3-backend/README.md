@@ -4,6 +4,8 @@
 
 Implementação da API (back-end) do microsserviço para o passo 3 da técnica STPA.
 
+---
+
 ## Tecnologias Utilizadas
 
 <div style="display: flex; gap: 7px; flex-wrap: wrap;">
@@ -16,17 +18,20 @@ Implementação da API (back-end) do microsserviço para o passo 3 da técnica S
 
 ### Configuração do Ambiente
 
-**Requisitos:**
 - JDK 21 (Java Development Kit)
 - Maven 3.8.1
 - MySQL Server 8.0.25
 - Spring Boot 3.1.5
 - Postman Agent
 
+---
+
 ## Estrutura do Projeto
 O projeto está estruturado da seguinte forma:
 
 <img src="img/estrutura-projeto.svg" alt="Estrutura do Projeto" style="width: 300px;">
+
+---
 
 ## Instruções para Build e Execução
 
@@ -62,6 +67,8 @@ Para executar este projeto localmente, siga os passos abaixo:
 
 Após a execução da aplicação, você pode testar os endpoints da API usando o Postman.
 
+---
+
 ## Testando a API com o Postman
 
 
@@ -88,6 +95,8 @@ Na coleção, há duas pastas:
 
     Para isso, acesse a pasta, vá até a opção Runner, arraste a pasta Insulin Pump para a área de execução, marque as requisições desejadas e execute. Assim, o exemplo da bomba de insulina será criado automaticamente, permitindo a verificação das saídas e a realização de novos testes e requisições.
 
+---
+
 ## Autores
 <div style="display: flex; gap: 8px;">
     <a href="https://github.com/gabriel-francelino" target="_blank"><img src="https://img.shields.io/static/v1?label=Github&message=Gabriel Francelino&color=f8efd4&style=for-the-badge&logo=GitHub"></a>
@@ -95,3 +104,5 @@ Na coleção, há duas pastas:
     <a href="https://github.com/pagliares" target="_blank"><img src="https://img.shields.io/static/v1?label=Github&message=Rodrigo Pagliares&color=f8efd4&style=for-the-badge&logo=GitHub"></a>
     <a href="https://github.com/gabriel-nadalin" target="_blank"><img src="https://img.shields.io/static/v1?label=Github&message=Gabriel Nadalin&color=f8efd4&style=for-the-badge&logo=GitHub"></a>
 </div>
+
+---
