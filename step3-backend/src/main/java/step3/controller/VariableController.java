@@ -1,15 +1,15 @@
 package step3.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import step3.dto.variable.VariableCreateDto;
-import step3.dto.variable.VariableReadDto;
+import org.springframework.web.util.UriComponentsBuilder;
+import java.net.URI;
+import step3.dto.variable.*;
 import step3.entity.Variable;
 import step3.service.VariableService;
-
 import java.util.List;
 
 @RestController
@@ -27,15 +27,20 @@ public class VariableController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<VariableReadDto> createVariable(@RequestBody VariableCreateDto variableCreateDto) {
-        VariableReadDto createdVariable = variableService.createVariable(variableCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdVariable);
+    public ResponseEntity<VariableReadDto> createVariable(@RequestBody @Valid VariableCreateDto variableCreateDto, UriComponentsBuilder uriBuilder) {
+        VariableReadDto variable = variableService.createVariable(variableCreateDto);
+        URI uri = uriBuilder.path("/variable/{id}").buildAndExpand(variable.id()).toUri();
+        return ResponseEntity.created(uri).body(variable);
     }
 
     // Read -------------------------------------------
 
+    @GetMapping("/{id}")
+    public ResponseEntity<VariableReadDto> readVariable(@PathVariable Long id) {
+        return ResponseEntity.ok(variableService.readVariable(id));
+    }
     @GetMapping
-    public ResponseEntity<List<VariableReadDto>> readAllVariables() {
+    public ResponseEntity<List<VariableReadListDto>> readAllVariables() {
         return ResponseEntity.ok(variableService.readAllVariables());
     }
 

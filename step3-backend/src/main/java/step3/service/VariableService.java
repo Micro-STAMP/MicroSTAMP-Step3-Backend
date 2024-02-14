@@ -3,7 +3,7 @@ package step3.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.variable.VariableCreateDto;
-import step3.dto.variable.VariableReadDto;
+import step3.dto.variable.*;
 import step3.entity.Variable;
 import step3.repository.ControllerRepository;
 import step3.repository.VariableRepository;
@@ -19,16 +19,18 @@ public class VariableService {
 
     public VariableReadDto createVariable(VariableCreateDto variableCreateDto) {
         Variable variable = new Variable(variableCreateDto.name(), controllerRepository.getReferenceById(variableCreateDto.controller_id()));
-
         Variable createdVariable = variableRepository.save(variable);
-
         return new VariableReadDto(createdVariable);
     }
 
     // Read -------------------------------------------
 
-    public List<VariableReadDto> readAllVariables() {
-        return variableRepository.findAll().stream().map(VariableReadDto::new).toList();
+    public VariableReadDto readVariable(Long id) {
+        Variable variable = variableRepository.getReferenceById(id);
+        return new VariableReadDto(variable);
+    }
+    public List<VariableReadListDto> readAllVariables() {
+        return variableRepository.findAll().stream().map(VariableReadListDto::new).toList();
     }
 
     // Update -----------------------------------------

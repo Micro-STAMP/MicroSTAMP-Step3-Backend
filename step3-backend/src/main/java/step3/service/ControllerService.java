@@ -2,16 +2,13 @@ package step3.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import step3.dto.controller.ControllerCreateDto;
-import step3.dto.controller.ControllerReadDto;
+import step3.dto.controller.*;
 import step3.entity.Controller;
 import step3.entity.Project;
 import step3.repository.ControllerRepository;
 import step3.repository.ProjectRepository;
 
-import javax.naming.ldap.Control;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -24,16 +21,18 @@ public class ControllerService {
     public ControllerReadDto createController(ControllerCreateDto controllerCreateDto) {
         Project project = projectRepository.getReferenceById(controllerCreateDto.project_id());
         Controller controller = new Controller(controllerCreateDto.name(), project);
-
         Controller createdController = controllerRepository.save(controller);
-
         return new ControllerReadDto(createdController);
     }
 
     // Read -------------------------------------------
 
-    public List<ControllerReadDto> readAllControllers() {
-        return controllerRepository.findAll().stream().map(ControllerReadDto::new).toList();
+    public ControllerReadDto readController(Long id) {
+        Controller controller = controllerRepository.getReferenceById(id);
+        return new ControllerReadDto(controller);
+    }
+    public List<ControllerReadListDto> readAllControllers() {
+        return controllerRepository.findAll().stream().map(ControllerReadListDto::new).toList();
     }
 
     // Update -----------------------------------------

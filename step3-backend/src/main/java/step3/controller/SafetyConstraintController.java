@@ -1,11 +1,9 @@
 package step3.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import step3.dto.safety_constraint.SafetyConstraintCreateDto;
 import step3.dto.safety_constraint.SafetyConstraintReadDto;
 import step3.entity.SafetyConstraint;
 import step3.service.SafetyConstraintService;
@@ -26,14 +24,12 @@ public class SafetyConstraintController {
 
     // Create -----------------------------------------
 
-    @PostMapping @Transactional
-    public ResponseEntity<SafetyConstraintReadDto> createSafetyConstraint(@RequestBody SafetyConstraintCreateDto safetyConstraintCreateDto) {
-        SafetyConstraintReadDto createdSafetyConstraint = safetyConstraintService.createSafetyConstraint(safetyConstraintCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdSafetyConstraint);
-    }
-
     // Read -------------------------------------------
 
+    @GetMapping("/{id}")
+    public ResponseEntity<SafetyConstraintReadDto> readSafetyConstraint(@PathVariable Long id) {
+        return ResponseEntity.ok(safetyConstraintService.readSafetyConstraint(id));
+    }
     @GetMapping
     public ResponseEntity<List<SafetyConstraintReadDto>> readAllSafetyConstraints() {
         return ResponseEntity.ok(safetyConstraintService.readAllSafetyConstraints());
@@ -49,12 +45,6 @@ public class SafetyConstraintController {
 
     // Delete -----------------------------------------
 
-    @DeleteMapping("/{id}") @Transactional
-    public ResponseEntity<Void> deleteSafetyConstraint(@PathVariable Long id) {
-        safetyConstraintService.deleteSafetyConstraint(id);
-
-        return ResponseEntity.noContent().build();
-    }
 
     // ------------------------------------------------
 }

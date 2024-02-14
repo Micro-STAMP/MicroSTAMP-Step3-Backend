@@ -4,7 +4,6 @@ import step3.entity.Controller;
 import step3.entity.Hazard;
 import step3.entity.Project;
 import step3.entity.UnsafeControlAction;
-
 import java.util.List;
 
 public record ProjectReadDto(
@@ -15,6 +14,9 @@ public record ProjectReadDto(
         List<ControllerDto> controllers,
         List<UnsafeControlActionDto> unsafe_control_actions
 ) {
+
+    // Constructors -----------------------------------
+
     public ProjectReadDto(Project project) {
         this(
             project.getId(),
@@ -25,13 +27,16 @@ public record ProjectReadDto(
             project.getUnsafeControlActions().stream().map(UnsafeControlActionDto::new).toList()
         );
     }
+
+    // DTOs -------------------------------------------
+
     private record HazardDto(String name) {
         public HazardDto(Hazard hazard) {
             this(hazard.getName());
         }
     }
     private record ControllerDto(String name) {
-        private ControllerDto (Controller controller){
+        public ControllerDto (Controller controller){
             this(controller.getName());
         }
     }
@@ -40,4 +45,6 @@ public record ProjectReadDto(
             this(uca.getName());
         }
     }
+
+    // ------------------------------------------------
 }

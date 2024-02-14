@@ -1,15 +1,14 @@
 package step3.controller;
 
+import step3.dto.project.*;
+import step3.service.ProjectService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import step3.dto.project.ProjectCreateDto;
-import step3.dto.project.ProjectReadAllDto;
-import step3.dto.project.ProjectReadDto;
-import step3.service.ProjectService;
-
+import org.springframework.web.util.UriComponentsBuilder;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -27,15 +26,16 @@ public class ProjectController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<ProjectCreateDto> createProject(@RequestBody ProjectCreateDto projectCreateDto) {
-        ProjectCreateDto createdProject = projectService.createProject(projectCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdProject);
+    public ResponseEntity<ProjectReadDto> createProject(@RequestBody @Valid ProjectCreateDto projectCreateDto, UriComponentsBuilder uriBuilder) {
+        ProjectReadDto project = projectService.createProject(projectCreateDto);
+        URI uri = uriBuilder.path("/project/{id}").buildAndExpand(project.id()).toUri();
+        return ResponseEntity.created(uri).body(project);
     }
 
     // Read -------------------------------------------
 
     @GetMapping
-    public ResponseEntity<List<ProjectReadAllDto>> readAllProjects() {
+    public ResponseEntity<List<ProjectReadListDto>> readAllProjects() {
         return ResponseEntity.ok(projectService.readAllProjects());
     }
 

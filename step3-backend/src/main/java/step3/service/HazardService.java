@@ -23,15 +23,15 @@ public class HazardService {
     public HazardReadDto createHazard(HazardCreateDto hazardCreateDto) {
         Project project = projectRepository.getReferenceById(hazardCreateDto.project_id());
         Hazard hazard = new Hazard(hazardCreateDto.name(), project);
-
         Hazard createdHazard = hazardRepository.save(hazard);
-
         return new HazardReadDto(createdHazard);
-
     }
 
     // Read -------------------------------------------
 
+    public HazardReadDto readHazard(Long id) {
+        return new HazardReadDto(hazardRepository.getReferenceById(id));
+    }
     public List<HazardReadDto> readAllHazards() {
         return hazardRepository.findAll().stream().map(HazardReadDto::new).toList();
     }

@@ -1,15 +1,15 @@
 package step3.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import step3.dto.control_action.ControlActionCreateDto;
-import step3.dto.control_action.ControlActionReadDto;
+import org.springframework.web.util.UriComponentsBuilder;
+import java.net.URI;
+import step3.dto.control_action.*;
 import step3.entity.ControlAction;
 import step3.service.ControlActionService;
-
 import java.util.List;
 
 @RestController
@@ -27,13 +27,18 @@ public class ControlActionController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<ControlActionReadDto> createControlAction(@RequestBody ControlActionCreateDto controlActionCreateDto) {
-        ControlActionReadDto createdControlAction = controlActionService.createControlAction(controlActionCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdControlAction);
+    public ResponseEntity<ControlActionReadDto> createControlAction(@RequestBody @Valid ControlActionCreateDto controlActionCreateDto, UriComponentsBuilder uriBuilder) {
+        ControlActionReadDto controlAction = controlActionService.createControlAction(controlActionCreateDto);
+        URI uri = uriBuilder.path("/control-action/{id}").buildAndExpand(controlAction.id()).toUri();
+        return ResponseEntity.created(uri).body(controlAction);
     }
 
     // Read -------------------------------------------
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ControlActionReadDto> readControlAction(@PathVariable Long id) {
+        return ResponseEntity.ok(controlActionService.readControlAction(id));
+    }
     @GetMapping
     public ResponseEntity<List<ControlActionReadDto>> readAllControlActions() {
        return ResponseEntity.ok(controlActionService.readAllControlActions());

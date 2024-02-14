@@ -7,8 +7,16 @@ public record HazardReadDto(
         String name,
         String project_name
 ) {
+
+    // Constructors -----------------------------------
+
     public HazardReadDto(Hazard hazard) {
-        this(hazard.getId(), hazard.getName(), hazard.getProject().getName());
+        this(
+            hazard.getId(),
+            hazard.getName(),
+            hazard.getProject().getName()
+        );
     }
 
+    // ------------------------------------------------
 }

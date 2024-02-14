@@ -16,7 +16,6 @@ import java.util.List;
 public class ContextTableService {
     private final ContextTableRepository contextTableRepository;
     private final ControllerRepository controllerRepository;
-    private final RuleRepository ruleRepository;
 
     // Create -----------------------------------------
 
@@ -25,9 +24,7 @@ public class ContextTableService {
         List<Variable> variables = controller.getVariables();
         ContextTable contextTable = generateContextTable(variables);
         contextTable.setController(controller);
-
         ContextTable createContextTable = contextTableRepository.save(contextTable);
-
         return new ContextTableReadDto(createContextTable);
     }
 
@@ -37,12 +34,10 @@ public class ContextTableService {
         ContextTable contextTable = contextTableRepository.getReferenceById(id);
         return new ContextTableReadDto(contextTable);
     }
-
     public List<ContextTableReadDto> readAllContextTables() {
         List<ContextTable> contextTables = contextTableRepository.findAll();
         return contextTables.stream().map(ContextTableReadDto::new).toList();
     }
-
     public ContextTableReadDto readContextTableByController(Long controller_id) {
         List<ContextTable> contextTables = contextTableRepository.findAll();
         ContextTable contextTable = null;

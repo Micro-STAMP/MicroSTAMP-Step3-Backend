@@ -2,6 +2,8 @@ package step3.entity;
 
 import lombok.*;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "project")
@@ -14,13 +16,13 @@ public class Project {
     private String description;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Hazard> hazards;
+    private List<Hazard> hazards = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Controller> controllers;
+    private List<Controller> controllers = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<UnsafeControlAction> unsafeControlActions;
+    private List<UnsafeControlAction> unsafeControlActions = new ArrayList<>();
 
     // Constructors -----------------------------------
 

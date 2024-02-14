@@ -13,6 +13,9 @@ public record RuleReadDto(
         Set<UCAType> types,
         HazardDto hazard
 ) {
+
+    // Constructors -----------------------------------
+
     public RuleReadDto(Rule rule) {
         this(
             rule.getId(),
@@ -24,7 +27,9 @@ public record RuleReadDto(
         );
     }
 
-    public record ControlActionDto(Long id, String name) {
+    // DTOs -------------------------------------------
+
+    private record ControlActionDto(Long id, String name) {
         public ControlActionDto(ControlAction controlAction) {
             this(
                 controlAction.getId(),
@@ -32,8 +37,7 @@ public record RuleReadDto(
             );
         }
     }
-
-    public record ValueDto(Long value_id, String variable_name, String value_name) {
+    private record ValueDto(Long value_id, String variable_name, String value_name) {
         public ValueDto(Value value) {
             this(
                 value.getId(),
@@ -42,7 +46,6 @@ public record RuleReadDto(
             );
         }
     }
-
     public record HazardDto(Long id, String name) {
         public HazardDto(Hazard hazard) {
             this(
@@ -51,4 +54,6 @@ public record RuleReadDto(
             );
         }
     }
+
+    // ------------------------------------------------
 }

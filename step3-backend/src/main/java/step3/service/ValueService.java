@@ -21,17 +21,17 @@ public class ValueService {
     // Create -----------------------------------------
 
     public ValueReadDto createValue(ValueCreateDto valueCreateDto) {
-        Long variableId = valueCreateDto.variable_id();
-        Variable variable = variableRepository.getReferenceById(variableId);
+        Variable variable = variableRepository.getReferenceById(valueCreateDto.variable_id());
         Value value = new Value(valueCreateDto.name(), variable);
-
         Value createdValue = valueRepository.save(value);
-
         return new ValueReadDto(createdValue);
     }
 
     // Read -------------------------------------------
 
+    public ValueReadDto readValue(Long id) {
+        return new ValueReadDto(valueRepository.getReferenceById(id));
+    }
     public List<ValueReadDto> readAllValues() {
         return valueRepository.findAll().stream().map(ValueReadDto::new).toList();
     }

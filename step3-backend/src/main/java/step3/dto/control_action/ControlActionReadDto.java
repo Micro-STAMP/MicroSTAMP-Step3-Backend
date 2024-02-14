@@ -7,7 +7,16 @@ public record ControlActionReadDto(
         String name,
         String controller_name
 ) {
+
+    // Constructors -----------------------------------
+
     public ControlActionReadDto(ControlAction controlAction) {
-        this(controlAction.getId(), controlAction.getName(), controlAction.getController().getName());
+        this(
+            controlAction.getId(),
+            controlAction.getName(),
+            controlAction.getController().getName()
+        );
     }
+
+    // ------------------------------------------------
 }

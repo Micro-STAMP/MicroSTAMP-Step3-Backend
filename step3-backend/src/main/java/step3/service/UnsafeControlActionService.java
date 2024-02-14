@@ -49,7 +49,7 @@ public class UnsafeControlActionService {
                 rule.getValues().stream().map(Value::getId).toList(),
                 rule.getHazard().getId(),
                 type,
-                rule.getControlAction().getController().getId()
+                rule.getControlAction().getController().getProject().getId()
             );
             createdUCAs.add(createUnsafeControlAction(dto));
         }
@@ -58,6 +58,9 @@ public class UnsafeControlActionService {
 
     // Read -------------------------------------------
 
+    public UnsafeControlActionReadDto readUnsafeControlAction(Long id) {
+        return new UnsafeControlActionReadDto(unsafeControlActionRepository.getReferenceById(id));
+    }
     public List<UnsafeControlActionReadDto> readAllUnsafeControlActions() {
         return unsafeControlActionRepository.findAll().stream().map(UnsafeControlActionReadDto::new).toList();
     }

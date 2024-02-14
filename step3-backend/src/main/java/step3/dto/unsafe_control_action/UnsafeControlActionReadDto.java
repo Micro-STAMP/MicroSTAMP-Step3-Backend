@@ -7,7 +7,18 @@ public record UnsafeControlActionReadDto(
         String name,
         String project_name
 ) {
+
+    // Constructors -----------------------------------
+
     public UnsafeControlActionReadDto(UnsafeControlAction uca) {
-        this(uca.getId(), uca.getName(), uca.getProject().getName());
+        this(
+            uca.getId(),
+            uca.getName(),
+            uca.getProject().getName()
+        );
     }
+
+    // DTOs -------------------------------------------
+
+    // ------------------------------------------------
 }

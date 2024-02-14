@@ -1,15 +1,16 @@
 package step3.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import step3.dto.value.ValueCreateDto;
-import step3.dto.value.ValueReadDto;
+import org.springframework.web.util.UriComponentsBuilder;
+import step3.dto.value.*;
 import step3.entity.Value;
 import step3.service.ValueService;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -27,13 +28,18 @@ public class ValueController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<ValueReadDto> createValue(@RequestBody ValueCreateDto valueCreateDto) {
-        ValueReadDto createdValue = valueService.createValue(valueCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdValue);
+    public ResponseEntity<ValueReadDto> createValue(@RequestBody @Valid ValueCreateDto valueCreateDto, UriComponentsBuilder uriBuilder) {
+        ValueReadDto value = valueService.createValue(valueCreateDto);
+        URI uri = uriBuilder.path("/value/{id}").buildAndExpand(value.id()).toUri();
+        return ResponseEntity.created(uri).body(value);
     }
 
     // Read -------------------------------------------
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ValueReadDto> readValue(@PathVariable Long id) {
+        return ResponseEntity.ok(valueService.readValue(id));
+    }
     @GetMapping
     public ResponseEntity<List<ValueReadDto>> readAllValue() {
         return ResponseEntity.ok(valueService.readAllValues());

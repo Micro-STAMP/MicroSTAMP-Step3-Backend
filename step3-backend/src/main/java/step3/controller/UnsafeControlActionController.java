@@ -1,15 +1,16 @@
 package step3.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import step3.dto.unsafe_control_action.UnsafeControlActionCreateDto;
-import step3.dto.unsafe_control_action.UnsafeControlActionReadDto;
+import org.springframework.web.util.UriComponentsBuilder;
+import java.net.URI;
+import step3.dto.unsafe_control_action.*;
 import step3.entity.UnsafeControlAction;
 import step3.service.UnsafeControlActionService;
-
 import java.util.List;
 
 @RestController
@@ -27,9 +28,10 @@ public class UnsafeControlActionController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<UnsafeControlActionReadDto> createUnsafeControlAction(@RequestBody UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
-        UnsafeControlActionReadDto createdUCA = unsafeControlActionService.createUnsafeControlAction(unsafeControlActionCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUCA);
+    public ResponseEntity<UnsafeControlActionReadDto> createUnsafeControlAction(@RequestBody @Valid UnsafeControlActionCreateDto unsafeControlActionCreateDto, UriComponentsBuilder uriBuilder) {
+        UnsafeControlActionReadDto uca = unsafeControlActionService.createUnsafeControlAction(unsafeControlActionCreateDto);
+        URI uri = uriBuilder.path("/unsafe-control-action/{id}").buildAndExpand(uca.id()).toUri();
+        return ResponseEntity.created(uri).body(uca);
     }
     @PostMapping("/rule/{rule_id}") @Transactional
     public ResponseEntity<List<UnsafeControlActionReadDto>> createUCAsByRule(@PathVariable Long rule_id) {
@@ -39,6 +41,10 @@ public class UnsafeControlActionController {
 
     // Read -------------------------------------------
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UnsafeControlActionReadDto> readUnsafeControlAction(@PathVariable Long id) {
+        return  ResponseEntity.ok(unsafeControlActionService.readUnsafeControlAction(id));
+    }
     @GetMapping
     public ResponseEntity<List<UnsafeControlActionReadDto>> readAllUnsafeControlAction() {
         return ResponseEntity.ok(unsafeControlActionService.readAllUnsafeControlActions());

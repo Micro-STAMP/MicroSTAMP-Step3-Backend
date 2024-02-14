@@ -2,7 +2,6 @@ package step3.entity;
 
 import lombok.*;
 import jakarta.persistence.*;
-//import org.apache.commons.lang3.builder.EqualsBuilder;
 
 @Table(name = "hazard")
 @Entity(name = "Hazard")
@@ -23,11 +22,6 @@ public class Hazard {
     }
 
     // Methods ----------------------------------------
-
-//    @Override
-//    public boolean equals(Object obj) {
-//        return EqualsBuilder.reflectionEquals(obj, this);
-//    }
 
     // ------------------------------------------------
 }

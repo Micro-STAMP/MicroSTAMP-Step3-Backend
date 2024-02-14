@@ -2,11 +2,9 @@ package step3.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import step3.dto.rule.RuleCreateDto;
-import step3.dto.rule.RuleReadDto;
+import step3.dto.rule.*;
 import step3.entity.*;
 import step3.repository.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,15 +25,17 @@ public class RuleService {
 
         Rule rule = new Rule(ruleCreateDto.name(), controlAction, values, hazard, ruleCreateDto.types());
         Rule createdRule = ruleRepository.save(rule);
-
         return new RuleReadDto(createdRule);
     }
 
     // Read -------------------------------------------
 
-    public List<RuleReadDto> readAllRules() {
-        List<Rule> rules = ruleRepository.findAll();
-        return rules.stream().map(RuleReadDto::new).toList();
+    public RuleReadDto readRule(Long id) {
+        Rule rule = ruleRepository.getReferenceById(id);
+        return new RuleReadDto(rule);
+    }
+    public List<RuleReadListDto> readAllRules() {
+        return ruleRepository.findAll().stream().map(RuleReadListDto::new).toList();
     }
 
     // Update -----------------------------------------

@@ -11,6 +11,9 @@ public record ContextTableReadDto(
         List<ContextDto> contexts,
         String controller_name
 ) {
+
+    // Constructors -----------------------------------
+
     public ContextTableReadDto(ContextTable contextTable) {
         this(
             contextTable.getId(),
@@ -18,20 +21,26 @@ public record ContextTableReadDto(
             contextTable.getController().getName()
         );
     }
-    public record ContextDto(Long id, List<ValueDto> values) {
+
+    // DTOs -------------------------------------------
+
+    private record ContextDto(Long id, List<ValueDto> values) {
         public ContextDto(Context context) {
             this(
                 context.getId(),
                 context.getValues().stream().map(ValueDto::new).toList()
             );
         }
-        public record ValueDto(String variable_name, String value_name) {
+        private record ValueDto(Long value_id, String variable_name, String value_name) {
             public ValueDto(Value value) {
                 this(
+                    value.getId(),
                     value.getVariable().getName(),
                     value.getName()
                 );
             }
         }
     }
+
+    // ------------------------------------------------
 }

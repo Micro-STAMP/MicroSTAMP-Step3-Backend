@@ -1,14 +1,14 @@
 package step3.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import step3.dto.context_table.ContextTableCreateDto;
-import step3.dto.context_table.ContextTableReadDto;
+import org.springframework.web.util.UriComponentsBuilder;
+import java.net.URI;
+import step3.dto.context_table.*;
 import step3.service.ContextTableService;
-
 import java.util.List;
 
 @RestController
@@ -26,9 +26,10 @@ public class ContextTableController {
     // Create -----------------------------------------
 
     @PostMapping @Transactional
-    public ResponseEntity<ContextTableReadDto> createContextTable(@RequestBody ContextTableCreateDto contextTableCreateDto) {
-        ContextTableReadDto createdContextTable = contextTableService.createContextTable(contextTableCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdContextTable);
+    public ResponseEntity<ContextTableReadDto> createContextTable(@RequestBody @Valid ContextTableCreateDto contextTableCreateDto, UriComponentsBuilder uriBuilder) {
+        ContextTableReadDto contextTable = contextTableService.createContextTable(contextTableCreateDto);
+        URI uri = uriBuilder.path("/context-table/{id}").buildAndExpand(contextTable.id()).toUri();
+        return ResponseEntity.created(uri).body(contextTable);
     }
 
     // Read -------------------------------------------
@@ -49,7 +50,7 @@ public class ContextTableController {
     // Update -----------------------------------------
 
 
-    // Delete ----------------------------------------- todo: tem problema aqui, não apaga
+    // Delete -----------------------------------------
 
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteContextTable(@PathVariable Long id) {
