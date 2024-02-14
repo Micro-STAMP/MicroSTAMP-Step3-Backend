@@ -52,6 +52,12 @@ public class ControllerController {
         return ResponseEntity.ok(controller);
     }
 
+    @PutMapping("/{controllerId}/remove-context-table") @Transactional
+    public ResponseEntity<ControllerReadDto> deleteContextTable(@PathVariable Long controllerId) {
+        ControllerReadDto controller = controllerService.deleteContextTable(controllerId);
+        return ResponseEntity.ok(controller);
+    }
+
     // Delete -----------------------------------------
 
     @DeleteMapping("/{id}") @Transactional

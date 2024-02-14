@@ -42,6 +42,12 @@ public class ControllerService {
         updatedController.setName(controller.getName());
         updatedController.setControlActions(controller.getControlActions());
     }
+    public ControllerReadDto deleteContextTable(Long controllerId) {
+        var controller = controllerRepository.getReferenceById(controllerId);
+        controller.setContextTable(null);
+        var controllerWithoutContextTable = controllerRepository.save(controller);
+        return new ControllerReadDto(controllerWithoutContextTable);
+    }
 
     // Delete -----------------------------------------
 
