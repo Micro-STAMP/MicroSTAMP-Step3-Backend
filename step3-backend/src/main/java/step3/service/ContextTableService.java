@@ -3,6 +3,7 @@ package step3.service;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import step3.dto.context_table.*;
 import step3.entity.*;
@@ -59,9 +60,19 @@ public class ContextTableService {
 
 
     // Delete -----------------------------------------
-
+    @Transactional
     public void deleteContextTable(Long id) {
-        contextTableRepository.deleteById(id);
+        var contextTable = contextTableRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found ct"));
+        contextTable.getContexts().clear();
+        contextTableRepository.save(contextTable);
+
+        var controller = controllerRepository.getReferenceById(contextTable.getController().getId());
+        controller.setContextTable(null);
+        controllerRepository.save(controller);
+
+//        contextTableRepository.deleteById(id);
     }
 
     // Methods ----------------------------------------
