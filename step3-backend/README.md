@@ -53,17 +53,17 @@ Para executar este projeto localmente, siga os passos abaixo:
     - Crie um banco de dados no MySQL para a aplicação com o nome de `step3`.
     - Configure as credenciais de acesso ao banco no arquivo `application.properties` do projeto.
       - O padrão definido usa `user: root` e `senha: root`, com o MySQL na porta `3306`.
-      - A aplicação inicia na porta `8080`.
-      - Na primeira execução, utilize `spring.jpa.hibernate.ddl-auto=create` para criar as tabelas no banco automaticamente.
+      - A aplicação utiliza `spring.jpa.hibernate.ddl-auto=update` para criar as tabelas no banco automaticamente.
       - Para alterar estas e outras propriedades, acesse a documentação: [Application Properties](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html).
 
 
 4. **Executar a aplicação:**
+   - A aplicação inicia na porta `8080`.
    - Você pode executar a aplicação usando a IDE de sua preferência ou pelo Maven. 
    - Para executar pelo Maven, execute o comando abaixo no diretório raiz do projeto:
-       ```shell
-          mvn spring-boot:run
-       ```
+     ```shell
+        mvn spring-boot:run
+     ```
 
 Após a execução da aplicação, você pode testar os endpoints da API usando o Postman.
 
@@ -94,8 +94,19 @@ Na coleção, há duas pastas:
 2. `STPA-STEP3-SIMULATIONS`: Possui uma pasta chamada Insulin Pump que contém todas as requisições necessárias para criar automaticamente um exemplo no banco de dados. 
 
     Para isso, acesse a pasta, vá até a opção Runner, arraste a pasta Insulin Pump para a área de execução, marque as requisições desejadas e execute. Assim, o exemplo da bomba de insulina será criado automaticamente, permitindo a verificação das saídas e a realização de novos testes e requisições.
-
 ---
+### Passo a passo
+
+1. Clique na coleção `INSULIN PUMP` dentro da coleção `STPA-STEP3-SIMULATIONS`
+    ![1](img/step-by-step-1.png)
+2. Clique no botão `Run` localizado no canto superior direito
+    ![2](img/step-by-step-2.png)
+3. Selecione quais as requisições que deseja executar e as configurações de execução, após isso clique no botão laranja para executar
+    ![3](img/step-by-step-3.png)
+4. Após a execução, você pode verificar os resultados das requisições e os dados inseridos no banco de dados
+    ![4](img/step-by-step-4.png)
+5. Para ter uma visão detalhada de cada requisição, é só clicar em cima dela e vai aparecer uma tela a direita com as informações
+    ![5](img/step-by-step-5.png)
 
 ## Autores
 <div style="display: flex; gap: 8px;">
