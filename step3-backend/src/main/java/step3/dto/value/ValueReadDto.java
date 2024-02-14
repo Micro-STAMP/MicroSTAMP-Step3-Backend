@@ -7,7 +7,16 @@ public record ValueReadDto(
         String name,
         String variable_name
 ) {
+
+    // Constructors -----------------------------------
+
     public ValueReadDto(Value value) {
-        this(value.getId(), value.getName(), value.getVariable().getName());
+        this(
+            value.getId(),
+            value.getName(),
+            value.getVariable().getName()
+        );
     }
+
+    // ------------------------------------------------
 }

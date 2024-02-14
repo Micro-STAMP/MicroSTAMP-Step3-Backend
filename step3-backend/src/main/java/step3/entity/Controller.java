@@ -2,6 +2,8 @@ package step3.entity;
 
 import lombok.*;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "controller")
@@ -13,10 +15,13 @@ public class Controller {
     private String name;
 
     @OneToMany(mappedBy = "controller", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ControlAction> controlActions;
+    private List<ControlAction> controlActions = new ArrayList<>();
 
     @OneToMany(mappedBy = "controller", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Variable> variables;
+    private List<Variable> variables = new ArrayList<>();
+
+    @OneToOne(mappedBy = "controller", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ContextTable contextTable;
 
     @ManyToOne @JoinColumn(name = "project_id")
     private Project project;
@@ -27,4 +32,8 @@ public class Controller {
         this.name = name;
         this.project = project;
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

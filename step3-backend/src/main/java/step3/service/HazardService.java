@@ -18,22 +18,38 @@ public class HazardService {
     private final HazardRepository hazardRepository;
     private final ProjectRepository projectRepository;
 
-    public void createHazard(HazardCreateDto hazardCreateDto) {
+    // Create -----------------------------------------
+
+    public HazardReadDto createHazard(HazardCreateDto hazardCreateDto) {
         Project project = projectRepository.getReferenceById(hazardCreateDto.project_id());
         Hazard hazard = new Hazard(hazardCreateDto.name(), project);
-        hazardRepository.save(hazard);
+        Hazard createdHazard = hazardRepository.save(hazard);
+        return new HazardReadDto(createdHazard);
     }
 
+    // Read -------------------------------------------
+
+    public HazardReadDto readHazard(Long id) {
+        return new HazardReadDto(hazardRepository.getReferenceById(id));
+    }
     public List<HazardReadDto> readAllHazards() {
         return hazardRepository.findAll().stream().map(HazardReadDto::new).toList();
     }
+
+    // Update -----------------------------------------
 
     public void updateHazard(Hazard hazard) {
         Hazard updatedHazard = hazardRepository.getReferenceById(hazard.getId());
         updatedHazard.setName(hazard.getName());
     }
 
+    // Delete -----------------------------------------
+
     public void deleteHazard(Long id) {
         hazardRepository.deleteById(id);
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

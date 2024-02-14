@@ -2,37 +2,45 @@ package step3.dto.context_table;
 
 import step3.entity.Context;
 import step3.entity.ContextTable;
-import step3.entity.VariableState;
+import step3.entity.Value;
 
 import java.util.List;
 
 public record ContextTableReadDto(
         Long id,
         List<ContextDto> contexts,
-        String project_name
+        String controller_name
 ) {
+
+    // Constructors -----------------------------------
+
     public ContextTableReadDto(ContextTable contextTable) {
         this(
             contextTable.getId(),
             contextTable.getContexts().stream().map(ContextDto::new).toList(),
-            contextTable.getProject().getName()
+            contextTable.getController().getName()
         );
     }
-    public record ContextDto(Long id, List<VariableStateDto> variable_states, Boolean unsafe) {
+
+    // DTOs -------------------------------------------
+
+    private record ContextDto(Long id, List<ValueDto> values) {
         public ContextDto(Context context) {
             this(
                 context.getId(),
-                context.getVariableStates().stream().map(VariableStateDto::new).toList(),
-                context.getUnsafe()
+                context.getValues().stream().map(ValueDto::new).toList()
             );
         }
-        public record VariableStateDto(String variable_name, String value_name) {
-            public VariableStateDto(VariableState variableState) {
+        private record ValueDto(Long value_id, String variable_name, String value_name) {
+            public ValueDto(Value value) {
                 this(
-                    variableState.getVariable().getName(),
-                    variableState.getValue().getName()
+                    value.getId(),
+                    value.getVariable().getName(),
+                    value.getName()
                 );
             }
         }
     }
+
+    // ------------------------------------------------
 }

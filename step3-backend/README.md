@@ -1,106 +1,108 @@
-# MICROSERVICE STPA STEP 3 - BACK-END
+# Microsserviço para STPA (Step 3) - Back-End
 
 ## Descrição
 
-Este projeto é a implementação do passo 3 da técnica stpa como um microsserviço.
+Implementação da API (back-end) do microsserviço para o passo 3 da técnica STPA.
+
+---
 
 ## Tecnologias Utilizadas
 
 <div style="display: flex; gap: 7px; flex-wrap: wrap;">
     <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=6DB33F&labelColor=070707" alt="Spring Boot">
+    <img src="https://img.shields.io/badge/Java-E84135?style=for-the-badge&logo=openjdk&logoColor=E84135&labelColor=070707" alt="Java">
     <img src="https://img.shields.io/badge/Maven-c71a36?style=for-the-badge&logo=apache-maven&logoColor=913C76&labelColor=070707" alt="Maven">
     <img src="https://img.shields.io/badge/MySQL-316192?style=for-the-badge&logo=mysql&logoColor=316192&labelColor=070707" alt="MySQL">
     <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=FF6C37&labelColor=070707" alt="Postman">
 </div>
 
 ### Configuração do Ambiente
-1. *Requisitos:*
-    - JDK 21 (Java Development Kit)
-    - Maven 3.8.1
-    - MySQL Server 8.0.25
-    - Spring Boot 3
 
-2. *Configuração do Banco de Dados:*
-    - Crie um banco de dados no MySQL para a aplicação com o nome de `step3`.
+- JDK 21 (Java Development Kit)
+- Maven 3.8.1
+- MySQL Server 8.0.25
+- Spring Boot 3.1.5
+- Postman Agent
+
+---
 
 ## Estrutura do Projeto
 O projeto está estruturado da seguinte forma:
 
 <img src="img/estrutura-projeto.svg" alt="Estrutura do Projeto" style="width: 300px;">
 
-## Endpoints da API
-
-- GET
-    ```http request
-        http://localhost:8080/hazard
-    ```
-- POST
-    ```http request
-        http://localhost:8080/hazard
-    ```
-    ```json
-        {
-          "name": "teste hazard"
-        }
-    ```
-
-- PUT
-    ```http request
-        http://localhost:8080/hazard
-    ```
-    ```json
-        {
-          "id": 1,
-          "name": "teste atualizar hazard "
-        }
-    ```
-  
-- DELETE
-    ```http request
-        http://localhost:8080/hazard/{id}
-    ```
+---
 
 ## Instruções para Build e Execução
+
 Para executar este projeto localmente, siga os passos abaixo:
 
-1. *Clonar o repositório:*
+1. **Clone o repositório:**
 
     ```shell
        git clone https://github.com/gabriel-piva/step3.git
     ```
 
-2. *Acessar o diretório do projeto:*
+2. **Acesse o diretório do projeto:**
 
     ```shell
-       cd step3
+       cd step3-backend 
     ```
 
-3. *Configurar o banco de dados:*
-    - Com o banco já criado como explicamos anteriormente, configure as credenciais de acesso ao banco no arquivo `application.properties` do projeto Spring Boot.
+3. **Configure o banco de dados:**
+    - Crie um banco de dados no MySQL para a aplicação com o nome de `step3`.
+    - Configure as credenciais de acesso ao banco no arquivo `application.properties` do projeto.
+      - O padrão definido usa `user: root` e `senha: root`, com o MySQL na porta `3306`.
+      - A aplicação inicia na porta `8080`.
+      - Na primeira execução, utilize `spring.jpa.hibernate.ddl-auto=create` para criar as tabelas no banco automaticamente.
+      - Para alterar estas e outras propriedades, acesse a documentação: [Application Properties](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html).
 
-4. *Executar a aplicação:*
-   - Você pode executar a aplicação usando a IDE de sua preferência ou pelo Maven. Para executar pelo Maven, execute o comando abaixo no diretório raiz do projeto:
+
+4. **Executar a aplicação:**
+   - Você pode executar a aplicação usando a IDE de sua preferência ou pelo Maven. 
+   - Para executar pelo Maven, execute o comando abaixo no diretório raiz do projeto:
        ```shell
           mvn spring-boot:run
        ```
 
-Após executar a aplicação, você pode testar os endpoints da API usando o Postman.
+Após a execução da aplicação, você pode testar os endpoints da API usando o Postman.
+
+---
+
+## Testando a API com o Postman
 
 
-## Testando requisições com Postman
+Você pode testar e explorar as funcionalidades da API com o Postman.
 
-Você pode acessar todas as requisições da API utilizando o Postman. Fizemos uma coleção com todas as requisições prontas para uso.
+Criamos uma coleção no Postman que apresenta todos os endpoints da API e também cria um exemplo para testes, utilizando o sistema `Insulin Pump`, amplamente utilizado na literatura STPA.
 
-- *Coleção no Postman:*
-    - Para acessar a coleção de requisições: [Postman Online](https://elements.getpostman.com/redirect?entityId=31588409-5e2d284a-d1ba-4331-9e16-01850fe86053&entityType=collection).
 
-- *Opções de Uso:*
-  - Você pode fazer um fork do workspace para ter uma cópia em seu próprio ambiente no Postman Online. Isso permitirá que você edite, teste e utilize as requisições conforme necessário.
+- **Coleção no Postman:**
+    - Você pode acessar a coleção de requisições aqui: [Coleção no Postman](https://elements.getpostman.com/redirect?entityId=31588409-5e2d284a-d1ba-4331-9e16-01850fe86053&entityType=collection).
 
-  - Se preferir, é possível baixar a coleção de requisições como um arquivo JSON e importá-lo no Postman ou em outras ferramentas compatíveis.
 
-Para importar a coleção no Postman, siga estes passos:
+- **Como Utilizar:**
+    - Faça um fork do workspace para ter uma cópia em seu próprio ambiente no Postman Online, permitindo a edição, teste e uso das requisições conforme necessário.
+    - Para enviar requisições com o Postman Online, é necessário ter instalado o [Postman Agent](https://www.postman.com/downloads/postman-agent/).
+    - Se preferir, baixe a coleção como um arquivo JSON e importe-o no Postman ou em outras ferramentas compatíveis.
 
-1. Clique no botão "Import" no canto superior esquerdo do aplicativo Postman.
-2. Escolha a opção de importação por link e cole o link do workspace ou importe o arquivo JSON baixado.
-3. A coleção estará disponível no seu ambiente do Postman para realizar testes e interagir com a API.
+Na coleção, há duas pastas:
+
+1. `STPA_STEP3`: Contém uma pasta para cada entidade da aplicação, proporcionando acesso aos diversos endpoints para personalizar e testar as requisições de acordo com suas necessidades.
+
+
+2. `STPA-STEP3-SIMULATIONS`: Possui uma pasta chamada Insulin Pump que contém todas as requisições necessárias para criar automaticamente um exemplo no banco de dados. 
+
+    Para isso, acesse a pasta, vá até a opção Runner, arraste a pasta Insulin Pump para a área de execução, marque as requisições desejadas e execute. Assim, o exemplo da bomba de insulina será criado automaticamente, permitindo a verificação das saídas e a realização de novos testes e requisições.
+
+---
+
+## Autores
+<div style="display: flex; gap: 8px;">
+    <a href="https://github.com/gabriel-francelino" target="_blank"><img src="https://img.shields.io/static/v1?label=Github&message=Gabriel Francelino&color=f8efd4&style=for-the-badge&logo=GitHub"></a>
+    <a href="https://github.com/gabriel-piva" target="_blank"><img src="https://img.shields.io/static/v1?label=Github&message=Gabriel Piva&color=f8efd4&style=for-the-badge&logo=GitHub"></a>
+    <a href="https://github.com/pagliares" target="_blank"><img src="https://img.shields.io/static/v1?label=Github&message=Rodrigo Pagliares&color=f8efd4&style=for-the-badge&logo=GitHub"></a>
+    <a href="https://github.com/gabriel-nadalin" target="_blank"><img src="https://img.shields.io/static/v1?label=Github&message=Gabriel Nadalin&color=f8efd4&style=for-the-badge&logo=GitHub"></a>
+</div>
+
+---

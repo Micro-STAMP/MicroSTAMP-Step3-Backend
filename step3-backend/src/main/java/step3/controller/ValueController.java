@@ -1,16 +1,16 @@
 package step3.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import step3.dto.value.ValueCreateDto;
-import step3.dto.value.ValueReadDto;
+import org.springframework.web.util.UriComponentsBuilder;
+import step3.dto.value.*;
 import step3.entity.Value;
-import step3.repository.ValueRepository;
 import step3.service.ValueService;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -18,21 +18,34 @@ import java.util.List;
 public class ValueController {
     private final ValueService valueService;
 
+    // Constructors -----------------------------------
+
     @Autowired
     public ValueController(ValueService valueService) {
         this.valueService = valueService;
     }
 
+    // Create -----------------------------------------
+
     @PostMapping @Transactional
-    public ResponseEntity<ValueCreateDto> createValue(@RequestBody ValueCreateDto valueCreateDto) {
-        valueService.createValue(valueCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(valueCreateDto);
+    public ResponseEntity<ValueReadDto> createValue(@RequestBody @Valid ValueCreateDto valueCreateDto, UriComponentsBuilder uriBuilder) {
+        ValueReadDto value = valueService.createValue(valueCreateDto);
+        URI uri = uriBuilder.path("/value/{id}").buildAndExpand(value.id()).toUri();
+        return ResponseEntity.created(uri).body(value);
     }
 
+    // Read -------------------------------------------
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ValueReadDto> readValue(@PathVariable Long id) {
+        return ResponseEntity.ok(valueService.readValue(id));
+    }
     @GetMapping
     public ResponseEntity<List<ValueReadDto>> readAllValue() {
         return ResponseEntity.ok(valueService.readAllValues());
     }
+
+    // Update -----------------------------------------
 
     @PutMapping @Transactional
     public ResponseEntity<Value> updateValue(@RequestBody Value value) {
@@ -40,9 +53,13 @@ public class ValueController {
         return ResponseEntity.ok(value);
     }
 
+    // Delete -----------------------------------------
+
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteValue(@PathVariable Long id) {
         valueService.deleteValue(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ------------------------------------------------
 }

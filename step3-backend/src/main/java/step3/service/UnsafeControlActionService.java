@@ -7,6 +7,7 @@ import step3.dto.unsafe_control_action.UnsafeControlActionReadDto;
 import step3.entity.*;
 import step3.repository.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,47 +15,82 @@ import java.util.List;
 public class UnsafeControlActionService {
     private final UnsafeControlActionRepository unsafeControlActionRepository;
     private final ControlActionRepository controlActionRepository;
-    private final ContextRepository contextRepository;
+    private final ValueRepository valueRepository;
     private final HazardRepository hazardRepository;
+    private final RuleRepository ruleRepository;
     private final ProjectRepository projectRepository;
 
-    public void createUnsafeControlAction(UnsafeControlActionCreateDto unsafeControlActionCreateDto) {
-        Long controlActionId = unsafeControlActionCreateDto.control_action_id();
-        ControlAction controlAction = controlActionRepository.getReferenceById(controlActionId);
+    // Create -----------------------------------------
 
-        Long contextId = unsafeControlActionCreateDto.context_id();
-        Context context = contextRepository.getReferenceById(contextId);
-
-        Long hazardId = unsafeControlActionCreateDto.hazard_id();
-        Hazard hazard = hazardRepository.getReferenceById(hazardId);
-
-        Long projectId = unsafeControlActionCreateDto.project_id();
-        Project project = projectRepository.getReferenceById(projectId);
+    public UnsafeControlActionReadDto createUnsafeControlAction(UnsafeControlActionCreateDto ucaCreateDto) {
+        ControlAction controlAction = controlActionRepository.getReferenceById(ucaCreateDto.control_action_id());
+        List<Value> values = getUCAValues(ucaCreateDto.values_ids());
+        Hazard hazard = hazardRepository.getReferenceById(ucaCreateDto.hazard_id());
+        Project project = projectRepository.getReferenceById(ucaCreateDto.project_id());
 
         UnsafeControlAction uca = new UnsafeControlAction(
-                controlAction,
-                context,
-                hazard,
-                unsafeControlActionCreateDto.type(),
-                project
+            controlAction,
+            values,
+            hazard,
+            ucaCreateDto.type(),
+            project
         );
+        UnsafeControlAction createdUCA = unsafeControlActionRepository.save(uca);
 
-        unsafeControlActionRepository.save(uca);
+        return new UnsafeControlActionReadDto(createdUCA);
+    }
+    public List<UnsafeControlActionReadDto> createUCAsByRule(Long rule_id) {
+        Rule rule = ruleRepository.getReferenceById(rule_id);
+        List<UnsafeControlActionReadDto> createdUCAs = new ArrayList<>();
+        // ! Gambiarra? Mas foi a única coisa que funcionou
+        for(UCAType type : rule.getTypes()) {
+            UnsafeControlActionCreateDto dto = new UnsafeControlActionCreateDto(
+                rule.getControlAction().getId(),
+                rule.getValues().stream().map(Value::getId).toList(),
+                rule.getHazard().getId(),
+                type,
+                rule.getControlAction().getController().getProject().getId()
+            );
+            createdUCAs.add(createUnsafeControlAction(dto));
+        }
+        return createdUCAs;
     }
 
+    // Read -------------------------------------------
+
+    public UnsafeControlActionReadDto readUnsafeControlAction(Long id) {
+        return new UnsafeControlActionReadDto(unsafeControlActionRepository.getReferenceById(id));
+    }
     public List<UnsafeControlActionReadDto> readAllUnsafeControlActions() {
         return unsafeControlActionRepository.findAll().stream().map(UnsafeControlActionReadDto::new).toList();
     }
+
+    // Update -----------------------------------------
 
     public void updateUnsafeControlAction(UnsafeControlAction uca) {
         UnsafeControlAction updatedUca = unsafeControlActionRepository.getReferenceById(uca.getId());
         updatedUca.setName(uca.getName());
         updatedUca.setConstraint(uca.getConstraint());
-        updatedUca.setContext(uca.getContext());
+        updatedUca.setValues(uca.getValues());
         updatedUca.setHazard(uca.getHazard());
     }
+
+    // Delete -----------------------------------------
 
     public void deleteUnsafeControlAction(Long id) {
         unsafeControlActionRepository.deleteById(id);
     }
+
+    // Methods ----------------------------------------
+
+    public List<Value> getUCAValues(List<Long> valuesIds) {
+        List<Value> values = new ArrayList<>();
+        for(Long value_id : valuesIds) {
+            Value value = valueRepository.getReferenceById(value_id);
+            values.add(value);
+        }
+        return values;
+    }
+
+    // ------------------------------------------------
 }

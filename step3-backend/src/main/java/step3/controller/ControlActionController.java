@@ -1,16 +1,15 @@
 package step3.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import step3.dto.control_action.ControlActionCreateDto;
-import step3.dto.control_action.ControlActionReadDto;
+import org.springframework.web.util.UriComponentsBuilder;
+import java.net.URI;
+import step3.dto.control_action.*;
 import step3.entity.ControlAction;
-import step3.repository.ControlActionRepository;
 import step3.service.ControlActionService;
-
 import java.util.List;
 
 @RestController
@@ -18,21 +17,34 @@ import java.util.List;
 public class ControlActionController {
     private final ControlActionService controlActionService;
 
+    // Constructors -----------------------------------
+
     @Autowired
     public ControlActionController(ControlActionService controlActionService) {
         this.controlActionService = controlActionService;
     }
 
+    // Create -----------------------------------------
+
     @PostMapping @Transactional
-    public ResponseEntity<ControlActionCreateDto> createControlAction(@RequestBody ControlActionCreateDto controlActionCreateDto) {
-        controlActionService.createControlAction(controlActionCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(controlActionCreateDto);
+    public ResponseEntity<ControlActionReadDto> createControlAction(@RequestBody @Valid ControlActionCreateDto controlActionCreateDto, UriComponentsBuilder uriBuilder) {
+        ControlActionReadDto controlAction = controlActionService.createControlAction(controlActionCreateDto);
+        URI uri = uriBuilder.path("/control-action/{id}").buildAndExpand(controlAction.id()).toUri();
+        return ResponseEntity.created(uri).body(controlAction);
     }
 
+    // Read -------------------------------------------
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ControlActionReadDto> readControlAction(@PathVariable Long id) {
+        return ResponseEntity.ok(controlActionService.readControlAction(id));
+    }
     @GetMapping
     public ResponseEntity<List<ControlActionReadDto>> readAllControlActions() {
        return ResponseEntity.ok(controlActionService.readAllControlActions());
     }
+
+    // Update -----------------------------------------
 
     @PutMapping @Transactional
     public ResponseEntity<ControlAction> updateControlAction(@RequestBody ControlAction controlAction) {
@@ -40,9 +52,13 @@ public class ControlActionController {
         return ResponseEntity.ok(controlAction);
     }
 
+    // Delete -----------------------------------------
+
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteControlAction(@PathVariable Long id) {
         controlActionService.deleteControlAction(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ------------------------------------------------
 }

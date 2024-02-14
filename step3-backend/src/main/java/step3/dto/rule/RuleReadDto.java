@@ -1,32 +1,59 @@
 package step3.dto.rule;
 
-import step3.entity.Rule;
-import step3.entity.VariableState;
+import step3.entity.*;
 
 import java.util.List;
+import java.util.Set;
 
 public record RuleReadDto(
         Long id,
         String name,
-        Long context_table_id,
-        List<VariableStateDto> variable_states
+        ControlActionDto control_action,
+        List<ValueDto> values,
+        Set<UCAType> types,
+        HazardDto hazard
 ) {
+
+    // Constructors -----------------------------------
+
     public RuleReadDto(Rule rule) {
         this(
             rule.getId(),
             rule.getName(),
-            rule.getContextTable().getId(),
-            rule.getVariableStates().stream().map(VariableStateDto::new).toList()
+            new ControlActionDto(rule.getControlAction()),
+            rule.getValues().stream().map(ValueDto::new).toList(),
+            rule.getTypes(),
+            new HazardDto(rule.getHazard())
         );
     }
 
-    public record VariableStateDto(Long variable_state_id, String variable_name, String value_name) {
-        public VariableStateDto(VariableState variableState) {
+    // DTOs -------------------------------------------
+
+    private record ControlActionDto(Long id, String name) {
+        public ControlActionDto(ControlAction controlAction) {
             this(
-                variableState.getId(),
-                variableState.getVariable().getName(),
-                variableState.getValue().getName()
+                controlAction.getId(),
+                controlAction.getName()
             );
         }
     }
+    private record ValueDto(Long value_id, String variable_name, String value_name) {
+        public ValueDto(Value value) {
+            this(
+                value.getId(),
+                value.getVariable().getName(),
+                value.getName()
+            );
+        }
+    }
+    public record HazardDto(Long id, String name) {
+        public HazardDto(Hazard hazard) {
+            this(
+                hazard.getId(),
+                hazard.getName()
+            );
+        }
+    }
+
+    // ------------------------------------------------
 }

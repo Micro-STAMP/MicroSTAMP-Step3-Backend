@@ -1,8 +1,8 @@
 package step3.dto.context_table;
 
-import java.util.List;
+import jakarta.validation.constraints.*;
 
 public record ContextTableCreateDto(
-        List<Long> variable_ids,
-        Long project_id
-){}
+        @NotNull
+        Long controller_id
+) {}

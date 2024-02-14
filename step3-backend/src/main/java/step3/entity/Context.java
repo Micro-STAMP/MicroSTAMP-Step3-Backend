@@ -12,31 +12,34 @@ import java.util.StringJoiner;
 public class Context {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Boolean unsafe = false;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
-        name = "context_variable_state",
+        name = "context_value",
         joinColumns = @JoinColumn(name = "context_id"),
-        inverseJoinColumns = @JoinColumn(name = "variable_state_id")
+        inverseJoinColumns = @JoinColumn(name = "value_id")
     )
-    private List<VariableState> variableStates = new ArrayList<>();
+    private List<Value> values = new ArrayList<>();
 
     @ManyToOne @JoinColumn(name = "context_table_id")
     private ContextTable contextTable;
 
-    // Methods ----------------------------------------
+    // Constructors -----------------------------------
 
-    public void addVariableState(VariableState variableState) {
-        variableStates.add(variableState);
+    public Context(List<Value> values) {
+        this.values = values;
     }
+
+    // Methods ----------------------------------------
 
     @Override
     public String toString() {
         StringJoiner context = new StringJoiner(" AND ");
-        for (VariableState vs : variableStates) {
-            context.add(vs.toString());
+        for (Value value : values) {
+            context.add(value.toString());
         }
         return context.toString();
     }
+
+    // ------------------------------------------------
 }

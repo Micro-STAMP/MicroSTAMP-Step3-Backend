@@ -1,14 +1,14 @@
 package step3.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import step3.dto.rule.RuleCreateDto;
-import step3.dto.rule.RuleReadDto;
+import org.springframework.web.util.UriComponentsBuilder;
+import java.net.URI;
+import step3.dto.rule.*;
 import step3.service.RuleService;
-
 import java.util.List;
 
 @RestController
@@ -16,21 +16,36 @@ import java.util.List;
 public class RuleController {
     private final RuleService ruleService;
 
+    // Constructors -----------------------------------
+
     @Autowired
     public RuleController(RuleService ruleService) {
         this.ruleService = ruleService;
     }
 
+    // Create -----------------------------------------
+
     @PostMapping @Transactional
-    public ResponseEntity<RuleCreateDto> createRule(@RequestBody RuleCreateDto ruleCreateDto) {
-        ruleService.createRule(ruleCreateDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ruleCreateDto);
+    public ResponseEntity<RuleReadDto> createRule(@RequestBody @Valid RuleCreateDto ruleCreateDto, UriComponentsBuilder uriBuilder) {
+        RuleReadDto rule = ruleService.createRule(ruleCreateDto);
+        URI uri = uriBuilder.path("/rule/{id}").buildAndExpand(rule.id()).toUri();
+        return ResponseEntity.created(uri).body(rule);
     }
 
+    // Read -------------------------------------------
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RuleReadDto> readRule(@PathVariable Long id) {
+        return ResponseEntity.ok(ruleService.readRule(id));
+    }
     @GetMapping
-    public ResponseEntity<List<RuleReadDto>> readAllRules() {
+    public ResponseEntity<List<RuleReadListDto>> readAllRules() {
         return ResponseEntity.ok(ruleService.readAllRules());
     }
+
+    // Update -----------------------------------------
+
+    // Delete -----------------------------------------
 
     @DeleteMapping("/{id}") @Transactional
     public ResponseEntity<Void> deleteRule(@PathVariable Long id) {
@@ -38,4 +53,5 @@ public class RuleController {
         return ResponseEntity.noContent().build();
     }
 
+    // ------------------------------------------------
 }

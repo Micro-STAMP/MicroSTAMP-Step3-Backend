@@ -3,6 +3,10 @@ package step3.entity;
 import lombok.*;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
+
 @Table(name = "unsafe_control_action")
 @Entity(name = "UnsafeControlAction")
 @Getter @Setter @NoArgsConstructor
@@ -14,8 +18,13 @@ public class UnsafeControlAction {
     @ManyToOne @JoinColumn(name = "control_action_id")
     private ControlAction controlAction;
 
-    @ManyToOne @JoinColumn(name = "context_id")
-    private Context context;
+    @ManyToMany
+    @JoinTable(
+            name = "uca_value",
+            joinColumns = @JoinColumn(name = "uca_id"),
+            inverseJoinColumns = @JoinColumn(name = "value_id")
+    )
+    private List<Value> values = new ArrayList<>();
 
     @ManyToOne @JoinColumn(name = "hazard_id")
     private Hazard hazard;
@@ -23,7 +32,7 @@ public class UnsafeControlAction {
     @Enumerated(EnumType.STRING)
     private UCAType type;
 
-    @ManyToOne(cascade = CascadeType.ALL) @JoinColumn(name = "constraint_id")
+    @OneToOne(mappedBy = "unsafeControlAction", cascade = CascadeType.ALL, orphanRemoval = true)
     private SafetyConstraint constraint;
 
     @ManyToOne @JoinColumn(name = "project_id")
@@ -31,11 +40,20 @@ public class UnsafeControlAction {
 
     // Constructors -----------------------------------
 
-    public UnsafeControlAction(ControlAction controlAction, Context context, Hazard hazard, UCAType type, Project project) {
+    public UnsafeControlAction(ControlAction controlAction, List<Value> values, Hazard hazard, UCAType type, Project project) {
         this.controlAction = controlAction;
-        this.context = context;
+        this.values = values;
         this.hazard = hazard;
         this.type = type;
+        this.project = project;
+        this.name = generateName();
+        this.constraint = generateConstraint();
+    }
+    public UnsafeControlAction(ControlAction controlAction, List<Value> values, Hazard hazard, String type, Project project) {
+        this.controlAction = controlAction;
+        this.values = values;
+        this.hazard = hazard;
+        this.type = UCAType.valueOf(type);
         this.project = project;
         this.name = generateName();
         this.constraint = generateConstraint();
@@ -44,22 +62,39 @@ public class UnsafeControlAction {
     // Methods ----------------------------------------
 
     public String generateName() {
-        // NAME : <Source> <Type> <Control Action> <Context>
         String source = getControlAction().getController().getName();
-        String type = getType().name();
-        String ca = getControlAction().getName();
-        String context = getContext().toString();
+        String typeAndCA = getTypeAndControlActionString();
+        String context = getContextString();
 
-        return source + " " + type + " " + ca + " when " + context;
+        return source + " " + typeAndCA + " when " + context;
     }
     public SafetyConstraint generateConstraint() {
         String source = getControlAction().getController().getName();
-        String type = getType().name();
-        String ca = getControlAction().getName();
-        String context = getContext().toString();
+        String typeAndCA = getTypeAndControlActionString();
+        String context = getContextString();
 
-        String scName = source + " MUST NOT " + type + " " + ca + " when " + context;
+        String scName = source + " must not " + typeAndCA + " when " + context;
 
-        return new SafetyConstraint(scName);
+        return new SafetyConstraint(scName, this);
     }
+    public String getTypeAndControlActionString() {
+        return switch (getType()) {
+            case PROVIDED -> "provide " + getControlAction().getName();
+            case NOT_PROVIDED -> "not provide " + getControlAction().getName();
+            case TOO_EARLY -> "provide " + getControlAction().getName() + " too early";
+            case TOO_LATE -> "provide " + getControlAction().getName() + " too late";
+            case OUT_OF_ORDER -> "provide " + getControlAction().getName() + " out of order";
+            case STOPPED_TOO_SOON -> "stop providing " + getControlAction().getName() + " too soon";
+            case APPLIED_TOO_LONG -> "provide " + getControlAction().getName() + " too long";
+        };
+    }
+    public String getContextString() {
+        StringJoiner context = new StringJoiner(" AND ");
+        for (Value value : values) {
+            context.add(value.toString());
+        }
+        return context.toString();
+    }
+
+    // ------------------------------------------------
 }

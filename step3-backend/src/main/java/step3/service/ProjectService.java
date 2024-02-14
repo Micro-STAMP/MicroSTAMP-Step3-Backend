@@ -2,25 +2,29 @@ package step3.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import step3.dto.project.ProjectCreateDto;
-import step3.dto.project.ProjectReadAllDto;
-import step3.dto.project.ProjectReadDto;
+import step3.dto.project.*;
 import step3.entity.Project;
 import step3.repository.ProjectRepository;
 
 import java.util.List;
 
-@Service @AllArgsConstructor
+@Service
+@AllArgsConstructor
 public class ProjectService {
     private final ProjectRepository projectRepository;
 
-    public void createProject(ProjectCreateDto projectCreateDto) {
+    // Create -----------------------------------------
+
+    public ProjectReadDto createProject(ProjectCreateDto projectCreateDto) {
         Project project = new Project(projectCreateDto.name(), projectCreateDto.description());
-        projectRepository.save(project);
+        Project createdProject = projectRepository.save(project);
+        return new ProjectReadDto(createdProject);
     }
 
-    public List<ProjectReadAllDto> readAllProjects() {
-        return projectRepository.findAll().stream().map(ProjectReadAllDto::new).toList();
+    // Read -------------------------------------------
+
+    public List<ProjectReadListDto> readAllProjects() {
+        return projectRepository.findAll().stream().map(ProjectReadListDto::new).toList();
     }
 
     public ProjectReadDto readProjectById(Long id) {
@@ -28,7 +32,15 @@ public class ProjectService {
         return new ProjectReadDto(project);
     }
 
+    // Update -----------------------------------------
+
+    // Delete -----------------------------------------
+
     public void deleteProject(Long id) {
         projectRepository.deleteById(id);
     }
+
+    // Methods ----------------------------------------
+
+    // ------------------------------------------------
 }

@@ -1,6 +1,10 @@
 package step3.dto.control_action;
 
+import jakarta.validation.constraints.*;
+
 public record ControlActionCreateDto(
-    String name,
-    Long controller_id
+        @NotBlank
+        String name,
+        @NotNull
+        Long controller_id
 ) {}
