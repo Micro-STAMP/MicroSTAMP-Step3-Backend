@@ -35,10 +35,10 @@ public class VariableService {
 
     // Update -----------------------------------------
 
-    public void updateVariable(Variable variable) {
-        Variable updatedVariable = variableRepository.getReferenceById(variable.getId());
-        updatedVariable.setName(variable.getName());
-        updatedVariable.setValues(variable.getValues());
+    public VariableReadDto updateVariable(Long id, VariableUpdateDto variableDto) {
+        Variable updatedVariable = variableRepository.getReferenceById(id);
+        updatedVariable.setName(variableDto.name());
+        return new VariableReadDto(variableRepository.save(updatedVariable));
     }
 
     // Delete -----------------------------------------
