@@ -37,11 +37,12 @@ public class ControllerService {
 
     // Update -----------------------------------------
 
-    public void updateController(Controller controller) {
-        Controller updatedController = controllerRepository.getReferenceById(controller.getId());
-        updatedController.setName(controller.getName());
-        updatedController.setControlActions(controller.getControlActions());
+    public ControllerReadDto updateController(Long id, ControllerUpdateDto controllerDto) {
+        Controller updatedController = controllerRepository.getReferenceById(id);
+        updatedController.setName(controllerDto.name());
+        return new ControllerReadDto(controllerRepository.save(updatedController));
     }
+
     public ControllerReadDto deleteContextTable(Long controllerId) {
         var controller = controllerRepository.getReferenceById(controllerId);
         controller.setContextTable(null);
