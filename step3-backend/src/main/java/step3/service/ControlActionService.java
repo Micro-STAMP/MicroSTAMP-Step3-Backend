@@ -35,9 +35,10 @@ public class ControlActionService {
 
     // Update -----------------------------------------
 
-    public void updateControlAction(ControlAction controlAction) {
-        ControlAction updatedControlAction = controlActionRepository.getReferenceById(controlAction.getId());
-        updatedControlAction.setName(controlAction.getName());
+    public ControlActionReadDto updateControlAction(Long id, ControlActionUpdateDto controlActionDto) {
+        ControlAction updatedControlAction = controlActionRepository.getReferenceById(id);
+        updatedControlAction.setName(controlActionDto.name());
+        return new ControlActionReadDto(controlActionRepository.save(updatedControlAction));
     }
 
     // Delete -----------------------------------------
