@@ -48,10 +48,9 @@ public class VariableService {
     // Delete -----------------------------------------
 
     public void deleteVariable(Long id) {
-        Variable variableToBeDeleted = variableRepository.getReferenceById(id);
-        Long controllerId = variableToBeDeleted.getController().getId();
+        var variableToBeDeleted = variableRepository.getReferenceById(id);
+        var controller = variableToBeDeleted.getController();
 
-        var controller = controllerRepository.getReferenceById(controllerId);
         controller.setContextTable(null);
         controllerRepository.save(controller);
 
