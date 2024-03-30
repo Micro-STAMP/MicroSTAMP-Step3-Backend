@@ -6,17 +6,18 @@ import step3.dto.value.ValueCreateDto;
 import step3.dto.value.ValueReadDto;
 import step3.entity.Value;
 import step3.entity.Variable;
-import step3.repository.ValueRepository;
-import step3.repository.VariableRepository;
+import step3.repository.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class ValueService {
     private final ValueRepository valueRepository;
     private final VariableRepository variableRepository;
+    private final ControllerRepository controllerRepository;
+    private final RuleRepository ruleRepository;
+    private final UnsafeControlActionRepository ucaRepository;
 
     // Create -----------------------------------------
 
@@ -47,6 +48,14 @@ public class ValueService {
     // Delete -----------------------------------------
 
     public void deleteValue(Long id) {
+        var value = valueRepository.getReferenceById(id);
+        var controller = value.getVariable().getController();
+
+        controller.setContextTable(null);
+        controllerRepository.save(controller);
+
+        ruleRepository.deleteAll();
+        ucaRepository.deleteAll();
         valueRepository.deleteById(id);
     }
 
