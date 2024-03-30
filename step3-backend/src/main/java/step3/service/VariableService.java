@@ -6,14 +6,19 @@ import step3.dto.variable.VariableCreateDto;
 import step3.dto.variable.*;
 import step3.entity.Variable;
 import step3.repository.ControllerRepository;
+import step3.repository.RuleRepository;
+import step3.repository.UnsafeControlActionRepository;
 import step3.repository.VariableRepository;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
 public class VariableService {
     private final VariableRepository variableRepository;
     private final ControllerRepository controllerRepository;
+    private final RuleRepository ruleRepository;
+    private final UnsafeControlActionRepository ucaRepository;
 
     // Create -----------------------------------------
 
@@ -44,6 +49,15 @@ public class VariableService {
     // Delete -----------------------------------------
 
     public void deleteVariable(Long id) {
+        Variable variableToBeDeleted = variableRepository.getReferenceById(id);
+        Long controllerId = variableToBeDeleted.getController().getId();
+
+        var controller = controllerRepository.getReferenceById(controllerId);
+        controller.setContextTable(null);
+        controllerRepository.save(controller);
+
+        ruleRepository.deleteAll();
+        ucaRepository.deleteAll();
         variableRepository.deleteById(id);
     }
 
