@@ -1,17 +1,16 @@
-import styles from "./Header.module.scss";
+import { Container, Links, Logo, StyledHeader } from "./Header.style";
 
 function Header() {
 	return (
-		<header className={styles.Header}>
-			<div className={styles.Container}>
-				<h1 className={styles.Logo}>Step 3</h1>
-
-				<ul className={styles.Links}>
+		<StyledHeader>
+			<Container>
+				<Logo>Step 3</Logo>
+				<Links>
 					<li>Projects</li>
 					<li>Login</li>
-				</ul>
-			</div>
-		</header>
+				</Links>
+			</Container>
+		</StyledHeader>
 	);
 }
 
