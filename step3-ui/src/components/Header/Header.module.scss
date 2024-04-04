@@ -1,0 +1,40 @@
+/* Color Pallete */
+
+/* 
+	$white: "#F5F5F5";
+	$dark: "#161616";
+	$background: "#333C4B";
+	$yellow: "#D4A056";
+	$container: "#4A4C5C"; 
+*/
+
+.Header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	padding: 16px 0;
+	box-shadow: 0 4px 4px #16161640;
+
+	.Container {
+		display: flex;
+		justify-content: space-between;
+		width: clamp(252px, 90%, 1440px);
+		text-shadow: 0 4px 4px #16161640;
+		margin: 0 16px;
+
+		.Logo {
+			color: #d4a056;
+			font-size: 1.5rem;
+			font-weight: bold;
+		}
+
+		.Links {
+			display: flex;
+			align-items: center;
+			gap: 1rem;
+			font-size: 1.1rem;
+			font-weight: 300;
+		}
+	}
+}
