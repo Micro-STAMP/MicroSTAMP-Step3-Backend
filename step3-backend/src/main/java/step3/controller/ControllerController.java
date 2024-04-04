@@ -46,9 +46,15 @@ public class ControllerController {
 
     // Update -----------------------------------------
 
-    @PutMapping @Transactional
-    public ResponseEntity<Controller> updateController(@RequestBody Controller controller) {
-        controllerService.updateController(controller);
+    @PutMapping("/{id}") @Transactional
+    public ResponseEntity<ControllerReadDto> updateController(@PathVariable Long id, @RequestBody ControllerUpdateDto controller) {
+        ControllerReadDto updatedController = controllerService.updateController(id, controller);
+        return ResponseEntity.ok(updatedController);
+    }
+
+    @PutMapping("/{controllerId}/remove-context-table") @Transactional
+    public ResponseEntity<ControllerReadDto> deleteContextTable(@PathVariable Long controllerId) {
+        ControllerReadDto controller = controllerService.deleteContextTable(controllerId);
         return ResponseEntity.ok(controller);
     }
 

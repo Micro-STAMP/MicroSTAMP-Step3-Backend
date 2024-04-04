@@ -6,6 +6,8 @@ import step3.dto.variable.VariableCreateDto;
 import step3.dto.variable.*;
 import step3.entity.Variable;
 import step3.repository.ControllerRepository;
+import step3.repository.RuleRepository;
+import step3.repository.UnsafeControlActionRepository;
 import step3.repository.VariableRepository;
 import java.util.List;
 
@@ -14,6 +16,8 @@ import java.util.List;
 public class VariableService {
     private final VariableRepository variableRepository;
     private final ControllerRepository controllerRepository;
+    private final RuleRepository ruleRepository;
+    private final UnsafeControlActionRepository ucaRepository;
 
     // Create -----------------------------------------
 
@@ -35,15 +39,23 @@ public class VariableService {
 
     // Update -----------------------------------------
 
-    public void updateVariable(Variable variable) {
-        Variable updatedVariable = variableRepository.getReferenceById(variable.getId());
-        updatedVariable.setName(variable.getName());
-        updatedVariable.setValues(variable.getValues());
+    public VariableReadDto updateVariable(Long id, VariableUpdateDto variableDto) {
+        Variable updatedVariable = variableRepository.getReferenceById(id);
+        updatedVariable.setName(variableDto.name());
+        return new VariableReadDto(variableRepository.save(updatedVariable));
     }
 
     // Delete -----------------------------------------
 
     public void deleteVariable(Long id) {
+        var variableToBeDeleted = variableRepository.getReferenceById(id);
+        var controller = variableToBeDeleted.getController();
+
+        controller.setContextTable(null);
+        controllerRepository.save(controller);
+
+        ruleRepository.deleteAll();
+        ucaRepository.deleteAll();
         variableRepository.deleteById(id);
     }
 

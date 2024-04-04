@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.hazard.HazardCreateDto;
 import step3.dto.hazard.HazardReadDto;
+import step3.dto.hazard.HazardUpdateDto;
 import step3.entity.Hazard;
 import step3.entity.Project;
 import step3.repository.HazardRepository;
@@ -38,9 +39,10 @@ public class HazardService {
 
     // Update -----------------------------------------
 
-    public void updateHazard(Hazard hazard) {
-        Hazard updatedHazard = hazardRepository.getReferenceById(hazard.getId());
-        updatedHazard.setName(hazard.getName());
+    public HazardReadDto updateHazard(Long id, HazardUpdateDto hazardDTO) {
+        Hazard updatedHazard = hazardRepository.getReferenceById(id);
+        updatedHazard.setName(hazardDTO.name());
+        return new HazardReadDto(hazardRepository.save(updatedHazard));
     }
 
     // Delete -----------------------------------------

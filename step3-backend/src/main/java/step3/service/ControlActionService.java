@@ -7,6 +7,9 @@ import step3.entity.Controller;
 import step3.dto.control_action.*;
 import step3.repository.ControlActionRepository;
 import step3.repository.ControllerRepository;
+import step3.repository.RuleRepository;
+import step3.repository.UnsafeControlActionRepository;
+
 import java.util.List;
 
 @Service
@@ -14,6 +17,8 @@ import java.util.List;
 public class ControlActionService {
     private final ControlActionRepository controlActionRepository;
     private final ControllerRepository controllerRepository;
+    private final UnsafeControlActionRepository ucaRepository;
+    private final RuleRepository ruleRepository;
 
     // Create -----------------------------------------
 
@@ -35,14 +40,21 @@ public class ControlActionService {
 
     // Update -----------------------------------------
 
-    public void updateControlAction(ControlAction controlAction) {
-        ControlAction updatedControlAction = controlActionRepository.getReferenceById(controlAction.getId());
-        updatedControlAction.setName(controlAction.getName());
+    public ControlActionReadDto updateControlAction(Long id, ControlActionUpdateDto controlActionDto) {
+        ControlAction updatedControlAction = controlActionRepository.getReferenceById(id);
+        updatedControlAction.setName(controlActionDto.name());
+        return new ControlActionReadDto(controlActionRepository.save(updatedControlAction));
     }
 
     // Delete -----------------------------------------
 
     public void deleteControlAction(Long id) {
+        var ruleList = ruleRepository.findByControlActionId(id);
+        if (!ruleList.isEmpty()) ruleRepository.deleteAll(ruleList);
+
+        var ucaList = ucaRepository.findByControlActionId(id);
+        if (!ucaList.isEmpty()) ucaRepository.deleteAll(ucaList);
+
         controlActionRepository.deleteById(id);
     }
 

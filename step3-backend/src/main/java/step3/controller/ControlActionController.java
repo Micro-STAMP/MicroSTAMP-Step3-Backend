@@ -46,10 +46,10 @@ public class ControlActionController {
 
     // Update -----------------------------------------
 
-    @PutMapping @Transactional
-    public ResponseEntity<ControlAction> updateControlAction(@RequestBody ControlAction controlAction) {
-        controlActionService.updateControlAction(controlAction);
-        return ResponseEntity.ok(controlAction);
+    @PutMapping("/{id}") @Transactional
+    public ResponseEntity<ControlActionReadDto> updateControlAction(@PathVariable Long id, @RequestBody ControlActionUpdateDto controlAction) {
+        ControlActionReadDto updatedControlAction = controlActionService.updateControlAction(id, controlAction);
+        return ResponseEntity.ok(updatedControlAction);
     }
 
     // Delete -----------------------------------------

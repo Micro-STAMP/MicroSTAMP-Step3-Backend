@@ -46,10 +46,10 @@ public class VariableController {
 
     // Update -----------------------------------------
 
-    @PutMapping @Transactional
-    public ResponseEntity<Variable> updateVariable(@RequestBody Variable variable) {
-        variableService.updateVariable(variable);
-        return ResponseEntity.ok(variable);
+    @PutMapping("/{id}") @Transactional
+    public ResponseEntity<VariableReadDto> updateVariable(@PathVariable Long id, @RequestBody VariableUpdateDto variable) {
+        VariableReadDto updatedVariable = variableService.updateVariable(id, variable);
+        return ResponseEntity.ok(updatedVariable);
     }
 
     // Delete -----------------------------------------

@@ -46,10 +46,10 @@ public class HazardController {
 
     // Update -----------------------------------------
 
-    @PutMapping @Transactional
-    public ResponseEntity<Hazard> updateHazard(@RequestBody Hazard hazard) {
-        hazardService.updateHazard(hazard);
-        return ResponseEntity.ok(hazard);
+    @PutMapping("/{id}") @Transactional
+    public ResponseEntity<HazardReadDto> updateHazard(@PathVariable Long id, @RequestBody HazardUpdateDto hazardUpdateDto) {
+        HazardReadDto uptadedHazard = hazardService.updateHazard(id, hazardUpdateDto);
+        return ResponseEntity.ok(uptadedHazard);
     }
 
     // Delete -----------------------------------------

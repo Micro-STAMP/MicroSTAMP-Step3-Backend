@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import step3.dto.safety_constraint.SafetyConstraintReadDto;
+import step3.dto.safety_constraint.SafetyContraintUpdateDto;
 import step3.entity.SafetyConstraint;
 import step3.service.SafetyConstraintService;
 
@@ -37,10 +38,10 @@ public class SafetyConstraintController {
 
     // Update -----------------------------------------
 
-    @PutMapping @Transactional
-    public ResponseEntity<SafetyConstraint> updateSafetyConstraint(@RequestBody SafetyConstraint safetyConstraint) {
-        safetyConstraintService.updateSafetyConstraint(safetyConstraint);
-        return ResponseEntity.ok(safetyConstraint);
+    @PutMapping("/{id}") @Transactional
+    public ResponseEntity<SafetyConstraintReadDto> updateSafetyConstraint(@PathVariable Long id, @RequestBody SafetyContraintUpdateDto safetyConstraint) {
+        SafetyConstraintReadDto updatedSC = safetyConstraintService.updateSafetyConstraint(id, safetyConstraint);
+        return ResponseEntity.ok(updatedSC);
     }
 
     // Delete -----------------------------------------

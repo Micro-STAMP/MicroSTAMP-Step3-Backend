@@ -47,6 +47,8 @@ public class ValueController {
 
     // Update -----------------------------------------
 
+    // Creio que não vai precisar ter um put em valor,
+    // já que se alguem quiser trocar ele remove o antigo e cria um novo
     @PutMapping @Transactional
     public ResponseEntity<Value> updateValue(@RequestBody Value value) {
         valueService.updateValue(value);
