@@ -35,6 +35,8 @@ public class UnsafeControlActionService {
             ucaCreateDto.type(),
             project
         );
+        uca.setCreatedByRule(ucaCreateDto.createdByRule());
+
         UnsafeControlAction createdUCA = unsafeControlActionRepository.save(uca);
 
         return new UnsafeControlActionReadDto(createdUCA);
@@ -49,7 +51,8 @@ public class UnsafeControlActionService {
                 rule.getValues().stream().map(Value::getId).toList(),
                 rule.getHazard().getId(),
                 type,
-                rule.getControlAction().getController().getProject().getId()
+                rule.getControlAction().getController().getProject().getId(),
+                    true
             );
             createdUCAs.add(createUnsafeControlAction(dto));
         }

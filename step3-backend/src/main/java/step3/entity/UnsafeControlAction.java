@@ -38,6 +38,8 @@ public class UnsafeControlAction {
     @ManyToOne @JoinColumn(name = "project_id")
     private Project project;
 
+    private boolean createdByRule;
+
     // Constructors -----------------------------------
 
     public UnsafeControlAction(ControlAction controlAction, List<Value> values, Hazard hazard, UCAType type, Project project) {
@@ -48,6 +50,7 @@ public class UnsafeControlAction {
         this.project = project;
         this.name = generateName();
         this.constraint = generateConstraint();
+        this.createdByRule = false;
     }
     public UnsafeControlAction(ControlAction controlAction, List<Value> values, Hazard hazard, String type, Project project) {
         this.controlAction = controlAction;
@@ -57,6 +60,7 @@ public class UnsafeControlAction {
         this.project = project;
         this.name = generateName();
         this.constraint = generateConstraint();
+        this.createdByRule = false;
     }
 
     // Methods ----------------------------------------
