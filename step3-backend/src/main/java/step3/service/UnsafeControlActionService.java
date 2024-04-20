@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.unsafe_control_action.UnsafeControlActionCreateDto;
 import step3.dto.unsafe_control_action.UnsafeControlActionReadDto;
+import step3.dto.unsafe_control_action.UnsafeControlActionUpdateDto;
 import step3.entity.*;
+import step3.infra.exceptions.OperationNotAllowedException;
 import step3.repository.*;
 
 import java.util.ArrayList;
@@ -70,17 +72,25 @@ public class UnsafeControlActionService {
 
     // Update -----------------------------------------
 
-    public void updateUnsafeControlAction(UnsafeControlAction uca) {
-        UnsafeControlAction updatedUca = unsafeControlActionRepository.getReferenceById(uca.getId());
-        updatedUca.setName(uca.getName());
-        updatedUca.setConstraint(uca.getConstraint());
-        updatedUca.setValues(uca.getValues());
-        updatedUca.setHazard(uca.getHazard());
+    public UnsafeControlActionReadDto updateUnsafeControlAction(Long id, UnsafeControlActionUpdateDto ucaDto) {
+        UnsafeControlAction uca = unsafeControlActionRepository.getReferenceById(id);
+
+        if (uca.isCreatedByRule()) throw new OperationNotAllowedException("Updating unsafe control actions created by rules is not allowed");
+
+        uca.setName(ucaDto.name());
+        UnsafeControlAction updatedUca = unsafeControlActionRepository.save(uca);
+
+        return new UnsafeControlActionReadDto(unsafeControlActionRepository.save(updatedUca));
     }
 
     // Delete -----------------------------------------
 
     public void deleteUnsafeControlAction(Long id) {
+        UnsafeControlAction uca = unsafeControlActionRepository.getReferenceById(id);
+
+        if (uca.isCreatedByRule())
+            throw new OperationNotAllowedException("Removing unsafe control actions created by rules is not allowed");
+
         unsafeControlActionRepository.deleteById(id);
     }
 
