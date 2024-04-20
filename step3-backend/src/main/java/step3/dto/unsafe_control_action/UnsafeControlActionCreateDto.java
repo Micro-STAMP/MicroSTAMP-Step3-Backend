@@ -15,5 +15,6 @@ public record UnsafeControlActionCreateDto(
         @NotNull
         UCAType type,
         @NotNull
-        Long project_id
+        Long project_id,
+        boolean createdByRule
 ) {}
