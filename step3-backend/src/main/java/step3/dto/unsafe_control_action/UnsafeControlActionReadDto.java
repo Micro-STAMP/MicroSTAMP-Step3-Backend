@@ -6,7 +6,8 @@ public record UnsafeControlActionReadDto(
         Long id,
         String name,
         String project_name,
-        boolean createdByRule
+        String hazard_tag,
+        String rule_tag
 ) {
 
     // Constructors -----------------------------------
@@ -16,11 +17,8 @@ public record UnsafeControlActionReadDto(
                 uca.getId(),
                 uca.getName(),
                 uca.getProject().getName(),
-                uca.isCreatedByRule()
+                uca.getHazard().getTagName(),
+                uca.getRuleTag()
         );
     }
-
-    // DTOs -------------------------------------------
-
-    // ------------------------------------------------
 }

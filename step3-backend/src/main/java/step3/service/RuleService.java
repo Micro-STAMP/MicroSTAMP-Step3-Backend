@@ -16,16 +16,18 @@ public class RuleService {
     private final ControlActionRepository controlActionRepository;
     private final ValueRepository valueRepository;
     private final HazardRepository hazardRepository;
+    private final UnsafeControlActionRepository ucaRepository;
     private int nextTag;
 
     public RuleService(RuleRepository ruleRepository,
                        ControlActionRepository controlActionRepository,
                        ValueRepository valueRepository,
-                       HazardRepository hazardRepository) {
+                       HazardRepository hazardRepository, UnsafeControlActionRepository ucaRepository) {
         this.ruleRepository = ruleRepository;
         this.controlActionRepository = controlActionRepository;
         this.valueRepository = valueRepository;
         this.hazardRepository = hazardRepository;
+        this.ucaRepository = ucaRepository;
         this.nextTag = 1;
     }
 
@@ -58,6 +60,9 @@ public class RuleService {
     // Delete -----------------------------------------
 
     public void deleteRule(Long id) {
+        var rule = ruleRepository.getReferenceById(id);
+        ucaRepository.deleteAll(ucaRepository.findByRuleTag(rule.getTagName()));
+        updateTagsOfUcas(rule.getTag());
         ruleRepository.deleteById(id);
         this.nextTag--;
         updateTags();
@@ -78,5 +83,17 @@ public class RuleService {
         var rules = ruleRepository.findAll();
         AtomicInteger newTag = new AtomicInteger(1);
         rules.forEach(rule -> rule.setTag(newTag.getAndIncrement()));
+    }
+
+    private void updateTagsOfUcas(int deletedRuleTag) {
+        var ucaList = ucaRepository.findAll();
+        ucaList.forEach(uca -> {
+            String replacedUcaTag = uca.getRuleTag().replace("R", "");
+            int ucaTagIndex = replacedUcaTag.isEmpty() ? -99 : Integer.parseInt(replacedUcaTag);
+            if (ucaTagIndex > deletedRuleTag) {
+                uca.setRuleTag("R" + (ucaTagIndex - 1));
+                ucaRepository.save(uca);
+            }
+        });
     }
 }
