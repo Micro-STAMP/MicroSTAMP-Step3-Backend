@@ -27,12 +27,23 @@ public class ErrorHandler {
         return ResponseEntity.notFound().build();
     }
 
+    // 405
+    @ExceptionHandler(OperationNotAllowedException.class)
+    public ResponseEntity<ErrorMessage> error403(OperationNotAllowedException exception) {
+        ErrorMessage errorMessage = new ErrorMessage(exception.getMessage());
+        return ResponseEntity.badRequest().body(errorMessage);
+    }
+
     // DTOs -------------------------------------------
 
     public record Error400Dto(String field, String message) {
         public Error400Dto(FieldError error) {
             this(error.getField(), error.getDefaultMessage());
         }
+    }
+
+    public record ErrorMessage(String message) {
+
     }
 
     // ------------------------------------------------

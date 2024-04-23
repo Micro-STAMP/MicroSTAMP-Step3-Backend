@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface UnsafeControlActionRepository extends JpaRepository<UnsafeControlAction, Long> {
     List<UnsafeControlAction> findByControlActionId(Long id);
+    List<UnsafeControlAction> findByRuleTag(String tag);
 }

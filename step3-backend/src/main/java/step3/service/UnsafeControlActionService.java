@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.unsafe_control_action.UnsafeControlActionCreateDto;
 import step3.dto.unsafe_control_action.UnsafeControlActionReadDto;
+import step3.dto.unsafe_control_action.UnsafeControlActionUpdateDto;
 import step3.entity.*;
+import step3.infra.exceptions.OperationNotAllowedException;
 import step3.repository.*;
 
 import java.util.ArrayList;
@@ -29,27 +31,31 @@ public class UnsafeControlActionService {
         Project project = projectRepository.getReferenceById(ucaCreateDto.project_id());
 
         UnsafeControlAction uca = new UnsafeControlAction(
-            controlAction,
-            values,
-            hazard,
-            ucaCreateDto.type(),
-            project
+                controlAction,
+                values,
+                hazard,
+                ucaCreateDto.type(),
+                project,
+                ucaCreateDto.rule_tag()
         );
+
         UnsafeControlAction createdUCA = unsafeControlActionRepository.save(uca);
 
         return new UnsafeControlActionReadDto(createdUCA);
     }
+
     public List<UnsafeControlActionReadDto> createUCAsByRule(Long rule_id) {
         Rule rule = ruleRepository.getReferenceById(rule_id);
         List<UnsafeControlActionReadDto> createdUCAs = new ArrayList<>();
         // ! Gambiarra? Mas foi a única coisa que funcionou
-        for(UCAType type : rule.getTypes()) {
+        for (UCAType type : rule.getTypes()) {
             UnsafeControlActionCreateDto dto = new UnsafeControlActionCreateDto(
-                rule.getControlAction().getId(),
-                rule.getValues().stream().map(Value::getId).toList(),
-                rule.getHazard().getId(),
-                type,
-                rule.getControlAction().getController().getProject().getId()
+                    rule.getControlAction().getId(),
+                    rule.getValues().stream().map(Value::getId).toList(),
+                    rule.getHazard().getId(),
+                    type,
+                    rule.getControlAction().getController().getProject().getId(),
+                    rule.getTagName()
             );
             createdUCAs.add(createUnsafeControlAction(dto));
         }
@@ -61,23 +67,33 @@ public class UnsafeControlActionService {
     public UnsafeControlActionReadDto readUnsafeControlAction(Long id) {
         return new UnsafeControlActionReadDto(unsafeControlActionRepository.getReferenceById(id));
     }
+
     public List<UnsafeControlActionReadDto> readAllUnsafeControlActions() {
         return unsafeControlActionRepository.findAll().stream().map(UnsafeControlActionReadDto::new).toList();
     }
 
     // Update -----------------------------------------
 
-    public void updateUnsafeControlAction(UnsafeControlAction uca) {
-        UnsafeControlAction updatedUca = unsafeControlActionRepository.getReferenceById(uca.getId());
-        updatedUca.setName(uca.getName());
-        updatedUca.setConstraint(uca.getConstraint());
-        updatedUca.setValues(uca.getValues());
-        updatedUca.setHazard(uca.getHazard());
+    public UnsafeControlActionReadDto updateUnsafeControlAction(Long id, UnsafeControlActionUpdateDto ucaDto) {
+        UnsafeControlAction uca = unsafeControlActionRepository.getReferenceById(id);
+
+        if (!uca.getRuleTag().isEmpty())
+            throw new OperationNotAllowedException("Updating unsafe control actions created by rules is not allowed");
+
+        uca.setName(ucaDto.name());
+        UnsafeControlAction updatedUca = unsafeControlActionRepository.save(uca);
+
+        return new UnsafeControlActionReadDto(unsafeControlActionRepository.save(updatedUca));
     }
 
     // Delete -----------------------------------------
 
     public void deleteUnsafeControlAction(Long id) {
+        UnsafeControlAction uca = unsafeControlActionRepository.getReferenceById(id);
+
+        if (!uca.getRuleTag().isEmpty())
+            throw new OperationNotAllowedException("Removing unsafe control actions created by rules is not allowed");
+
         unsafeControlActionRepository.deleteById(id);
     }
 
@@ -85,7 +101,7 @@ public class UnsafeControlActionService {
 
     public List<Value> getUCAValues(List<Long> valuesIds) {
         List<Value> values = new ArrayList<>();
-        for(Long value_id : valuesIds) {
+        for (Long value_id : valuesIds) {
             Value value = valueRepository.getReferenceById(value_id);
             values.add(value);
         }

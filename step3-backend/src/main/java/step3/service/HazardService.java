@@ -1,6 +1,5 @@
 package step3.service;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import step3.dto.hazard.HazardCreateDto;
 import step3.dto.hazard.HazardReadDto;
@@ -11,19 +10,27 @@ import step3.repository.HazardRepository;
 import step3.repository.ProjectRepository;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-@AllArgsConstructor
 public class HazardService {
     private final HazardRepository hazardRepository;
     private final ProjectRepository projectRepository;
+    private int nextTag;
+
+    public HazardService(HazardRepository hazardRepository, ProjectRepository projectRepository) {
+        this.hazardRepository = hazardRepository;
+        this.projectRepository = projectRepository;
+        this.nextTag = 1;
+    }
+
 
     // Create -----------------------------------------
 
     public HazardReadDto createHazard(HazardCreateDto hazardCreateDto) {
         Project project = projectRepository.getReferenceById(hazardCreateDto.project_id());
         Hazard hazard = new Hazard(hazardCreateDto.name(), project);
+        hazard.setTag(nextTag++);
         Hazard createdHazard = hazardRepository.save(hazard);
         return new HazardReadDto(createdHazard);
     }
@@ -49,9 +56,17 @@ public class HazardService {
 
     public void deleteHazard(Long id) {
         hazardRepository.deleteById(id);
+        updateTags();
+        this.nextTag--;
     }
 
     // Methods ----------------------------------------
+
+    private void updateTags() {
+        AtomicInteger newTag = new AtomicInteger(1);
+        var hazards = hazardRepository.findAll();
+        hazards.forEach(hazard -> hazard.setTag(newTag.getAndIncrement()));
+    }
 
     // ------------------------------------------------
 }

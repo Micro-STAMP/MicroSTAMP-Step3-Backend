@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 @Table(name = "unsafe_control_action")
@@ -38,9 +39,11 @@ public class UnsafeControlAction {
     @ManyToOne @JoinColumn(name = "project_id")
     private Project project;
 
+    private String ruleTag;
+
     // Constructors -----------------------------------
 
-    public UnsafeControlAction(ControlAction controlAction, List<Value> values, Hazard hazard, UCAType type, Project project) {
+    public UnsafeControlAction(ControlAction controlAction, List<Value> values, Hazard hazard, UCAType type, Project project, String ruleTag) {
         this.controlAction = controlAction;
         this.values = values;
         this.hazard = hazard;
@@ -48,8 +51,9 @@ public class UnsafeControlAction {
         this.project = project;
         this.name = generateName();
         this.constraint = generateConstraint();
+        this.ruleTag = ruleTag == null ? "" : ruleTag;
     }
-    public UnsafeControlAction(ControlAction controlAction, List<Value> values, Hazard hazard, String type, Project project) {
+    public UnsafeControlAction(ControlAction controlAction, List<Value> values, Hazard hazard, String type, Project project, String ruleTag) {
         this.controlAction = controlAction;
         this.values = values;
         this.hazard = hazard;
@@ -57,6 +61,7 @@ public class UnsafeControlAction {
         this.project = project;
         this.name = generateName();
         this.constraint = generateConstraint();
+        this.ruleTag = ruleTag == null ? "" : ruleTag;;
     }
 
     // Methods ----------------------------------------

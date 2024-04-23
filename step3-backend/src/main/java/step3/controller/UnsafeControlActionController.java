@@ -7,10 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import java.net.URI;
-import step3.dto.unsafe_control_action.*;
-import step3.entity.UnsafeControlAction;
+import step3.dto.unsafe_control_action.UnsafeControlActionCreateDto;
+import step3.dto.unsafe_control_action.UnsafeControlActionReadDto;
+import step3.dto.unsafe_control_action.UnsafeControlActionUpdateDto;
 import step3.service.UnsafeControlActionService;
+
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -52,10 +54,10 @@ public class UnsafeControlActionController {
 
     // Update -----------------------------------------
 
-    @PutMapping @Transactional
-    public ResponseEntity<UnsafeControlAction> updateUnsafeControlAction(@RequestBody UnsafeControlAction uca) {
-        unsafeControlActionService.updateUnsafeControlAction(uca);
-        return ResponseEntity.ok(uca);
+    @PutMapping("/{id}") @Transactional
+    public ResponseEntity<UnsafeControlActionReadDto> updateUnsafeControlAction(@PathVariable Long id, @RequestBody UnsafeControlActionUpdateDto ucaDto) {
+        var updatedUca = unsafeControlActionService.updateUnsafeControlAction(id, ucaDto);
+        return ResponseEntity.ok(updatedUca);
     }
 
     // Delete -----------------------------------------

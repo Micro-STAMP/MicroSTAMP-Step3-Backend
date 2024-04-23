@@ -15,6 +15,7 @@ public class Rule {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private int tag;
 
     @ManyToOne @JoinColumn(name = "control_action_id")
     private ControlAction controlAction;
@@ -49,6 +50,10 @@ public class Rule {
 
     public void addType(UCAType type) {
         types.add(type);
+    }
+
+    public String getTagName() {
+        return "R" + this.tag;
     }
 
     // ------------------------------------------------
