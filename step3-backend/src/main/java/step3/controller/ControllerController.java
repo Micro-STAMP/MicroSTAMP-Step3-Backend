@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import step3.dto.controller.*;
-import step3.entity.Controller;
 import step3.service.ControllerService;
 import java.util.List;
 
@@ -36,12 +35,17 @@ public class ControllerController {
     // Read -------------------------------------------
 
     @GetMapping("/{id}")
-    public ResponseEntity<ControllerReadDto> readController(@PathVariable Long id) {
-        return ResponseEntity.ok(controllerService.readController(id));
+    public ResponseEntity<ControllerReadDto> readControllerById(@PathVariable Long id) {
+        return ResponseEntity.ok(controllerService.readControllerById(id));
     }
     @GetMapping
     public ResponseEntity<List<ControllerReadListDto>> readAllController() {
         return ResponseEntity.ok(controllerService.readAllControllers());
+    }
+
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<List<ControllerReadListDto>> readAllControllersByProject(@PathVariable Long projectId) {
+        return ResponseEntity.ok(controllerService.readControllersByProjectId(projectId));
     }
 
     // Update -----------------------------------------
