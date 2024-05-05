@@ -37,6 +37,10 @@ public class VariableService {
         return variableRepository.findAll().stream().map(VariableReadListDto::new).toList();
     }
 
+    public List<VariableReadListDto> readVariablesByControllerId(Long controllerId) {
+        return variableRepository.findByControllerId(controllerId).stream().map(VariableReadListDto::new).toList();
+    }
+
     // Update -----------------------------------------
 
     public VariableReadDto updateVariable(Long id, VariableUpdateDto variableDto) {

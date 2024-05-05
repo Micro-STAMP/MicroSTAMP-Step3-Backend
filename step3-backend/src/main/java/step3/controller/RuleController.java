@@ -43,6 +43,11 @@ public class RuleController {
         return ResponseEntity.ok(ruleService.readAllRules());
     }
 
+    @GetMapping("/control-action/{controlActionId}")
+    public ResponseEntity<List<RuleReadListDto>> readRulesByControlActionId(@PathVariable Long controlActionId) {
+        return ResponseEntity.ok(ruleService.readRulesByControlActionId(controlActionId));
+    }
+
     // Update -----------------------------------------
 
     // Delete -----------------------------------------

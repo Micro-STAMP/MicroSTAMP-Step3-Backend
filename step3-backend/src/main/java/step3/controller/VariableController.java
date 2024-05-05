@@ -44,6 +44,11 @@ public class VariableController {
         return ResponseEntity.ok(variableService.readAllVariables());
     }
 
+    @GetMapping("/controller/{controllerId}")
+    public ResponseEntity<List<VariableReadListDto>> readVariablesByControllerId(@PathVariable Long controllerId) {
+        return ResponseEntity.ok(variableService.readVariablesByControllerId(controllerId));
+    }
+
     // Update -----------------------------------------
 
     @PutMapping("/{id}") @Transactional

@@ -39,22 +39,28 @@ public class ContextTableService {
         List<ContextTable> contextTables = contextTableRepository.findAll();
         return contextTables.stream().map(ContextTableReadDto::new).toList();
     }
-    public ContextTableReadDto readContextTableByController(Long controller_id) {
-        List<ContextTable> contextTables = contextTableRepository.findAll();
-        ContextTable contextTable = null;
-        for (ContextTable ct : contextTables) {
-            if (ct.getController().getId().equals(controller_id)) {
-                contextTable = ct;
-            }
-        }
 
-        // controllerRepository.getReferenceById(controller_id);
-        if (contextTable != null) {
-            return new ContextTableReadDto(contextTable);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Controller not found with id: " + controller_id);
-        }
+    public List<ContextTableReadDto> readContextTablesByControllerId(Long controllerId) {
+        List<ContextTable> contextTables = contextTableRepository.findByControllerId(controllerId);
+        return contextTables.stream().map(ContextTableReadDto::new).toList();
     }
+
+//    public ContextTableReadDto readContextTableByController(Long controller_id) {
+//        List<ContextTable> contextTables = contextTableRepository.findAll();
+//        ContextTable contextTable = null;
+//        for (ContextTable ct : contextTables) {
+//            if (ct.getController().getId().equals(controller_id)) {
+//                contextTable = ct;
+//            }
+//        }
+//
+//        // controllerRepository.getReferenceById(controller_id);
+//        if (contextTable != null) {
+//            return new ContextTableReadDto(contextTable);
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Controller not found with id: " + controller_id);
+//        }
+//    }
 
     // Update -----------------------------------------
 

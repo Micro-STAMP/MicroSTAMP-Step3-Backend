@@ -44,6 +44,11 @@ public class HazardController {
         return ResponseEntity.ok(hazardService.readAllHazards());
     }
 
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<List<HazardReadDto>> readHazardsByProjectId(@PathVariable Long projectId) {
+        return ResponseEntity.ok(hazardService.readHazardsByProjectId(projectId));
+    }
+
     // Update -----------------------------------------
 
     @PutMapping("/{id}") @Transactional

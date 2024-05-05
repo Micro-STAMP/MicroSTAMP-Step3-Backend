@@ -40,8 +40,13 @@ public class HazardService {
     public HazardReadDto readHazard(Long id) {
         return new HazardReadDto(hazardRepository.getReferenceById(id));
     }
+
     public List<HazardReadDto> readAllHazards() {
         return hazardRepository.findAll().stream().map(HazardReadDto::new).toList();
+    }
+
+    public List<HazardReadDto> readHazardsByProjectId(Long projectId) {
+        return hazardRepository.findByProjectId(projectId).stream().map(HazardReadDto::new).toList();
     }
 
     // Update -----------------------------------------

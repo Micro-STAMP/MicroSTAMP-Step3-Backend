@@ -44,6 +44,11 @@ public class ControlActionController {
        return ResponseEntity.ok(controlActionService.readAllControlActions());
     }
 
+    @GetMapping("/controller/{controllerId}")
+    public ResponseEntity<List<ControlActionReadDto>> readControlActionsByControllerId(@PathVariable Long controllerId) {
+        return ResponseEntity.ok(controlActionService.readControlActionsByControllerId(controllerId));
+    }
+
     // Update -----------------------------------------
 
     @PutMapping("/{id}") @Transactional
