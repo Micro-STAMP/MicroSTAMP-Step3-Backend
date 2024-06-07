@@ -2,6 +2,7 @@ package step3.dto.controller;
 
 import step3.entity.ControlAction;
 import step3.entity.Controller;
+import step3.entity.Value;
 import step3.entity.Variable;
 import java.util.List;
 import java.util.Optional;
@@ -38,11 +39,20 @@ public record ControllerReadDto(
             );
         }
     }
-    private record VariableDto(Long id, String name) {
+    private record ValueDto(Long id, String name) {
+        public ValueDto(Value value) {
+            this(
+                    value.getId(),
+                    value.getName()
+            );
+        }
+    }
+    private record VariableDto(Long id, String name, List<ValueDto> values) {
         public VariableDto(Variable variable) {
             this(
                 variable.getId(),
-                variable.getName()
+                variable.getName(),
+                variable.getValues().stream().map(ValueDto::new).toList()
             );
         }
     }
