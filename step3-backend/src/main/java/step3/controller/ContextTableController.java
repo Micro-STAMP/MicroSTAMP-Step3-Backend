@@ -42,9 +42,10 @@ public class ContextTableController {
     public ResponseEntity<List<ContextTableReadDto>> readAllContextTables() {
         return ResponseEntity.ok(contextTableService.readAllContextTables());
     }
-    @GetMapping("/controller/{controller_id}")
-    public ResponseEntity<ContextTableReadDto> readContextTableByController(@PathVariable Long controller_id) {
-        return ResponseEntity.ok(contextTableService.readContextTableByController(controller_id));
+
+    @GetMapping("/controller/{controllerId}")
+    public ResponseEntity<List<ContextTableReadDto>> readContextTablesByControllerId(@PathVariable Long controllerId) {
+        return ResponseEntity.ok(contextTableService.readContextTablesByControllerId(controllerId));
     }
 
     // Update -----------------------------------------

@@ -38,6 +38,10 @@ public class ControlActionService {
         return controlActionRepository.findAll().stream().map(ControlActionReadDto::new).toList();
     }
 
+    public List<ControlActionReadDto> readControlActionsByControllerId(Long controllerId) {
+        return controlActionRepository.findByControllerId(controllerId).stream().map(ControlActionReadDto::new).toList();
+    }
+
     // Update -----------------------------------------
 
     public ControlActionReadDto updateControlAction(Long id, ControlActionUpdateDto controlActionDto) {

@@ -55,6 +55,10 @@ public class RuleService {
         return ruleRepository.findAll().stream().map(RuleReadListDto::new).toList();
     }
 
+    public List<RuleReadListDto> readRulesByControlActionId(Long controlActionId) {
+        return ruleRepository.findByControlActionId(controlActionId).stream().map(RuleReadListDto::new).toList();
+    }
+
     // Update -----------------------------------------
 
     // Delete -----------------------------------------
