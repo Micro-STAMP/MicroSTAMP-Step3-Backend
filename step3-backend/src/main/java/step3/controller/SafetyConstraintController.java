@@ -31,6 +31,10 @@ public class SafetyConstraintController {
     public ResponseEntity<SafetyConstraintReadDto> readSafetyConstraint(@PathVariable Long id) {
         return ResponseEntity.ok(safetyConstraintService.readSafetyConstraint(id));
     }
+    @GetMapping("/uca/{id}")
+    public ResponseEntity<SafetyConstraintReadDto> readSafetyConstraintByUCAId(@PathVariable Long id) {
+        return ResponseEntity.ok(safetyConstraintService.readSafetyConstraintByUCAId(id));
+    }
     @GetMapping
     public ResponseEntity<List<SafetyConstraintReadDto>> readAllSafetyConstraints() {
         return ResponseEntity.ok(safetyConstraintService.readAllSafetyConstraints());
