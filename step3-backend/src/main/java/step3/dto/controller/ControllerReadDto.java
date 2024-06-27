@@ -13,7 +13,8 @@ public record ControllerReadDto(
         List<ControlActionDto> control_actions,
         List<VariableDto> variables,
         Optional<Long> context_table_id,
-        String project_name
+        String project_name,
+        Long project_id
 ) {
 
     // Constructors -----------------------------------
@@ -25,7 +26,8 @@ public record ControllerReadDto(
            controller.getControlActions().stream().map(ControlActionDto::new).toList(),
            controller.getVariables().stream().map(VariableDto::new).toList(),
            Optional.ofNullable(controller.getContextTable() != null ? controller.getContextTable().getId() : null),
-           controller.getProject().getName()
+           controller.getProject().getName(),
+           controller.getProject().getId()
         );
     }
 
