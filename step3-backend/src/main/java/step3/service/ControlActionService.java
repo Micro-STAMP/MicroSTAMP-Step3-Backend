@@ -2,14 +2,17 @@ package step3.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import step3.dto.unsafe_control_action.UnsafeControlActionContextDto;
 import step3.entity.ControlAction;
 import step3.entity.Controller;
 import step3.dto.control_action.*;
+import step3.entity.UnsafeControlAction;
 import step3.repository.ControlActionRepository;
 import step3.repository.ControllerRepository;
 import step3.repository.RuleRepository;
 import step3.repository.UnsafeControlActionRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,6 +41,21 @@ public class ControlActionService {
         return controlActionRepository.findAll().stream().map(ControlActionReadDto::new).toList();
     }
 
+    public List<ControlActionReadDto> readControlActionsByControllerId(Long controllerId) {
+        return controlActionRepository.findByControllerId(controllerId).stream().map(ControlActionReadDto::new).toList();
+    }
+
+    public List<UnsafeControlActionContextDto> readUnsafeControlActionContext(Long id) {
+        var ucaList = ucaRepository.findByControlActionId(id);
+        List<UnsafeControlActionContextDto> ucaContextList = new ArrayList<>();
+
+        for (UnsafeControlAction uca : ucaList) {
+            ucaContextList.add(new UnsafeControlActionContextDto(uca));
+        }
+
+        return ucaContextList;
+    }
+
     // Update -----------------------------------------
 
     public ControlActionReadDto updateControlAction(Long id, ControlActionUpdateDto controlActionDto) {
@@ -57,6 +75,8 @@ public class ControlActionService {
 
         controlActionRepository.deleteById(id);
     }
+
+
 
     // Methods ----------------------------------------
 

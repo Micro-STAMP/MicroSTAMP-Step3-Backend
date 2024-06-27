@@ -72,6 +72,22 @@ public class UnsafeControlActionService {
         return unsafeControlActionRepository.findAll().stream().map(UnsafeControlActionReadDto::new).toList();
     }
 
+    public List<UnsafeControlActionReadDto> readAllUCAByControlActionId(Long controlActionId) {
+        return unsafeControlActionRepository
+                .findByControlActionId(controlActionId)
+                .stream()
+                .map(UnsafeControlActionReadDto::new)
+                .toList();
+    }
+
+    public List<UnsafeControlActionReadDto> readAllUCAByControllerId(Long controllerId) {
+        return unsafeControlActionRepository
+                .findByControlActionControllerId(controllerId)
+                .stream()
+                .map(UnsafeControlActionReadDto::new)
+                .toList();
+    }
+
     // Update -----------------------------------------
 
     public UnsafeControlActionReadDto updateUnsafeControlAction(Long id, UnsafeControlActionUpdateDto ucaDto) {

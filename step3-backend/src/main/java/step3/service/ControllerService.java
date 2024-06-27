@@ -27,12 +27,24 @@ public class ControllerService {
 
     // Read -------------------------------------------
 
-    public ControllerReadDto readController(Long id) {
+    public List<ControllerReadListDto> readControllersByProjectId(Long projectId) {
+        List<Controller> controllers = controllerRepository.findByProjectId(projectId);
+        return controllers.stream()
+                .map(ControllerReadListDto::new)
+                .toList();
+    }
+
+
+    public ControllerReadDto readControllerById(Long id) {
         Controller controller = controllerRepository.getReferenceById(id);
         return new ControllerReadDto(controller);
     }
+
     public List<ControllerReadListDto> readAllControllers() {
-        return controllerRepository.findAll().stream().map(ControllerReadListDto::new).toList();
+        return controllerRepository.findAll()
+                .stream()
+                .map(ControllerReadListDto::new)
+                .toList();
     }
 
     // Update -----------------------------------------

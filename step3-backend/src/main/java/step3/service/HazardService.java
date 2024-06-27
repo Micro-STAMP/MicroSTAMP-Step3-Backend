@@ -21,7 +21,9 @@ public class HazardService {
     public HazardService(HazardRepository hazardRepository, ProjectRepository projectRepository) {
         this.hazardRepository = hazardRepository;
         this.projectRepository = projectRepository;
-        this.nextTag = 1;
+
+        int hazardListSize = hazardRepository.findAll().size();
+        this.nextTag = hazardListSize == 0 ? 1 : hazardListSize + 1;
     }
 
 
@@ -40,8 +42,13 @@ public class HazardService {
     public HazardReadDto readHazard(Long id) {
         return new HazardReadDto(hazardRepository.getReferenceById(id));
     }
+
     public List<HazardReadDto> readAllHazards() {
         return hazardRepository.findAll().stream().map(HazardReadDto::new).toList();
+    }
+
+    public List<HazardReadDto> readHazardsByProjectId(Long projectId) {
+        return hazardRepository.findByProjectId(projectId).stream().map(HazardReadDto::new).toList();
     }
 
     // Update -----------------------------------------

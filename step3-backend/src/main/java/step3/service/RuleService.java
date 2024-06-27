@@ -28,7 +28,9 @@ public class RuleService {
         this.valueRepository = valueRepository;
         this.hazardRepository = hazardRepository;
         this.ucaRepository = ucaRepository;
-        this.nextTag = 1;
+
+        int ruleListSize = ruleRepository.findAll().size();
+        this.nextTag = ruleListSize == 0 ? 1 : ruleListSize + 1;
     }
 
     // Create -----------------------------------------
@@ -53,6 +55,10 @@ public class RuleService {
 
     public List<RuleReadListDto> readAllRules() {
         return ruleRepository.findAll().stream().map(RuleReadListDto::new).toList();
+    }
+
+    public List<RuleReadListDto> readRulesByControlActionId(Long controlActionId) {
+        return ruleRepository.findByControlActionId(controlActionId).stream().map(RuleReadListDto::new).toList();
     }
 
     // Update -----------------------------------------

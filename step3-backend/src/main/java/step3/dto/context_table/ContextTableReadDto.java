@@ -9,6 +9,7 @@ import java.util.List;
 public record ContextTableReadDto(
         Long id,
         List<ContextDto> contexts,
+        Long controller_id,
         String controller_name
 ) {
 
@@ -18,6 +19,7 @@ public record ContextTableReadDto(
         this(
             contextTable.getId(),
             contextTable.getContexts().stream().map(ContextDto::new).toList(),
+            contextTable.getController().getId(),
             contextTable.getController().getName()
         );
     }

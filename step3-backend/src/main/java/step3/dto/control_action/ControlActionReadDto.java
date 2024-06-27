@@ -5,7 +5,9 @@ import step3.entity.ControlAction;
 public record ControlActionReadDto(
         Long id,
         String name,
-        String controller_name
+        Long controller_id,
+        String controller_name,
+        Long project_id
 ) {
 
     // Constructors -----------------------------------
@@ -14,7 +16,9 @@ public record ControlActionReadDto(
         this(
             controlAction.getId(),
             controlAction.getName(),
-            controlAction.getController().getName()
+            controlAction.getController().getId(),
+            controlAction.getController().getName(),
+            controlAction.getController().getProject().getId()
         );
     }
 

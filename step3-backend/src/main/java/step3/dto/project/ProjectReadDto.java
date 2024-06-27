@@ -30,19 +30,19 @@ public record ProjectReadDto(
 
     // DTOs -------------------------------------------
 
-    private record HazardDto(String name) {
+    private record HazardDto(String name, Long id) {
         public HazardDto(Hazard hazard) {
-            this(hazard.getName());
+            this(hazard.getName(), hazard.getId());
         }
     }
-    private record ControllerDto(String name) {
+    private record ControllerDto(String name, Long id) {
         public ControllerDto (Controller controller){
-            this(controller.getName());
+            this(controller.getName(), controller.getId());
         }
     }
-    private record UnsafeControlActionDto(String name) {
+    private record UnsafeControlActionDto(String name, Long id) {
         public UnsafeControlActionDto(UnsafeControlAction uca) {
-            this(uca.getName());
+            this(uca.getName(), uca.getId());
         }
     }
 
