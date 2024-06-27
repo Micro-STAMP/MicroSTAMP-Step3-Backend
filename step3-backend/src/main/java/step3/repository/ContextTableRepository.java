@@ -6,5 +6,5 @@ import step3.entity.ContextTable;
 import java.util.List;
 
 public interface ContextTableRepository extends JpaRepository<ContextTable, Long> {
-    List<ContextTable> findByControllerId(Long controllerId);
+    ContextTable findByControllerId(Long controllerId);
 }

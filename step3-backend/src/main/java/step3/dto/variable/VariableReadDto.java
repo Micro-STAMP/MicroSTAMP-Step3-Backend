@@ -24,9 +24,10 @@ public record VariableReadDto(
 
     // DTOs -------------------------------------------
 
-    private record ValueDto(String name) {
+    private record ValueDto(Long id, String name) {
         public ValueDto(Value value) {
             this(
+                value.getId(),
                 value.getName()
             );
         }
