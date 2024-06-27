@@ -6,10 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import java.net.URI;
-import step3.dto.control_action.*;
-import step3.entity.ControlAction;
+import step3.dto.control_action.ControlActionCreateDto;
+import step3.dto.control_action.ControlActionReadDto;
+import step3.dto.control_action.ControlActionUpdateDto;
+import step3.dto.unsafe_control_action.UnsafeControlActionContextDto;
 import step3.service.ControlActionService;
+
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -47,6 +50,11 @@ public class ControlActionController {
     @GetMapping("/controller/{controllerId}")
     public ResponseEntity<List<ControlActionReadDto>> readControlActionsByControllerId(@PathVariable Long controllerId) {
         return ResponseEntity.ok(controlActionService.readControlActionsByControllerId(controllerId));
+    }
+
+    @GetMapping("{id}/uca-context")
+    public ResponseEntity<List<UnsafeControlActionContextDto>> readControlActionContext(@PathVariable Long id) {
+        return ResponseEntity.ok(controlActionService.readUnsafeControlActionContext(id));
     }
 
     // Update -----------------------------------------
