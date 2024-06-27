@@ -21,6 +21,9 @@ public class SafetyConstraintService {
     public SafetyConstraintReadDto readSafetyConstraint(Long id) {
         return new SafetyConstraintReadDto(safetyConstraintRepository.getReferenceById(id));
     }
+    public SafetyConstraintReadDto readSafetyConstraintByUCAId(Long uca_id) {
+        return new SafetyConstraintReadDto(safetyConstraintRepository.findByUnsafeControlActionId(uca_id));
+    }
     public List<SafetyConstraintReadDto> readAllSafetyConstraints() {
         return safetyConstraintRepository.findAll().stream().map(SafetyConstraintReadDto::new).toList();
     }

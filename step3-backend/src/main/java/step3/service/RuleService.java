@@ -28,7 +28,9 @@ public class RuleService {
         this.valueRepository = valueRepository;
         this.hazardRepository = hazardRepository;
         this.ucaRepository = ucaRepository;
-        this.nextTag = 1;
+
+        int ruleListSize = ruleRepository.findAll().size();
+        this.nextTag = ruleListSize == 0 ? 1 : ruleListSize + 1;
     }
 
     // Create -----------------------------------------

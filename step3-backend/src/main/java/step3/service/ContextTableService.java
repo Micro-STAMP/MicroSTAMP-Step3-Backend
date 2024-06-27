@@ -40,9 +40,9 @@ public class ContextTableService {
         return contextTables.stream().map(ContextTableReadDto::new).toList();
     }
 
-    public List<ContextTableReadDto> readContextTablesByControllerId(Long controllerId) {
-        List<ContextTable> contextTables = contextTableRepository.findByControllerId(controllerId);
-        return contextTables.stream().map(ContextTableReadDto::new).toList();
+    public ContextTableReadDto readContextTableByControllerId(Long controllerId) {
+        ContextTable contextTable = contextTableRepository.findByControllerId(controllerId);
+        return new ContextTableReadDto(contextTable);
     }
 
 //    public ContextTableReadDto readContextTableByController(Long controller_id) {

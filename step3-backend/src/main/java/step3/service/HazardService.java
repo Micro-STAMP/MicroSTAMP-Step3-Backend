@@ -21,7 +21,9 @@ public class HazardService {
     public HazardService(HazardRepository hazardRepository, ProjectRepository projectRepository) {
         this.hazardRepository = hazardRepository;
         this.projectRepository = projectRepository;
-        this.nextTag = 1;
+
+        int hazardListSize = hazardRepository.findAll().size();
+        this.nextTag = hazardListSize == 0 ? 1 : hazardListSize + 1;
     }
 
 

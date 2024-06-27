@@ -2,6 +2,7 @@ package step3.dto.controller;
 
 import step3.entity.ControlAction;
 import step3.entity.Controller;
+import step3.entity.Value;
 import step3.entity.Variable;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,8 @@ public record ControllerReadDto(
         List<ControlActionDto> control_actions,
         List<VariableDto> variables,
         Optional<Long> context_table_id,
-        String project_name
+        String project_name,
+        Long project_id
 ) {
 
     // Constructors -----------------------------------
@@ -24,7 +26,8 @@ public record ControllerReadDto(
            controller.getControlActions().stream().map(ControlActionDto::new).toList(),
            controller.getVariables().stream().map(VariableDto::new).toList(),
            Optional.ofNullable(controller.getContextTable() != null ? controller.getContextTable().getId() : null),
-           controller.getProject().getName()
+           controller.getProject().getName(),
+           controller.getProject().getId()
         );
     }
 
@@ -38,11 +41,20 @@ public record ControllerReadDto(
             );
         }
     }
-    private record VariableDto(Long id, String name) {
+    private record ValueDto(Long id, String name) {
+        public ValueDto(Value value) {
+            this(
+                    value.getId(),
+                    value.getName()
+            );
+        }
+    }
+    private record VariableDto(Long id, String name, List<ValueDto> values) {
         public VariableDto(Variable variable) {
             this(
                 variable.getId(),
-                variable.getName()
+                variable.getName(),
+                variable.getValues().stream().map(ValueDto::new).toList()
             );
         }
     }
