@@ -9,13 +9,16 @@ public record UnsafeControlActionContextDto(
         Long ucaId,
         String ucaName,
         List<ValueReadDto> values,
-        String type) {
+        String type,
+        String rule
+    ) {
     public UnsafeControlActionContextDto(UnsafeControlAction uca) {
         this(
                 uca.getId(),
                 uca.getName(),
                 uca.getValues().stream().map(ValueReadDto::new).toList(),
-                uca.getType().toString()
+                uca.getType().toString(),
+                uca.getRuleTag()
         );
     }
 }
