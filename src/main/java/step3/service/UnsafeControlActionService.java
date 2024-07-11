@@ -39,6 +39,10 @@ public class UnsafeControlActionService {
                 ucaCreateDto.rule_tag()
         );
 
+        unsafeControlActionRepository.findFirstByName(uca.getName()).ifPresent(u -> {
+            unsafeControlActionRepository.deleteById(u.getId());
+        });
+
         UnsafeControlAction createdUCA = unsafeControlActionRepository.save(uca);
 
         return new UnsafeControlActionReadDto(createdUCA);
