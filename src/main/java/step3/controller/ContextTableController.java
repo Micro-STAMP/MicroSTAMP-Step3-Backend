@@ -44,8 +44,10 @@ public class ContextTableController {
     }
 
     @GetMapping("/controller/{controllerId}")
-    public ResponseEntity<ContextTableReadDto> readContextTableByControllerId(@PathVariable Long controllerId) {
-        return ResponseEntity.ok(contextTableService.readContextTableByControllerId(controllerId));
+    public ResponseEntity<ContextTableReadWithPageDto> readContextTableByControllerId(@PathVariable Long controllerId,
+                                                                                      @RequestParam(defaultValue = "0") int page,
+                                                                                      @RequestParam(defaultValue = "15") int size) {
+        return ResponseEntity.ok(contextTableService.readContextTableByControllerId(controllerId, page, size));
     }
 
     // Update -----------------------------------------
