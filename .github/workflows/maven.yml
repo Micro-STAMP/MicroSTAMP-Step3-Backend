@@ -35,6 +35,5 @@ jobs:
         cache: maven
     - name: Run with Maven
       run: |
-        cd step3-backend
         chmod +x mvnw
         ./mvnw clean package
