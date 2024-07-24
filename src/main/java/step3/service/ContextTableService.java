@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import step3.dto.context_table.*;
 import step3.entity.*;
+import step3.infra.exceptions.OperationNotAllowedException;
 import step3.repository.*;
 
 import java.util.ArrayList;
@@ -26,7 +27,21 @@ public class ContextTableService {
 
     public ContextTableReadDto createContextTable(ContextTableCreateDto contextTableCreateDto) {
         Controller controller = controllerRepository.getReferenceById(contextTableCreateDto.controller_id());
+
+        if (controller.getVariables().isEmpty()) {
+            throw new OperationNotAllowedException("Controller must have at least one variable");
+        }
+
         List<Variable> variables = controller.getVariables();
+
+        if (variables.stream().anyMatch(variable -> variable.getValues().isEmpty())) {
+            throw new OperationNotAllowedException("Variables must have at least one value");
+        }
+
+        if (contextTableRepository.findByControllerId(controller.getId()).isPresent()) {
+            throw new OperationNotAllowedException("Controller already has a context table");
+        }
+
         ContextTable contextTable = generateContextTable(variables);
         contextTable.setController(controller);
         ContextTable createContextTable = contextTableRepository.save(contextTable);
